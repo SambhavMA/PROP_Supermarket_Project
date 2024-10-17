@@ -1,0 +1,36 @@
+que falta completar en el diagrama:
+-falta completar los tipos de retorno en el diagrama de diseño (lo pulimos cuando tengamos definido)
+-falta completar atributos y funciones privadas que puedan utilizar de las clases algoritmos cuando hagamos la implementacion
+-si se guardan distribuciones en memoria: loadDistribution() en init()
+
+Descripción del funcionamiento del controlador:
+Al iniciar el programa, se presenta un menu. Donde cada opción es una función de nivel del controlador.
+(VER ESQUEMA DE FUNCIONES DEL CONTROLADOR).
+Cuando se selecciona una opción por terminal se accede a una de esas funciones. Y se vuelve a presentar un menu para escoger funcionalidad.
+Entonces se acaba ejecutando el codigo funcionalidad que implementa la lógica con las clases objetos.
+
+Esquema funciones controlador:
+**contiene aqui es equivalente a: -->
+**Antes que nada: Cada addProduct(), addSimilarityTable(), etc... preguntará al usuario si quiere añadirla manualmente o desde memoria
+init() --> loadAlgorithms()
+startMenu() --> manageProducts()
+	manageProducts() --> addProduct(), modifyProduct(), deleteProduct(), checkProduct()
+		addProduct() --> addProductManually() || loadProductFromMemory()
+	manageSimilarityTables() --> addSimilarityTable(), modifySimilarityTable(), deleteSimilarityTable(), checkSimilarityTable()
+		addSimilarityTable() --> addSTManually() || loadSTFromMemory()
+	manageDistributions() --> generateDistribution(), modifyDistribution(), deleteDistribution(), checkDistribution()
+		generateDistribution() --> selectAlgorithm(), selectSimilarityTable(), Algorithm.execute(), printDistribution()
+		modifyDistribution() --> selectDistribution(), Distribution.changeOrder(), ...
+		deleteDistribution() --> selectDistribution(), DistributionContainer.deleteDistribution(id)...
+		checkDistribtuion() --> selectDistribution(), printDistribution(), ...
+selectDistribution()
+close()
+
+
+
+
+
+
+
+
+
