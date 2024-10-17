@@ -16,3 +16,14 @@ More info
 
 Gradle application plugin
 https://docs.gradle.org/current/userguide/application_plugin.html
+
+--Commit
+git add .
+git commit -m "Info commit"
+git push origin X-nom-issue
+
+--Actualizar si tenemos commit pedientes
+git checkout main
+git pull
+git checkout X-nom-issue
+git merge main
