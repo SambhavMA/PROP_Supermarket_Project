@@ -9,7 +9,7 @@ public class ProductContainer {
         products.put(product.getName(), product);
     }
 
-    public void HashMap<String, Product> getProducts() {
+    public HashMap<String, Product> getProducts() {
         return products;
     }
 

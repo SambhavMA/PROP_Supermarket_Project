@@ -11,6 +11,7 @@ public class Product {
 
     public Product(String name) {
         this.name = name;
+        this.type = null;
     }
 
     public String getName() {
