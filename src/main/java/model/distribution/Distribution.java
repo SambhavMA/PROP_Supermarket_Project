@@ -17,8 +17,29 @@ public class Distribution {
         this.usedAlgorithm = usedAlgorithm;
     }
 
-    //Distribucion sin algunos parametros?
+    public Distribution(int id, Vector<String> order, ArrayList<EnumTypeSections> sections) {
+        this.id = id;
+        this.order = order;
+        this.sections = sections;
+        this.usedAlgorithm = null;
+    }
 
+    public Distribution(int id, Vector<String> order) {
+        this.id = id;
+        this.order = order;
+        this.sections = null;
+        this.usedAlgorithm = null;
+    }
+
+    // Esto puede que no sea necesario
+    public Distribution(int id) {
+        this.id = id;
+        this.order = null;
+        this.sections = null;
+        this.usedAlgorithm = null;
+    }
+
+    // GETTERS
 
     public int getId() {
         return id;
@@ -35,12 +56,20 @@ public class Distribution {
     public String getUsedAlgorithm() {
         return usedAlgorithm;
     }
-    /*
-        Si se inicializa sin usedAlgorithm
-        public void setUsedAlgorithm(String usedAlgorithm) {}
-     */
 
-    public void changeOrder(AbstractMap.SimpleEntry<Integer, Integer> p) {
-        ;
+    // SETTERS
+    public void setOrder(Vector<String> order) {
+        this.order = order;
     }
+
+    public void setSections(ArrayList<EnumTypeSections> sections) {
+        this.sections = sections;
+    }
+
+    public void setUsedAlgorithm(String usedAlgorithm) {
+        this.usedAlgorithm = usedAlgorithm;
+    }
+
+    // METHODS
+    // Controlador: getOrder -> hacer cambios necesarios -> setOrder
 }
