@@ -2,7 +2,6 @@ package model.distribution;
 
 import java.util.Vector;
 import java.util.ArrayList;
-import java.util.AbstractMap;
 
 public class Distribution {
     private int id;
@@ -17,11 +16,11 @@ public class Distribution {
         this.usedAlgorithm = usedAlgorithm;
     }
 
-    public Distribution(int id, Vector<String> order, ArrayList<EnumTypeSections> sections) {
+    public Distribution(int id, Vector<String> order, String usedAlgorithm) {
         this.id = id;
         this.order = order;
-        this.sections = sections;
-        this.usedAlgorithm = null;
+        this.sections = null;
+        this.usedAlgorithm = usedAlgorithm;
     }
 
     public Distribution(int id, Vector<String> order) {
@@ -31,7 +30,7 @@ public class Distribution {
         this.usedAlgorithm = null;
     }
 
-    // Esto puede que no sea necesario
+    // Constructor con solo id
     public Distribution(int id) {
         this.id = id;
         this.order = null;
