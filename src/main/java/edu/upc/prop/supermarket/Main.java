@@ -1,4 +1,4 @@
-package edu.upc.prop.clusterxx;
+package edu.upc.prop.supermarket;
 
 import com.google.gson.Gson;
 

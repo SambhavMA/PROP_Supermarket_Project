@@ -57,8 +57,15 @@ public class Distribution {
     }
 
     // SETTERS
+    // mirar que old_order.length == order.length
     public void setOrder(Vector<String> order) {
-        this.order = order;
+        if (this.order.isEmpty()) {
+            this.order = order;
+        } else if (this.order.size() == order.size()) {
+            this.order = order;
+        } else {
+            Exception e = new Exception("The new order has a different size than the old one");
+        }
     }
 
     public void setSections(ArrayList<EnumTypeSections> sections) {

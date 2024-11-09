@@ -3,11 +3,11 @@ plugins {
     id 'application'
 }
 
-group = 'edu.upc.prop.clusterxx'
+group = 'edu.upc.prop.supermarket'
 version = '1.0-SNAPSHOT'
 
 ext {
-    javaMainClass = 'edu.upc.prop.clusterxx.Main'
+    javaMainClass = 'edu.upc.prop.supermarket.Main'
 }
 
 application {
