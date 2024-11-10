@@ -25,9 +25,6 @@ public class Product {
     }
 
     // SETTERS
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public void setType(EnumType type) {
         this.type = type;

@@ -41,13 +41,19 @@ public class SimilarityTable {
     }
 
     // SETTERS
-    public void setFastIndexes(Map<String, Integer> fastIndexes) {
-        this.fastIndexes = fastIndexes;
-    }
+//    public void setFastIndexes(Map<String, Integer> fastIndexes) {
+//        this.fastIndexes = fastIndexes;
+//    }
 
     public void setRelationMatrix(Vector<Vector<Double>> relationMatrix) {
         this.relationMatrix = relationMatrix;
     }
 
+    public void modifyRelationMatrix(String a, String b, Double value) {
+        int indexA = fastIndexes.get(a);
+        int indexB = fastIndexes.get(b);
+        relationMatrix.get(indexA).set(indexB, value);
+        relationMatrix.get(indexB).set(indexA, value);
+    }
     // METHODS
 }
