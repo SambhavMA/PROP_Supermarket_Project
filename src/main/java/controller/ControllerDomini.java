@@ -8,12 +8,38 @@ import model.distribution.DistributionContainer;
 import model.similarity.SimilarityTableContainer;
 import utils.UserView;
 
-public class Controller {
+public class ControllerDomini {
     private ProductContainer productContainer = new ProductContainer();
     private DistributionContainer distributionContainer =  new DistributionContainer();
     private SimilarityTableContainer similarityTableContainer = new SimilarityTableContainer();
     private UserView userView = new UserView();
     private boolean exit = false;
+
+    private static ControllerDomini singletonObject;
+
+    /**
+     * Crea una instancia de domini
+     */
+    public ControllerDomini() {
+        init();
+    }
+
+    /**
+     * Retorna la intancia de ControllerDomini. Si no existeix, es crea
+     */
+    public static ControllerDomini getInstance() {
+        if (singletonObject == null) {
+            singletonObject = new ControllerDomini();
+        }
+        return singletonObject;
+    }
+
+    /**
+     * S'inicialitzen les variables necessàries
+     */
+    public void init() {
+
+    }
 
     public void start() {
         while (!exit) {
@@ -159,7 +185,13 @@ public class Controller {
         userView.showMessage("Distribution not found: " + id);
     }
 
-    // product
+    /**
+     * Crea un nou producte i l'afegeix al product container
+     *
+     * @param name Nom del producte
+     * @param type Tipus del producte
+     * @throws ProductAlreadyExistsException Si el producte ja existeix
+     */
     public void addProduct(String name, EnumType type) {
         if(productContainer.getProductByName(name) != null) {
             userView.showMessage("Product already exists: " + name);
@@ -170,20 +202,28 @@ public class Controller {
         userView.showMessage("Product added: " + name);
     }
 
-    public void modifyProduct(String name, EnumType type) {
+    /**
+     * Modifica un producte existent
+     *
+     * @param name Nom del producte
+     * @param newType Nou tipus del producte
+     */
+    public void modifyProduct(String name, EnumType newType) {
         Product product = productContainer.getProductByName(name);
         if(product == null) {
             userView.showMessage("Product not found: " + name);
             return;
         }
-        if(product.getType() == type) {
-            userView.showMessage("Product already has type: " + type);
-            return;
-        }
-        product.setType(type);
+        product.setType(newType);
         userView.showMessage("Product modified: " + name);
     }
 
+    // TODO falta borrar de la classe Producte
+    /*
+     * Elimina un producte existent
+     *
+     * @param name Nom del producte a eliminar
+     */
     public void deleteProduct(String name) {
         if(productContainer.getProductByName(name) == null) {
             userView.showMessage("Product not found: " + name);
@@ -193,14 +233,34 @@ public class Controller {
         userView.showMessage("Product deleted: " + name);
     }
 
+    /*
+     * Comprova si un producte existeix
+     *
+     * @param name Nom del producte a comprovar
+     */
     public void checkProduct(String name) {
         Product product = productContainer.getProductByName(name);
-        if (product != null) {
-            userView.showMessage("Product found: " + name);
-        } else {
+        if (product == null) {
             userView.showMessage("Product not found: " + name);
+            return;
         }
+        userView.showMessage("Product found: " + name);
     }
 
     // similarity tables
+    public void addSimilarityTable() {
+        // TODO
+    }
+
+    public void modifySimilarityTable() {
+        // TODO
+    }
+
+    public void deleteSimilarityTable() {
+        // TODO
+    }
+
+    public void checkSimilarityTable() {
+        // TODO
+    }
 }

@@ -7,6 +7,7 @@ public class ProductContainer {
 
     public void addProduct(Product product) {
         products.put(product.getName(), product);
+        new Product(product.getName(), product.getType());
     }
 
     public HashMap<String, Product> getProducts() {
@@ -20,6 +21,7 @@ public class ProductContainer {
         return null;
     }
 
+    // TODO aixo s'ha de fer amb excepcions, tambe hem de borrar de la classe Producte
     public int deleteProductByName(String name) {
         if (products.containsKey(name)) {
             products.remove(name);
