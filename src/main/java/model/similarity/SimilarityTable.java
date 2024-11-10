@@ -15,10 +15,10 @@ public class SimilarityTable {
         this.relationMatrix = relationMatrix;
     }
 
-    public SimilarityTable(int id, Map<String, Integer> fastIndexes) {
+    public SimilarityTable(int id, Vector<Vector<Double>> relationMatrix) {
         this.id = id;
-        this.fastIndexes = fastIndexes;
-        this.relationMatrix = new Vector<>();
+        this.fastIndexes = null;
+        this.relationMatrix = relationMatrix;
     }
 
     public SimilarityTable(int id) {

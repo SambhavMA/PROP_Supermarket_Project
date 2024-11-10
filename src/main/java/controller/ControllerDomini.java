@@ -6,6 +6,7 @@ import model.product.Product;
 import model.product.EnumType;
 import model.distribution.DistributionContainer;
 import model.similarity.SimilarityTableContainer;
+import model.similarity.SimilarityTable;
 import utils.UserView;
 
 public class ControllerDomini {
@@ -154,7 +155,10 @@ public class ControllerDomini {
 
     // algorithm
 
-    // distribution
+    /**
+     * Afegeix una nova distribució al container de distribucions
+     * @param distribution Distribució a afegir
+     */
     public void generateDistribution(Distribution distribution) {
         distributionContainer.addDistribution(distribution);
         userView.showMessage("Distribution generated: " + distribution.getId());
@@ -167,6 +171,11 @@ public class ControllerDomini {
          }
      */
 
+    /**
+     * Elimina una distribució del container de distribucions
+     * @param id Identificador de la distribució a eliminar
+     * @throws DistributionNotFoundException Si la distribució no existeix
+     */
     public void deleteDistribution(int id) {
         if (distributionContainer.getDistributionById(id) == null) {
             userView.showMessage("Distribution not found: " + id);
@@ -176,6 +185,10 @@ public class ControllerDomini {
         userView.showMessage("Distribution deleted: " + id);
     }
 
+    /**
+     * Comprova si una distribució existeix
+     * @param id Identificador de la distribució a comprovar
+     */
     public void checkDistribution(int id) {
         Distribution distribution = distributionContainer.getDistributionById(id);
         if (distribution != null) {
@@ -185,9 +198,12 @@ public class ControllerDomini {
         userView.showMessage("Distribution not found: " + id);
     }
 
+    public void manageProducts() {
+        // TODO
+    }
+
     /**
      * Crea un nou producte i l'afegeix al product container
-     *
      * @param name Nom del producte
      * @param type Tipus del producte
      * @throws ProductAlreadyExistsException Si el producte ja existeix
@@ -204,7 +220,6 @@ public class ControllerDomini {
 
     /**
      * Modifica un producte existent
-     *
      * @param name Nom del producte
      * @param newType Nou tipus del producte
      */
@@ -218,10 +233,8 @@ public class ControllerDomini {
         userView.showMessage("Product modified: " + name);
     }
 
-    // TODO falta borrar de la classe Producte
-    /*
+    /**
      * Elimina un producte existent
-     *
      * @param name Nom del producte a eliminar
      */
     public void deleteProduct(String name) {
@@ -233,9 +246,8 @@ public class ControllerDomini {
         userView.showMessage("Product deleted: " + name);
     }
 
-    /*
+    /**
      * Comprova si un producte existeix
-     *
      * @param name Nom del producte a comprovar
      */
     public void checkProduct(String name) {
@@ -247,20 +259,46 @@ public class ControllerDomini {
         userView.showMessage("Product found: " + name);
     }
 
-    // similarity tables
-    public void addSimilarityTable() {
+    public void manageSimilarityTables() {
         // TODO
     }
 
-    public void modifySimilarityTable() {
-        // TODO
+    /**
+     * Afegeix una nova taula de similitud
+     * @param similarityTable Taula de similitud a afegir
+     */
+    public void addSimilarityTable(SimilarityTable similarityTable) {
+        int newId = similarityTableContainer.newId();
+        similarityTableContainer.addSimilarityTable(newId, similarityTable);
     }
 
-    public void deleteSimilarityTable() {
-        // TODO
+    /**
+     * Modifica una taula de similitud
+     * @param id Identificador de la taula de similitud
+     * @param newSimilarityTable Taula de similitud amb els nous canvis
+     */
+    public void modifySimilarityTable(int id, SimilarityTable newSimilarityTable) {
+        similarityTableContainer.modifySimilarityTable(id, newSimilarityTable);
     }
 
-    public void checkSimilarityTable() {
-        // TODO
+    /**
+     * Elimina una taula de similitud
+     * @param id Identificador de la taula de similitud a eliminar
+     */
+    public void deleteSimilarityTable(int id) {
+        similarityTableContainer.deleteSimilarityTableById(id);
+    }
+
+    /**
+     * Comprova una taula de similitud
+     * @param id Identificador de la taula de similitud a comprovar
+     */
+    public void checkSimilarityTable(int id) {
+        SimilarityTable similarityTable = similarityTableContainer.getSimilarityTableById(id);
+        if (similarityTable == null) {
+            userView.showMessage("SimilarityTable not found with id: " + id);
+            return;
+        }
+        userView.showMessage("SimilarityTable found with id: " + id);
     }
 }

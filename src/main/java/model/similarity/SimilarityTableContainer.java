@@ -23,8 +23,12 @@ public class SimilarityTableContainer {
     }
 
     // SETTERS
-    public void addSimilarityTable(SimilarityTable similarityTable) {
-        similarityTables.put(newId(), similarityTable);
+    public void addSimilarityTable(int id, SimilarityTable similarityTable) {
+        similarityTables.put(id, similarityTable);
+    }
+
+    public void modifySimilarityTable(int id, SimilarityTable similarityTable) {
+        similarityTables.put(id, similarityTable);
     }
 
     public void deleteSimilarityTableById(int id) {
