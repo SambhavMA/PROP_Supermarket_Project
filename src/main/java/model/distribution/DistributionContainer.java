@@ -21,14 +21,14 @@ public class DistributionContainer {
     }
 
     public void addDistribution(Distribution distribution){
-        distributions.put(distribution.getId(), distribution);
+        distributions.put(newId(), distribution);
     }
 
     public void deleteDistributionById(int id){
         distributions.remove(id);
     }
 
-    public void newId() {
-        idCounter++;
+    public int newId() {
+        return ++idCounter;
     }
 }

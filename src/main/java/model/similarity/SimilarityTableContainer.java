@@ -14,8 +14,8 @@ public class SimilarityTableContainer {
     }
 
     // GETTERS
-    public Collection<SimilarityTable> getSimilarityTables() {
-        return similarityTables.values();
+    public HashMap<Integer, SimilarityTable> getSimilarityTables() {
+        return similarityTables;
     }
 
     public SimilarityTable getSimilarityTableById(int id) {
