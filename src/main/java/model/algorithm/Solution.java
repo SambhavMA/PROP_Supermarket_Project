@@ -2,10 +2,17 @@ package model.algorithm;
 
 import java.util.Arrays;
 
+import static model.algorithm.AlgorithmController.costs;
+
 public class Solution {
     private int[] path;
     private double cost;
 
+    public Solution() {
+        this.path = new int[costs[0].length];
+        Arrays.fill(path, -1);
+        this.cost = 0;
+    }
     public Solution(int[] path) {
         this.path = Arrays.copyOf(path, path.length);
         calculateCost();
@@ -37,9 +44,10 @@ public class Solution {
     }
 
     private double costBetweenNodes(int x, int y) {
-        return AlgorithmController.costs[x][y];
+        return costs[x][y];
     }
 
+    /*path esta llena*/
     private void calculateCost() {
         this.cost = 0;
         for(int i = 0; i < path.length; i++) {

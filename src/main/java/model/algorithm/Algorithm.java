@@ -1,7 +1,5 @@
 package model.algorithm;
 
-import model.similarity.SimilarityTable;
-
 public abstract class Algorithm {
     protected String name;
     protected String description;
@@ -19,5 +17,6 @@ public abstract class Algorithm {
         return description;
     }
 
-    public abstract void execute(SimilarityTable similarityTable);
+    public void execute() {};
+    public Solution execute(int initial, int nProducts) { return null; };
 }
