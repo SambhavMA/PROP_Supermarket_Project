@@ -6,5 +6,17 @@ import java.util.Vector;
 public class SimilarityTable {
     private int id;
     private Map<String, Integer> fastIndexes;
-    private Vector<Vector<Double>> relationMatrix;
+    private double[][] relationMatrix;
+
+    public int getId() {
+        return id;
+    }
+
+    public Map<String, Integer> getFastIndexes() {
+        return fastIndexes;
+    }
+
+    public double[][] getRelationMatrix() {
+        return relationMatrix;
+    }
 }

@@ -16,11 +16,16 @@ public class Solution {
         this.cost = cost;
     }
 
+    public void swapAndUpdateCost(int i, int j) {
+        removeCost(i, j);
+        swap(i, j);
+        addCost(i, j);
+    }
+
     public void swap(int i, int j) {
         int temp = path[i];
         path[i] = path[j];
         path[j] = temp;
-        updateCost(i, j);
     }
 
     public int[] getPath() {
@@ -31,15 +36,25 @@ public class Solution {
         return cost;
     }
 
+    private double costBetweenNodes(int x, int y) {
+        return AlgorithmController.costs[x][y];
+    }
+
     private void calculateCost() {
         this.cost = 0;
         for(int i = 0; i < path.length; i++) {
-            this.cost += path[i];
+            this.cost += costBetweenNodes(path[i], path[(i+1)%path.length]);
         }
     }
 
-    private void updateCost(int i, int j) {
+    private void removeCost(int i, int j) {
+        cost -= costBetweenNodes(path[i], path[(i-1)%path.length]);
+        cost -= costBetweenNodes(path[j], path[(j+1)%path.length]);
+    }
 
+    private void addCost(int i, int j) {
+        cost += costBetweenNodes(path[i], path[(i-1)%path.length]);
+        cost += costBetweenNodes(path[j], path[(j+1)%path.length]);
     }
 
 }
