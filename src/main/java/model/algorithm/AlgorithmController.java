@@ -8,7 +8,12 @@ public class AlgorithmController {
     protected static double[][] costs;
 
     public AlgorithmController(double[][] relationMatrix) {
-        costs = Arrays.copyOf(relationMatrix, relationMatrix.length);
+        costs = new double[relationMatrix.length][relationMatrix[0].length];
+        for (int i = 0; i < relationMatrix.length; i++) {
+            for (int j = 0; j < relationMatrix[0].length; j++) {
+                costs[i][j] = 1 - relationMatrix[i][j];
+            }
+        }
     }
 
     public String[] getAlgorithms() {

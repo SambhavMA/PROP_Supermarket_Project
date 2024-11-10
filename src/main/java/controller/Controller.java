@@ -1,5 +1,7 @@
 package controller;
 
+import model.algorithm.AlgorithmController;
+import model.algorithm.AlgorithmsNames;
 import model.product.ProductContainer;
 import model.product.Product;
 import model.product.EnumType;
@@ -13,6 +15,19 @@ public class Controller {
 
     // methods
     // algorithm
+
+    /*
+    public void testingAlgorithm() throws Exception {
+        double[][] costes = {
+            {0.0, 0.2, 0.4, 0.6},
+            {0.2, 0.0, 0.8, 0.3},
+            {0.4, 0.8, 0.0, 0.7},
+            {0.6, 0.3, 0.7, 0.0}
+        };
+        AlgorithmController alg = new AlgorithmController(costes);
+        String[] s = alg.getAlgorithms();
+        Object[] data = alg.executeAlgorithm(AlgorithmsNames.NN);
+    }*/
     // distribution
     // product
     public void addProduct(String name, EnumType type) {

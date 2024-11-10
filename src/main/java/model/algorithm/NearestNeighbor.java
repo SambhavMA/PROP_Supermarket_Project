@@ -36,7 +36,7 @@ public class NearestNeighbor extends Algorithm {
             path[++index] = next; toVisit.remove(next);
             cost += min;
         }
-
+        cost += AlgorithmController.costs[path[index]][initial];
         return new Solution(path, cost);
     }
 }
