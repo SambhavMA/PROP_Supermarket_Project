@@ -30,7 +30,7 @@ public class HillClimbing extends Algorithm {
                                                 + solution.costBetweenPathNodes(j,i+1); //calculamos como varia el coste si cruzamos las aristas
                     
                     if (act_cost < best_cost) {
-                        solution.twoOptSwap(i, j); //si el coste mejora hacemos el 2optswap
+                        solution.swapAndUpdate(i, j); //si el coste mejora hacemos el 2optswap
                         //para el test verifica que act_cost = solution.cost si hemos pasado por el if
                         best_cost = act_cost;
                         improvement = true;

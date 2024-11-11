@@ -17,7 +17,6 @@ public abstract class Algorithm {
         return description;
     }
 
-    public void execute() {};
     public Solution execute(int initial, int nProductes) { return null; };
 
     public Solution execute(Solution initialSolution) { return null; };

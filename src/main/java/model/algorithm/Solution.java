@@ -23,7 +23,7 @@ public class Solution {
         this.cost = cost;
     }
 
-    public void twoOptSwap(int x, int y) {
+    public void swapAndUpdate(int x, int y) {
         removeCost(x, y);
         swap(x, y);
         addCost(x, y);
@@ -73,12 +73,12 @@ public class Solution {
         }
     }
     
-    public void removeCost(int x, int y) {
+    private void removeCost(int x, int y) {
         cost -= costBetweenNodes(path[x], path[(x+1)%path.length]); //x e y son los "primeros" vértices de sus aristas, de las aristas que haremos swap
         cost -= costBetweenNodes(path[y], path[(y+1)%path.length]);
     }
 
-    public void addCost(int x, int y) {
+    private void addCost(int x, int y) {
         cost += costBetweenNodes(path[x], path[(x+1)%path.length]);
         cost += costBetweenNodes(path[y], path[(y+1)%path.length]);
     }
