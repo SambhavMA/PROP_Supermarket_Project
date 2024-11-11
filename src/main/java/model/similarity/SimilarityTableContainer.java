@@ -1,5 +1,7 @@
 package model.similarity;
 
+import model.exceptions.SimilarityTableNotFoundException;
+
 import java.util.Collection;
 import java.util.HashMap;
 
@@ -27,11 +29,17 @@ public class SimilarityTableContainer {
         similarityTables.put(id, similarityTable);
     }
 
-    public void modifySimilarityTable(int id, SimilarityTable similarityTable) {
+    public void modifySimilarityTable(int id, SimilarityTable similarityTable) throws SimilarityTableNotFoundException {
+        if (!similarityTables.containsKey(id)) {
+            throw new SimilarityTableNotFoundException(id);
+        }
         similarityTables.put(id, similarityTable);
     }
 
-    public void deleteSimilarityTableById(int id) {
+    public void deleteSimilarityTableById(int id) throws SimilarityTableNotFoundException {
+        if (!similarityTables.containsKey(id)) {
+            throw new SimilarityTableNotFoundException(id);
+        }
         similarityTables.remove(id);
     }
 

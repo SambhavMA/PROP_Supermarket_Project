@@ -1,6 +1,10 @@
 package controller;
 
 import model.distribution.Distribution;
+import model.exceptions.DistributionNotFoundException;
+import model.exceptions.ProductAlreadyExistsException;
+import model.exceptions.ProductNotFoundException;
+import model.exceptions.SimilarityTableNotFoundException;
 import model.product.ProductContainer;
 import model.product.Product;
 import model.product.EnumType;
@@ -82,7 +86,7 @@ public class ControllerDomini {
 
                 /* 8 - checkProduct */
                 case "8":
-                    checkProduct(userView.getInput("Enter product name: "));
+                    getProduct(userView.getInput("Enter product name: "));
                     break;
 
                 /* 9 - manageSimilarityTables */
@@ -124,7 +128,7 @@ public class ControllerDomini {
 
                 /* 18 - checkDistribution */
                 case "18":
-                    checkDistribution(userView.getIntInput("Enter distribution id: "));
+                    getDistribution(userView.getIntInput("Enter distribution id: "));
                     break;
 
                 /* 19 - selectDistribution */
@@ -176,11 +180,7 @@ public class ControllerDomini {
      * @param id Identificador de la distribució a eliminar
      * @throws DistributionNotFoundException Si la distribució no existeix
      */
-    public void deleteDistribution(int id) {
-        if (distributionContainer.getDistributionById(id) == null) {
-            userView.showMessage("Distribution not found: " + id);
-            return;
-        }
+    public void deleteDistribution(int id) throws DistributionNotFoundException {
         distributionContainer.deleteDistributionById(id);
         userView.showMessage("Distribution deleted: " + id);
     }
@@ -189,7 +189,7 @@ public class ControllerDomini {
      * Comprova si una distribució existeix
      * @param id Identificador de la distribució a comprovar
      */
-    public void checkDistribution(int id) {
+    public void getDistribution(int id) {
         Distribution distribution = distributionContainer.getDistributionById(id);
         if (distribution != null) {
             userView.showMessage("Distribution found: " + id);
@@ -208,16 +208,13 @@ public class ControllerDomini {
      * @param type Tipus del producte
      * @throws ProductAlreadyExistsException Si el producte ja existeix
      */
-    public void addProduct(String name, EnumType type) {
-        if(productContainer.getProductByName(name) != null) {
-            userView.showMessage("Product already exists: " + name);
-            return;
-        }
+    public void addProduct(String name, EnumType type) throws ProductAlreadyExistsException {
         Product product = new Product(name, type);
         productContainer.addProduct(product);
         userView.showMessage("Product added: " + name);
     }
 
+    // TODO creo que esta mal hecho
     /**
      * Modifica un producte existent
      * @param name Nom del producte
@@ -236,21 +233,19 @@ public class ControllerDomini {
     /**
      * Elimina un producte existent
      * @param name Nom del producte a eliminar
+     * @throws ProductNotFoundException Si el producte no existeix
      */
-    public void deleteProduct(String name) {
-        if(productContainer.getProductByName(name) == null) {
-            userView.showMessage("Product not found: " + name);
-            return;
-        }
+    public void deleteProduct(String name)  throws ProductNotFoundException {
         productContainer.deleteProductByName(name);
         userView.showMessage("Product deleted: " + name);
     }
 
+    // TODO s'ha de fer amb excepcions???
     /**
      * Comprova si un producte existeix
      * @param name Nom del producte a comprovar
      */
-    public void checkProduct(String name) {
+    public void getProduct(String name) {
         Product product = productContainer.getProductByName(name);
         if (product == null) {
             userView.showMessage("Product not found: " + name);
@@ -276,24 +271,27 @@ public class ControllerDomini {
      * Modifica una taula de similitud
      * @param id Identificador de la taula de similitud
      * @param newSimilarityTable Taula de similitud amb els nous canvis
+     * @throws SimilarityTableNotFoundException Si la taula de similitud no existeix
      */
-    public void modifySimilarityTable(int id, SimilarityTable newSimilarityTable) {
+    public void modifySimilarityTable(int id, SimilarityTable newSimilarityTable) throws SimilarityTableNotFoundException {
         similarityTableContainer.modifySimilarityTable(id, newSimilarityTable);
     }
 
     /**
      * Elimina una taula de similitud
      * @param id Identificador de la taula de similitud a eliminar
+     * @throws SimilarityTableNotFoundException Si la taula de similitud a borrar no existeix
      */
-    public void deleteSimilarityTable(int id) {
+    public void deleteSimilarityTable(int id) throws SimilarityTableNotFoundException {
         similarityTableContainer.deleteSimilarityTableById(id);
     }
 
+    // TODO s'ha de fer amb excepcions???
     /**
      * Comprova una taula de similitud
      * @param id Identificador de la taula de similitud a comprovar
      */
-    public void checkSimilarityTable(int id) {
+    public void getSimilarityTable(int id) {
         SimilarityTable similarityTable = similarityTableContainer.getSimilarityTableById(id);
         if (similarityTable == null) {
             userView.showMessage("SimilarityTable not found with id: " + id);
