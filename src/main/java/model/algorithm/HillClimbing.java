@@ -13,35 +13,33 @@ public class HillClimbing extends Algorithm {
     }
 
     @Override
-    public Solution execute(Solution solutions[]) {
-        int nSolutions = solutions.length; 
+    public Solution execute(Solution[] solutions) {
         Solution bestSolution = solutions[0];
         double bestSolutionCost = solutions[0].getCost();
 
-        for (int it = 0; it < nSolutions; ++it) {
-            Solution actSolution = solutions[it];
+        for (Solution actSolution : solutions) {
             int size = actSolution.getSize();
-            int[] res;
             double best_cost = actSolution.getCost();
             boolean improvement = true;
 
-            while (improvement){
+            while (improvement) {
                 improvement = false;
-                for (int i = 0; i < size - 3; i++) { //nProducts - 3 es el número de aristas compatibles para hacer 2optswap entre i y j
-                    for (int j = i+2; j < size - 1; j++) {
-                        
-                        double act_cost = best_cost - actSolution.costBetweenPathNodes(i,i+1) 
-                                                    - actSolution.costBetweenPathNodes(j,j+1)
-                                                    + actSolution.costBetweenPathNodes(i,j+1) 
-                                                    + actSolution.costBetweenPathNodes(j,i+1); //calculamos como varia el coste si cruzamos las aristas
-                        
+                for (int i = 0; i < size - 3; i++) {
+                    for (int j = i + 2; j < size - 1; j++) {
+
+                        double act_cost = best_cost 
+                                - actSolution.costBetweenPathNodes(i, i + 1) //podría directamente declarar nuevo actsolution y hacer swap y el coste es esto
+                                - actSolution.costBetweenPathNodes(j, j + 1)
+                                + actSolution.costBetweenPathNodes(i, j)
+                                + actSolution.costBetweenPathNodes(j + 1, i + 1);
+
                         if (act_cost < best_cost) {
-                            actSolution.swapAndUpdate(i, j); //si el coste mejora hacemos el 2optswap
-                            //para el test verifica que act_cost = solution.cost si hemos pasado por el if
+                            actSolution.swapAndUpdate(i, j);
+                            double coste = actSolution.getCost();
                             best_cost = act_cost;
                             improvement = true;
-                            //una vez encontrado el two swap voy al inicio o no? pseudocodigo que he encontrado lo hace pero no sé si es mejor o peor
                         }
+
                     }
                 }
             }
@@ -52,8 +50,6 @@ public class HillClimbing extends Algorithm {
             }
         }
 
-
         return bestSolution;
-        
     }
 }
