@@ -66,4 +66,29 @@ public class UserView {
         System.out.println("20 - close");
         System.out.println("21 - showUseCases");
     }
+
+    public void showUseCasesProduct()
+    {
+        System.out.println("5 - addProduct");
+        System.out.println("6 - modifyProduct");
+        System.out.println("7 - deleteProduct");
+        System.out.println("8 - checkProduct");
+    }
+
+    public void showUseCasesSimilarityTable()
+    {
+        System.out.println("10 - addSimilarityTable");
+        System.out.println("11 - modifySimilarityTable");
+        System.out.println("12 - deleteSimilarityTable");
+        System.out.println("13 - checkSimilarityTable");
+    }
+
+    public void showUseCasesDistribution()
+    {
+        System.out.println("15 - generateDistribution");
+        System.out.println("16 - modifyDistribution");
+        System.out.println("17 - deleteDistribution");
+        System.out.println("18 - checkDistribution");
+        System.out.println("19 - selectDistribution");
+    }
 }

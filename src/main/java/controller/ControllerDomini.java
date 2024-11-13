@@ -67,6 +67,7 @@ public class ControllerDomini {
 
                 /* 4 - manageProducts */
                 case "4":
+                    userView.showUseCasesProduct();
                     break;
 
                 /* 5 - addProduct */
@@ -91,6 +92,7 @@ public class ControllerDomini {
 
                 /* 9 - manageSimilarityTables */
                 case "9":
+                    userView.showUseCasesSimilarityTable();
                     break;
 
                 /* 10 - addSimilarityTable */
@@ -111,6 +113,7 @@ public class ControllerDomini {
 
                 /* 14 - manageDistributions */
                 case "14":
+                    userView.showUseCasesDistribution();
                     break;
 
                 /* 15 - generateDistribution */
@@ -137,6 +140,8 @@ public class ControllerDomini {
 
                 /* 20 - close */
                 case "20":
+                    userView.close();
+                    exit = true;
                     break;
 
                 /* 21 - showUseCases (Mostrar los casos de uso) */
