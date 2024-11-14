@@ -41,7 +41,8 @@ public class AlgorithmController {
                 //THROW ERROR
                 break;
         }
-        return new Object[]{solution.getPath(), solution.getCost(), a.toString()};
+        double finalCost = ((-1)*solution.getCost()) + solution.getSize();
+        return new Object[]{solution.getPath(), finalCost, a.toString()};
     }
 
 
