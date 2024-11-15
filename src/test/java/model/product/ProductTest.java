@@ -13,7 +13,7 @@ public class ProductTest {
 
     @Before
     public void setUp() {
-        sampleType = EnumType.FOOD;
+        sampleType = EnumType.FRUITA;
         product = new Product("Test Product");
         productWithType = new Product("Test Product with Type", sampleType);
     }
@@ -49,7 +49,7 @@ public class ProductTest {
 
     @Test
     public void testSetType() {
-        product.setType(EnumType.CLOTHING);
-        assertEquals(EnumType.CLOTHING, product.getType());
+        product.setType(EnumType.FRUITA);
+        assertEquals(EnumType.FRUITA, product.getType());
     }
 }

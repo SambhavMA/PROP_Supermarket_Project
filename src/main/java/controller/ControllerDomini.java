@@ -14,7 +14,6 @@ import model.similarity.SimilarityTableContainer;
 import model.similarity.SimilarityTable;
 import utils.Pair;
 import utils.UserView;
-import java.util.Vector;
 
 public class ControllerDomini {
     private ProductContainer productContainer = new ProductContainer();
@@ -24,12 +23,15 @@ public class ControllerDomini {
     private boolean exit = false;
 
     private static ControllerDomini singletonObject;
+    private ControllerIO controllerIO = new ControllerIO(this);
+
 
     /**
      * Crea una instancia de domini
      */
     public ControllerDomini() {
         init();
+        controllerIO.init();
     }
 
     /**
@@ -47,48 +49,6 @@ public class ControllerDomini {
      */
     public void init() {
 
-    }
-
-    /**
-     * Afegeix una nova distribució al container de distribucions
-     * 
-     * @param distribution Distribució a afegir
-     */
-    public void generateDistribution(Distribution distribution) {
-        distributionContainer.addDistribution(distribution);
-        userView.showMessage("Distribution generated: " + distribution.getId());
-    }
-
-    /*
-     * public void modifyDistribution(Distribution distribution) {
-     * distributionContainer.addDistribution(distribution);
-     * userView.showMessage("Distribution modified: " + distribution.getId());
-     * }
-     */
-
-    /**
-     * Elimina una distribució del container de distribucions
-     * 
-     * @param id Identificador de la distribució a eliminar
-     * @throws DistributionNotFoundException Si la distribució no existeix
-     */
-    public void deleteDistribution(int id) throws DistributionNotFoundException {
-        distributionContainer.deleteDistributionById(id);
-        userView.showMessage("Distribution deleted: " + id);
-    }
-
-    /**
-     * Comprova si una distribució existeix
-     * 
-     * @param id Identificador de la distribució a comprovar
-     */
-    public void getDistribution(int id) {
-        Distribution distribution = distributionContainer.getDistributionById(id);
-        if (distribution != null) {
-            userView.showMessage("Distribution found: " + id);
-            return;
-        }
-        userView.showMessage("Distribution not found: " + id);
     }
 
     /**
@@ -202,5 +162,47 @@ public class ControllerDomini {
             return;
         }
         userView.showMessage("SimilarityTable found with id: " + id);
+    }
+
+    /**
+     * Afegeix una nova distribució al container de distribucions
+     *
+     * @param distribution Distribució a afegir
+     */
+    public void generateDistribution(Distribution distribution) {
+        distributionContainer.addDistribution(distribution);
+        userView.showMessage("Distribution generated: " + distribution.getId());
+    }
+
+    /*
+     * public void modifyDistribution(Distribution distribution) {
+     * distributionContainer.addDistribution(distribution);
+     * userView.showMessage("Distribution modified: " + distribution.getId());
+     * }
+     */
+
+    /**
+     * Elimina una distribució del container de distribucions
+     *
+     * @param id Identificador de la distribució a eliminar
+     * @throws DistributionNotFoundException Si la distribució no existeix
+     */
+    public void deleteDistribution(int id) throws DistributionNotFoundException {
+        distributionContainer.deleteDistributionById(id);
+        userView.showMessage("Distribution deleted: " + id);
+    }
+
+    /**
+     * Comprova si una distribució existeix
+     *
+     * @param id Identificador de la distribució a comprovar
+     */
+    public void getDistribution(int id) {
+        Distribution distribution = distributionContainer.getDistributionById(id);
+        if (distribution != null) {
+            userView.showMessage("Distribution found: " + id);
+            return;
+        }
+        userView.showMessage("Distribution not found: " + id);
     }
 }
