@@ -1,6 +1,8 @@
 package model.algorithm;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.ListIterator;
 import java.util.Random;
 
 public class NearestNeighbor extends Algorithm {
@@ -15,28 +17,35 @@ public class NearestNeighbor extends Algorithm {
     public Solution execute(int initial, int nProducts) {
         double cost = 0.0;
 
-        ArrayList<Integer> toVisit = new ArrayList<>();
+        LinkedList<Integer> toVisit = new LinkedList<Integer>();
+        ListIterator<Integer> itCreation = toVisit.listIterator();
         for (int i = 0; i < nProducts; i++) {
-            toVisit.add(i);
+            if (i != initial) itCreation.add(i);
         }
 
         int[] path = new int[nProducts];
-        int index = 0; path[index] = initial; toVisit.remove(initial);
+        int indexPath = 0; path[indexPath] = initial;
 
         while (!toVisit.isEmpty()) {
-            Integer next = toVisit.get(0);
-            double min = AlgorithmController.costs[path[index]][next];
-            for (int i = 1; i < toVisit.size(); i++) {
-                double c = AlgorithmController.costs[path[index]][toVisit.get(i)];
+            int indexList = 0;
+            ListIterator<Integer> it = toVisit.listIterator(); ListIterator<Integer> nn = toVisit.listIterator();
+            Integer actVal = it.next(); Integer nnVal = actVal;
+
+            double min = AlgorithmController.costs[path[indexPath]][actVal];
+            while (it.hasNext()) {
+                actVal = it.next(); indexList++;
+                double c = AlgorithmController.costs[path[indexPath]][actVal];
                 if (c < min) {
                     min = c;
-                    next = toVisit.get(i);
+                    nn = toVisit.listIterator(indexList);
+                    nnVal = actVal;
                 }
             }
-            path[++index] = next; toVisit.remove(next);
+            path[++indexPath] = nnVal; nn.next(); nn.remove();
             cost += min;
         }
-        cost += AlgorithmController.costs[path[index]][initial];
+
+        cost += AlgorithmController.costs[path[indexPath]][initial];
         return new Solution(path, cost);
     }
 }
