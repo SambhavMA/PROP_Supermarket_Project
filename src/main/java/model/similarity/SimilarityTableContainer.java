@@ -20,7 +20,10 @@ public class SimilarityTableContainer {
         return similarityTables;
     }
 
-    public SimilarityTable getSimilarityTableById(int id) {
+    public SimilarityTable getSimilarityTableById(int id) throws SimilarityTableNotFoundException {
+        if (!similarityTables.containsKey(id)) {
+            throw new SimilarityTableNotFoundException(id);
+        }
         return similarityTables.get(id);
     }
 

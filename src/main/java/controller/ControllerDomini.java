@@ -15,6 +15,9 @@ import model.similarity.SimilarityTable;
 import utils.Pair;
 import utils.UserView;
 
+import java.util.HashMap;
+import java.util.Vector;
+
 public class ControllerDomini {
     private ProductContainer productContainer = new ProductContainer();
     private DistributionContainer distributionContainer = new DistributionContainer();
@@ -24,7 +27,6 @@ public class ControllerDomini {
 
     private static ControllerDomini singletonObject;
     private ControllerIO controllerIO = new ControllerIO(this);
-
 
     /**
      * Crea una instancia de domini
@@ -48,7 +50,6 @@ public class ControllerDomini {
      * S'inicialitzen les variables necessàries
      */
     public void init() {
-
     }
 
     /**
@@ -105,7 +106,6 @@ public class ControllerDomini {
         userView.showMessage("Product deleted: " + name);
     }
 
-    // TODO s'ha de fer amb excepcions???
     /**
      * Torna un producte si existeix
      * 
@@ -121,8 +121,40 @@ public class ControllerDomini {
      * 
      * @param similarityTable Taula de similitud a afegir
      */
-    public void addSimilarityTable(SimilarityTable similarityTable) {
+    public void addSimilarityTable(Vector<String> productos, Vector<Pair<Pair<String, String>, Double>> similitudes)
+            throws ProductNotFoundException {
         int newId = similarityTableContainer.newId();
+
+        HashMap<String, Integer> fastIndexes = new HashMap<>();
+        for (int i = 0; i < productos.size(); i++) {
+            fastIndexes.put(productos.get(i), i);
+        }
+
+        Vector<Vector<Double>> relationMatrix = new Vector<>();
+        for (int i = 0; i < productos.size(); i++) {
+            Vector<Double> row = new Vector<>();
+            for (int j = 0; j < productos.size(); j++) {
+                row.add(0.0); // Inicializar con 0.0
+            }
+            relationMatrix.add(row);
+        }
+
+        for (Pair<Pair<String, String>, Double> similitud : similitudes) {
+            String product1 = similitud.getFirst().getFirst();
+            String product2 = similitud.getFirst().getSecond();
+            Double value = similitud.getSecond();
+
+            // TODO no tener duplicadas las similitudes
+            if (fastIndexes.containsKey(product1) && fastIndexes.containsKey(product2)) {
+                int index1 = fastIndexes.get(product1);
+                int index2 = fastIndexes.get(product2);
+
+                relationMatrix.get(index1).set(index2, value);
+                relationMatrix.get(index2).set(index1, value);
+            }
+        }
+
+        SimilarityTable similarityTable = new SimilarityTable(newId, fastIndexes, relationMatrix);
         similarityTableContainer.addSimilarityTable(newId, similarityTable);
     }
 
@@ -133,9 +165,29 @@ public class ControllerDomini {
      * @param newSimilarityTable Taula de similitud amb els nous canvis
      * @throws SimilarityTableNotFoundException Si la taula de similitud no existeix
      */
-    public void modifySimilarityTable(int id, SimilarityTable newSimilarityTable)
+    public void modifySimilarityTable(int id, Vector<Pair<Pair<String, String>, Double>> nuevasSimilitudes)
             throws SimilarityTableNotFoundException {
-        similarityTableContainer.modifySimilarityTable(id, newSimilarityTable);
+        SimilarityTable similarityTable = similarityTableContainer.getSimilarityTableById(id);
+        HashMap<String, Integer> fastIndexes = similarityTable.getFastIndexes();
+        Vector<Vector<Double>> relationMatrix = similarityTable.getRelationMatrix();
+
+        for (Pair<Pair<String, String>, Double> similitud : nuevasSimilitudes) {
+            String product1 = similitud.getFirst().getFirst();
+            String product2 = similitud.getFirst().getSecond();
+            Double value = similitud.getSecond();
+
+            // TODO no tener duplicadas las similitudes
+            if (fastIndexes.containsKey(product1) && fastIndexes.containsKey(product2)) {
+                int index1 = fastIndexes.get(product1);
+                int index2 = fastIndexes.get(product2);
+
+                relationMatrix.get(index1).set(index2, value);
+                relationMatrix.get(index2).set(index1, value);
+            }
+        }
+
+        SimilarityTable modifiedSimilarityTable = new SimilarityTable(id, fastIndexes, relationMatrix);
+        similarityTableContainer.modifySimilarityTable(id, modifiedSimilarityTable);
     }
 
     /**
@@ -149,19 +201,23 @@ public class ControllerDomini {
         similarityTableContainer.deleteSimilarityTableById(id);
     }
 
-    // TODO s'ha de fer amb excepcions???
     /**
-     * Comprova una taula de similitud
+     * Retorna una taula de similitud
      * 
      * @param id Identificador de la taula de similitud a comprovar
      */
-    public void getSimilarityTable(int id) {
+    public Pair<Vector<Pair<String, Integer>>, Vector<Vector<Double>>> getSimilarityTable(int id)
+            throws SimilarityTableNotFoundException {
         SimilarityTable similarityTable = similarityTableContainer.getSimilarityTableById(id);
-        if (similarityTable == null) {
-            userView.showMessage("SimilarityTable not found with id: " + id);
-            return;
+
+        Vector<Pair<String, Integer>> productos = new Vector<>();
+        for (String key : similarityTable.getFastIndexes().keySet()) {
+            productos.add(new Pair<>(key, similarityTable.getFastIndexes().get(key)));
         }
-        userView.showMessage("SimilarityTable found with id: " + id);
+
+        Vector<Vector<Double>> relationMatrix = similarityTable.getRelationMatrix();
+
+        return new Pair<>(productos, relationMatrix);
     }
 
     /**

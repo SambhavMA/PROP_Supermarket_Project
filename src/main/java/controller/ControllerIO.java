@@ -5,8 +5,9 @@ import java.util.Scanner;
 import model.exceptions.NoTypeWithName;
 import model.exceptions.ProductAlreadyExistsException;
 import model.exceptions.ProductNotFoundException;
-
+import model.exceptions.SimilarityTableNotFoundException;
 import utils.Pair;
+import java.util.Vector;
 
 public class ControllerIO {
     private Scanner scanner;
@@ -163,15 +164,129 @@ public class ControllerIO {
     }
 
     public void addSimilarityTable() {
+        System.out.println("Ha escollit l'opcio 5\n");
+        System.out.println(
+                "Indiqui els noms dels productes que vol afegir a la taula de similitud, un per linia. Quan hagi acabat, escrigui 'fi'");
+
+        // creamos el vector de productos
+        Vector<String> products = new Vector<String>();
+        String product = scanner.next();
+        while (!product.equals("fi")) {
+            products.add(product);
+            product = scanner.next();
+        }
+
+        System.out
+                .println("Indiqui les similituds entre els productes, una per linia. Quan hagi acabat, escrigui 'fi'");
+        System.out.println("El format es: producte1 producte2 similitud.");
+
+        // creamos el vector de similitudes
+        Vector<Pair<Pair<String, String>, Double>> similarities = new Vector<Pair<Pair<String, String>, Double>>();
+        while (true) {
+            String line = scanner.nextLine().trim();
+            if (line.equalsIgnoreCase("fi")) {
+                break;
+            }
+            try {
+                String[] parts = line.split("\\s+");
+                if (parts.length != 3) {
+                    System.out.println("Format incorrecte. Torni a introduir la similitud.");
+                    continue;
+                }
+
+                String product1 = parts[0];
+                String product2 = parts[1];
+                Double similarity = Double.parseDouble(parts[2]);
+
+                similarities.add(new Pair<>(new Pair<>(product1, product2), similarity));
+            } catch (Exception e) {
+                System.out.println("Error al processar la entrada. Comprovi el format i torni-ho a intentar.");
+            }
+        }
+
+        try {
+            controllerD.addSimilarityTable(products, similarities);
+        } catch (ProductNotFoundException e) {
+            System.out.println("ERROR: " + e.toString());
+        }
     }
 
     public void modifySimilarityTable() {
+        System.out.println("Ha escollit l'opcio 6\n");
+        System.out.println("Indiqui l'identificador de la taula de similitud a modificar");
+
+        int id = scanner.nextInt();
+        System.out.println(
+                "Indiqui les noves similituds dels productes de la taula, una per linia. Quan hagi acabat, escrigui 'fi'");
+        System.out.println("El format es: producte1 producte2 novaSimilitud.");
+
+        // creamos el vector de similitudes
+        Vector<Pair<Pair<String, String>, Double>> newSimilarities = new Vector<Pair<Pair<String, String>, Double>>();
+        while (true) {
+            String line = scanner.nextLine().trim();
+            if (line.equalsIgnoreCase("fi")) {
+                break;
+            }
+            try {
+                String[] parts = line.split("\\s+");
+                if (parts.length != 3) {
+                    System.out.println("Format incorrecte. Torni a introduir la similitud.");
+                    continue;
+                }
+
+                String product1 = parts[0];
+                String product2 = parts[1];
+                Double similarity = Double.parseDouble(parts[2]);
+
+                newSimilarities.add(new Pair<>(new Pair<>(product1, product2), similarity));
+            } catch (Exception e) {
+                System.out.println("Error al processar la entrada. Comprovi el format i torni-ho a intentar.");
+            }
+        }
+
+        try {
+            controllerD.modifySimilarityTable(id, newSimilarities);
+        } catch (SimilarityTableNotFoundException e) {
+            System.out.println("ERROR: " + e.toString());
+        }
     }
 
     public void deleteSimilarityTable() {
+        System.out.println("Ha escollit l'opcio 7\n");
+        System.out.println("Indiqui l'identificador de la taula de similitud a eliminar");
+
+        int id = scanner.nextInt();
+        try {
+            controllerD.deleteSimilarityTable(id);
+        } catch (SimilarityTableNotFoundException e) {
+            System.out.println("ERROR: " + e.toString());
+        }
     }
 
     public void getSimilarityTable() {
+        System.out.println("Ha escollit l'opcio 8\n");
+        System.out.println("Indiqui l'identificador de la taula de similitud a consultar");
+
+        int id = scanner.nextInt();
+        Pair<Vector<Pair<String, Integer>>, Vector<Vector<Double>>> table;
+        try {
+            table = controllerD.getSimilarityTable(id);
+
+            Vector<Pair<String, Integer>> products = table.getFirst();
+            Vector<Vector<Double>> similarities = table.getSecond();
+            for (int i = 0; i < products.size(); i++) {
+                System.out
+                        .println("Product: " + products.get(i).getFirst() + " - Index: " + products.get(i).getSecond());
+            }
+            for (int i = 0; i < similarities.size(); i++) {
+                for (int j = 0; j < similarities.get(i).size(); j++) {
+                    System.out.println("Similarity between " + products.get(i).getFirst() + " and "
+                            + products.get(j).getFirst() + ": " + similarities.get(i).get(j));
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("ERROR: " + e.toString());
+        }
     }
 
     public void generateDistribution() {

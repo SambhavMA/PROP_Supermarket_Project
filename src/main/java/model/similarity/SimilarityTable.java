@@ -1,15 +1,15 @@
 package model.similarity;
 
-import java.util.Map;
+import java.util.HashMap;
 import java.util.Vector;
 
 public class SimilarityTable {
     private int id;
-    private Map<String, Integer> fastIndexes;
+    private HashMap<String, Integer> fastIndexes;
     private Vector<Vector<Double>> relationMatrix;
 
     // CONSTRUCTORS
-    public SimilarityTable(int id, Map<String, Integer> fastIndexes, Vector<Vector<Double>> relationMatrix) {
+    public SimilarityTable(int id, HashMap<String, Integer> fastIndexes, Vector<Vector<Double>> relationMatrix) {
         this.id = id;
         this.fastIndexes = fastIndexes;
         this.relationMatrix = relationMatrix;
@@ -32,7 +32,7 @@ public class SimilarityTable {
         return id;
     }
 
-    public Map<String, Integer> getFastIndexes() {
+    public HashMap<String, Integer> getFastIndexes() {
         return fastIndexes;
     }
 
@@ -41,9 +41,9 @@ public class SimilarityTable {
     }
 
     // SETTERS
-//    public void setFastIndexes(Map<String, Integer> fastIndexes) {
-//        this.fastIndexes = fastIndexes;
-//    }
+    // public void setFastIndexes(Map<String, Integer> fastIndexes) {
+    // this.fastIndexes = fastIndexes;
+    // }
 
     public void setRelationMatrix(Vector<Vector<Double>> relationMatrix) {
         this.relationMatrix = relationMatrix;
