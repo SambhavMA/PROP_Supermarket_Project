@@ -21,11 +21,11 @@ public class ProductContainer {
         return products;
     }
 
-    public Product getProductByName(String name) {
+    public Product getProductByName(String name) throws ProductNotFoundException {
         if (products.containsKey(name)) {
             return products.get(name);
         }
-        return null;
+        throw new ProductNotFoundException(name);
     }
 
     // TODO aixo s'ha de fer amb excepcions, tambe hem de borrar de la classe Producte

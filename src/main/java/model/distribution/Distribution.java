@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 public class Distribution {
     private int id;
+    private double cost;
+    private double temps;
     private Vector<String> order;
     private ArrayList<EnumTypeSections> sections;
     private String usedAlgorithm;

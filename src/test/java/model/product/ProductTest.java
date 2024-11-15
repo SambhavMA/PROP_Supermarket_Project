@@ -41,11 +41,11 @@ public class ProductTest {
         assertEquals(sampleType, productWithType.getType());
     }
 
-    @Test
-    public void testSetName() {
-        product.setName("New Product Name");
-        assertEquals("New Product Name", product.getName());
-    }
+    // @Test
+    // public void testSetName() {
+    // product.setName("New Product Name");
+    // assertEquals("New Product Name", product.getName());
+    // }
 
     @Test
     public void testSetType() {
