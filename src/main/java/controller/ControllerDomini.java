@@ -23,7 +23,6 @@ public class ControllerDomini {
     private DistributionContainer distributionContainer = new DistributionContainer();
     private SimilarityTableContainer similarityTableContainer = new SimilarityTableContainer();
     private UserView userView = new UserView();
-    private boolean exit = false;
 
     private static ControllerDomini singletonObject;
     private ControllerIO controllerIO = new ControllerIO(this);

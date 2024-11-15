@@ -74,14 +74,6 @@ public class ControllerIO {
         waitResponse();
     }
 
-    public void showMessage(String message) {
-        System.out.println(message);
-    }
-
-    public void close() {
-        scanner.close();
-    }
-
     public void showWelcomeMessage() {
         System.out.println("Welcome to the system! Please select an option:");
     }
