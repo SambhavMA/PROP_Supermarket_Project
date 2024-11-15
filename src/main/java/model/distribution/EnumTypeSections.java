@@ -1,8 +1,8 @@
 package model.distribution;
 
 public enum EnumTypeSections {
-    ELECTRONICS,
-    FOOD,
-    CLOTHING,
-    TOOLS
+    Fruita,
+    Verdura,
+    Peix,
+    Carn
 }
