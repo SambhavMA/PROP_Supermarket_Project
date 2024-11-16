@@ -1,6 +1,5 @@
 package model.algorithm;
 
-
 import java.util.Arrays;
 import java.util.Random;
 
@@ -16,6 +15,10 @@ public class AlgorithmController {
         }
     }
 
+    public static double[][] getCosts() { // usada en el testing
+        return costs;
+    }
+
     public String[] getAlgorithms() {
         String[] algorithms = new String[AlgorithmsNames.values().length];
         for (int i = 0; i < algorithms.length; i++) {
@@ -25,26 +28,33 @@ public class AlgorithmController {
     }
 
     // Aqui lanza excepcion de Algoritmo (reemplazar a throws Exception)
-    public Object[] executeAlgorithm(AlgorithmsNames a) throws Exception {
+    public Object[] executeAlgorithm(String a) throws Exception {
+        AlgorithmsNames algorithm = AlgorithmsNames.valueOf(a);
+
         Solution solution;
-        switch(a) {
+        switch (algorithm) {
             case NN:
                 Algorithm algorithmNN = new NearestNeighbor();
                 Random rand = new Random();
                 solution = algorithmNN.execute(rand.nextInt(costs.length), costs.length);
                 break;
             case HC:
-                solution = null;
+                Algorithm startingAlgorithmNN = new NearestNeighbor();
+                Solution[] initialSolutions = new Solution[3];
+                for (int i = 0; i < 3; i++) {
+                    Random rand2 = new Random();
+                    initialSolutions[i] = startingAlgorithmNN.execute(rand2.nextInt(costs.length), costs.length);
+                }
+                Algorithm algorithmHC = new HillClimbing();
+                solution = algorithmHC.execute(initialSolutions);
                 break;
             default:
                 solution = null;
-                //THROW ERROR
+                // THROW ERROR
                 break;
         }
-        double finalCost = ((-1)*solution.getCost()) + solution.getSize();
-        return new Object[]{solution.getPath(), finalCost, a.toString()};
+        double finalCost = ((-1) * solution.getCost()) + solution.getSize();
+        return new Object[] { solution.getPath(), finalCost, a.toString() };
     }
-
-
 
 }

@@ -222,17 +222,29 @@ public class ControllerDomini {
      *
      * @param distribution Distribució a afegir
      */
-    public void generateDistribution(Distribution distribution) {
-        distributionContainer.addDistribution(distribution);
+    public void generateDistribution(int similarityTableId, double cost, Vector<String> order,
+            String usedAlgorithm) {
+        int id = distributionContainer.newId();
+        Distribution distribution = new Distribution(id, similarityTableId, cost, order,
+                usedAlgorithm);
+        distributionContainer.addDistribution(id, distribution);
         userView.showMessage("Distribution generated: " + distribution.getId());
     }
 
-    /*
-     * public void modifyDistribution(Distribution distribution) {
-     * distributionContainer.addDistribution(distribution);
-     * userView.showMessage("Distribution modified: " + distribution.getId());
-     * }
-     */
+    public void modifyDistribution(int id, List<Pair<String, String>> changes) throws DistributionNotFoundException {
+        Distribution distribution = distributionContainer.getDistributionById(id);
+
+        for (Pair<String, String> change : changes) {
+            String p1 = change.getFirst();
+            String p2 = change.getSecond();
+
+            if (distribution.getOrder().contains(p1) || distribution.getOrder().contains(p2)) {
+                distribution.changeOrder(p1, p2);
+            }
+        }
+
+        // TODO recalcular costes
+    }
 
     /**
      * Elimina una distribució del container de distribucions
@@ -250,13 +262,9 @@ public class ControllerDomini {
      *
      * @param id Identificador de la distribució a comprovar
      */
-    public void getDistribution(int id) {
+    public Distribution getDistribution(int id) throws DistributionNotFoundException {
         Distribution distribution = distributionContainer.getDistributionById(id);
-        if (distribution != null) {
-            userView.showMessage("Distribution found: " + id);
-            return;
-        }
-        userView.showMessage("Distribution not found: " + id);
+        return distribution;
     }
 
     /*

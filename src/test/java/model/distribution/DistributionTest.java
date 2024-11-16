@@ -27,8 +27,8 @@ public class DistributionTest {
         sampleSections.add(EnumTypeSections.Fruita);
         sampleSections.add(EnumTypeSections.Verdura);
 
-        emptyDistribution = new Distribution(1);
-        distribution = new Distribution(1, sampleOrder);
+        // emptyDistribution = new Distribution(1);
+        // distribution = new Distribution(1, sampleOrder);
         distributionWithSections = new Distribution(2, sampleOrder, sampleSections, "Greedy");
         distributionWithAlgorithm = new Distribution(3, sampleOrder, "Dijkstra");
     }

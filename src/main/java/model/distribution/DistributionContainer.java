@@ -1,12 +1,13 @@
 package model.distribution;
 
+import model.exceptions.DistributionNotFoundException;
 import java.util.HashMap;
 
 public class DistributionContainer {
     private HashMap<Integer, Distribution> distributions = new HashMap<>();
     private int idCounter;
 
-    //Constructora
+    // Constructora
     public DistributionContainer() {
         this.distributions = new HashMap<>();
         this.idCounter = 0;
@@ -16,15 +17,18 @@ public class DistributionContainer {
         return distributions;
     }
 
-    public Distribution getDistributionById(int id){
+    public Distribution getDistributionById(int id) throws DistributionNotFoundException {
+        if (!distributions.containsKey(id)) {
+            throw new DistributionNotFoundException(id);
+        }
         return distributions.get(id);
     }
 
-    public void addDistribution(Distribution distribution){
-        distributions.put(newId(), distribution);
+    public void addDistribution(int id, Distribution distribution) {
+        distributions.put(id, distribution);
     }
 
-    public void deleteDistributionById(int id){
+    public void deleteDistributionById(int id) {
         distributions.remove(id);
     }
 

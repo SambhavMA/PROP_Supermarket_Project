@@ -39,6 +39,10 @@ public class SimilarityTable {
         return fastIndexes;
     }
 
+    public Map<Integer, String> getFastReverseIndexes() {
+        return fastReverseIndexes;
+    }
+
     public Vector<Vector<Double>> getRelationMatrix() {
         return relationMatrix;
     }

@@ -1,6 +1,7 @@
 package controller;
 
 import controller.ControllerIO;
+import model.algorithm.AlgorithmController;
 import model.distribution.Distribution;
 import model.exceptions.DistributionNotFoundException;
 import model.exceptions.NoTypeWithName;
@@ -10,6 +11,7 @@ import model.exceptions.SimilarityTableNotFoundException;
 import model.product.EnumType;
 import model.product.Product;
 import model.similarity.SimilarityTable;
+import model.distribution.*;
 import utils.Pair;
 
 import java.util.ArrayList;
@@ -34,7 +36,7 @@ public class ControllerPresentacio {
     }
 
     public void waitResponse() {
-        cIO.writeLine("Enter a number: ");
+        cIO.writeLine("\nEnter a number: ");
         String option = cIO.readLine();
         switch (option) {
             case "1":
@@ -280,16 +282,138 @@ public class ControllerPresentacio {
         }
     }
 
+    // TODO que no sea n2 el pasar de int a string
     public void generateDistribution() {
+        cIO.writeLine("Ha escollit l'opcio Generate Distribution");
+        cIO.writeLine("Indiqui l'id de la taula de similitud que vol utilitzar");
+
+        int id = cIO.readIntLine();
+
+        double[][] costs = null;
+        try {
+            Pair<Vector<Pair<String, Integer>>, Vector<Vector<Double>>> similarityTable = cDom.getSimilarityTable(id);
+            Vector<Vector<Double>> relationMatrix = similarityTable.getSecond();
+
+            costs = new double[relationMatrix.size()][relationMatrix.get(0).size()];
+            for (int i = 0; i < relationMatrix.size(); i++) {
+                for (int j = 0; j < relationMatrix.get(i).size(); j++) {
+                    costs[i][j] = 1 - relationMatrix.get(i).get(j);
+                }
+            }
+            AlgorithmController cAlg = new AlgorithmController(costs);
+
+            String[] algorithms = cAlg.getAlgorithms();
+            cIO.writeLine("Algorithms available:");
+            for (String algorithm : algorithms) {
+                cIO.writeLine(algorithm);
+            }
+            cIO.writeLine("Choose an algorithm to generate the distribution");
+            String chosenAlgorithm = cIO.readLine();
+
+            Object[] result = cAlg.executeAlgorithm(chosenAlgorithm);
+
+            int[] path = (int[]) result[0];
+            double cost = (double) result[1];
+
+            Vector<Pair<String, Integer>> fastIndexes = similarityTable.getFirst();
+            Vector<String> names = new Vector<>(path.length);
+
+            for (int n : path) {
+                for (Pair<String, Integer> pair : fastIndexes) {
+                    if (pair.getSecond().equals(n)) {
+                        names.add(pair.getFirst());
+                        break;
+                    }
+                }
+            }
+
+            cIO.writeLine("Path:");
+            for (String p : names) {
+                cIO.writeLine(String.valueOf(p));
+            }
+
+            cDom.generateDistribution(id, cost, names, chosenAlgorithm);
+
+        } catch (SimilarityTableNotFoundException e) {
+            cIO.writeLine("ERROR: " + e.toString());
+        } catch (Exception e) {
+            cIO.writeLine("ERROR: " + e.toString());
+        }
+
     }
 
     public void modifyDistribution() {
+        cIO.writeLine("Ha escollit l'opcio Modify Distribution");
+        cIO.writeLine("Indiqui l'id de distribucio que vol modificar:");
+
+        int id = cIO.readIntLine();
+
+        cIO.writeLine(
+                "Indiqui els productes que vol intercanviar de posicio, un per linia. Quan hagi acabat, escrigui 'fi'");
+        cIO.writeLine("El format esperat es: producte1 producte2");
+
+        List<Pair<String, String>> changes = new ArrayList<>();
+
+        while (true) {
+            String line = cIO.readLine().trim();
+            if (line.equalsIgnoreCase("fi")) {
+                break;
+            }
+            try {
+                String[] parts = line.split("\\s+");
+                if (parts.length != 2) {
+                    cIO.writeLine("Format incorrecte. Torni a introduir la similitud.");
+                    continue;
+                }
+
+                String product1 = parts[0];
+                String product2 = parts[1];
+
+                changes.add(new Pair<>(product1, product2));
+            } catch (Exception e) {
+                cIO.writeLine("Error al processar la entrada. Comprovi el format i torni-ho a intentar.");
+            }
+        }
+
+        try {
+            cDom.modifyDistribution(id, changes);
+        } catch (Exception e) {
+            cIO.writeLine("ERROR: " + e.toString());
+        }
     }
 
     public void deleteDistribution() {
+        cIO.writeLine("Ha escollit l'opcio Delete Distribution");
+        cIO.writeLine("Indiqui l'id de distribucio que vol eliminar:");
+
+        int id = cIO.readIntLine();
+
+        try {
+            cDom.deleteDistribution(id);
+        } catch (DistributionNotFoundException e) {
+            cIO.writeLine("ERROR: " + e.toString());
+        }
     }
 
     public void getDistribution() {
+        cIO.writeLine("Ha escollit l'opcio Get Distribution");
+        cIO.writeLine("Indiqui l'id de distribucio que vol veure:");
+
+        int id = cIO.readIntLine();
+
+        try {
+            Distribution distribution = cDom.getDistribution(id);
+            cIO.writeLine("Id: " + distribution.getId());
+            cIO.writeLine("Similarity Table Id: " + distribution.getSimilarityTableId());
+            cIO.writeLine("Cost: " + distribution.getCost());
+            cIO.writeLine("Order:");
+            for (String product : distribution.getOrder()) {
+                cIO.writeLine(product);
+            }
+            cIO.writeLine("Algorithm: " + distribution.getUsedAlgorithm());
+        } catch (DistributionNotFoundException e) {
+            cIO.writeLine("ERROR: " + e.toString());
+        }
     }
 
     /*

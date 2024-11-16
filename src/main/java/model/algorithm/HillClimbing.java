@@ -4,8 +4,6 @@ import java.util.ArrayList;
 
 import model.similarity.SimilarityTable;
 
-
-
 public class HillClimbing extends Algorithm {
 
     public HillClimbing() {
@@ -27,8 +25,10 @@ public class HillClimbing extends Algorithm {
                 for (int i = 0; i < size - 3; i++) {
                     for (int j = i + 2; j < size - 1; j++) {
 
-                        double act_cost = best_cost 
-                                - actSolution.costBetweenPathNodes(i, i + 1) //podría directamente declarar nuevo actsolution y hacer swap y el coste es esto
+                        double act_cost = best_cost
+                                - actSolution.costBetweenPathNodes(i, i + 1) // podría directamente declarar nuevo
+                                                                             // actsolution y hacer swap y el coste es
+                                                                             // esto
                                 - actSolution.costBetweenPathNodes(j, j + 1)
                                 + actSolution.costBetweenPathNodes(i, j)
                                 + actSolution.costBetweenPathNodes(j + 1, i + 1);
