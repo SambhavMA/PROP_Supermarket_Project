@@ -29,8 +29,8 @@ public class DistributionTest {
 
         // emptyDistribution = new Distribution(1);
         // distribution = new Distribution(1, sampleOrder);
-        distributionWithSections = new Distribution(2, sampleOrder, sampleSections, "Greedy");
-        distributionWithAlgorithm = new Distribution(3, sampleOrder, "Dijkstra");
+        distributionWithSections = new Distribution(2, 2, sampleOrder, sampleSections, "Greedy");
+        distributionWithAlgorithm = new Distribution(3, 3, 10, sampleOrder, "Dijkstra", 100.05);
     }
 
     @Test

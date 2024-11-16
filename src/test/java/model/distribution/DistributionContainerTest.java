@@ -26,7 +26,7 @@ public class DistributionContainerTest {
         sampleOrder.add("Product1");
         sampleOrder.add("Product2");
 
-        distribution = new Distribution(1, sampleOrder, sampleSections, "Greedy");
+        distribution = new Distribution(1, 1, sampleOrder, sampleSections, "Greedy");
     }
 
     @Test
@@ -50,13 +50,13 @@ public class DistributionContainerTest {
 
     @Test
     public void testAddDistribution() {
-        distributionContainer.addDistribution(distribution);
+        distributionContainer.addDistribution(1, distribution);
         assertEquals(distribution, distributionContainer.getDistributions().get(1));
     }
 
     @Test
     public void testDeleteDistributionById() {
-        distributionContainer.addDistribution(distribution);
+        distributionContainer.addDistribution(1, distribution);
         distributionContainer.deleteDistributionById(1);
         assertNull(distributionContainer.getDistributions().get(1));
     }

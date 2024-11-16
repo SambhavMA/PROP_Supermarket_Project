@@ -22,7 +22,7 @@ public class Distribution {
     }
 
     public Distribution(int id, int similarityTableId, double cost, Vector<String> order,
-            String usedAlgorithm) {
+            String usedAlgorithm, double temps) {
         this.id = id;
         this.similarityTableId = similarityTableId;
         this.cost = cost;
