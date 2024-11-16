@@ -24,8 +24,8 @@ public class DistributionTest {
         sampleOrder.add("Product2");
 
         sampleSections = new ArrayList<>();
-        sampleSections.add(EnumTypeSections.FOOD);
-        sampleSections.add(EnumTypeSections.CLOTHING);
+        sampleSections.add(EnumTypeSections.Fruita);
+        sampleSections.add(EnumTypeSections.Verdura);
 
         emptyDistribution = new Distribution(1);
         distribution = new Distribution(1, sampleOrder);
@@ -87,18 +87,18 @@ public class DistributionTest {
         assertEquals("Greedy", distributionWithSections.getUsedAlgorithm());
     }
 
-//    @Test
-//    public void testSetOrder() {
-//        Vector<String> newOrder = new Vector<>();
-//        newOrder.add("Product3");
-//        distribution.setOrder(newOrder);
-//        assertEquals(newOrder, distribution.getOrder());
-//    }
+    // @Test
+    // public void testSetOrder() {
+    // Vector<String> newOrder = new Vector<>();
+    // newOrder.add("Product3");
+    // distribution.setOrder(newOrder);
+    // assertEquals(newOrder, distribution.getOrder());
+    // }
 
     @Test
     public void testSetSections() {
         ArrayList<EnumTypeSections> newSections = new ArrayList<>();
-        newSections.add(EnumTypeSections.ELECTRONICS);
+        newSections.add(EnumTypeSections.Carn);
         distribution.setSections(newSections);
         assertEquals(newSections, distribution.getSections());
     }

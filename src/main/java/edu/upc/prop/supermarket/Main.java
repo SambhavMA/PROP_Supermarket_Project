@@ -1,9 +1,9 @@
 package edu.upc.prop.supermarket;
 
-import controller.ControllerDomini;
+import controller.ControllerPresentacio;
 
 public class Main {
   public static void main(String[] args) {
-    ControllerDomini controllerDomini = new ControllerDomini();
+    ControllerPresentacio controllerPresentacio = new ControllerPresentacio();
   }
 }

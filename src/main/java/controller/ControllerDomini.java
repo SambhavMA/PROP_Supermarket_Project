@@ -15,7 +15,9 @@ import model.similarity.SimilarityTable;
 import utils.Pair;
 import utils.UserView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Vector;
 
 public class ControllerDomini {
@@ -25,14 +27,12 @@ public class ControllerDomini {
     private UserView userView = new UserView();
 
     private static ControllerDomini singletonObject;
-    private ControllerIO controllerIO = new ControllerIO(this);
 
     /**
      * Crea una instancia de domini
      */
     public ControllerDomini() {
         init();
-        controllerIO.init();
     }
 
     /**
@@ -120,7 +120,7 @@ public class ControllerDomini {
      * 
      * @param similarityTable Taula de similitud a afegir
      */
-    public void addSimilarityTable(Vector<String> productos, Vector<Pair<Pair<String, String>, Double>> similitudes)
+    public void addSimilarityTable(List<String> productos, List<Pair<Pair<String, String>, Double>> similitudes)
             throws ProductNotFoundException {
         int newId = similarityTableContainer.newId();
 
@@ -133,7 +133,7 @@ public class ControllerDomini {
         for (int i = 0; i < productos.size(); i++) {
             Vector<Double> row = new Vector<>();
             for (int j = 0; j < productos.size(); j++) {
-                row.add(0.0); // Inicializar con 0.0
+                row.add(0.0);
             }
             relationMatrix.add(row);
         }
@@ -143,7 +143,6 @@ public class ControllerDomini {
             String product2 = similitud.getFirst().getSecond();
             Double value = similitud.getSecond();
 
-            // TODO no tener duplicadas las similitudes
             if (fastIndexes.containsKey(product1) && fastIndexes.containsKey(product2)) {
                 int index1 = fastIndexes.get(product1);
                 int index2 = fastIndexes.get(product2);
@@ -164,7 +163,7 @@ public class ControllerDomini {
      * @param newSimilarityTable Taula de similitud amb els nous canvis
      * @throws SimilarityTableNotFoundException Si la taula de similitud no existeix
      */
-    public void modifySimilarityTable(int id, Vector<Pair<Pair<String, String>, Double>> nuevasSimilitudes)
+    public void modifySimilarityTable(int id, List<Pair<Pair<String, String>, Double>> nuevasSimilitudes)
             throws SimilarityTableNotFoundException {
         SimilarityTable similarityTable = similarityTableContainer.getSimilarityTableById(id);
         HashMap<String, Integer> fastIndexes = similarityTable.getFastIndexes();
@@ -175,7 +174,6 @@ public class ControllerDomini {
             String product2 = similitud.getFirst().getSecond();
             Double value = similitud.getSecond();
 
-            // TODO no tener duplicadas las similitudes
             if (fastIndexes.containsKey(product1) && fastIndexes.containsKey(product2)) {
                 int index1 = fastIndexes.get(product1);
                 int index2 = fastIndexes.get(product2);
@@ -260,4 +258,18 @@ public class ControllerDomini {
         }
         userView.showMessage("Distribution not found: " + id);
     }
+
+    /*
+     * public void testingAlgorithm() throws Exception {
+     * double[][] costes = {
+     * {0.0, 0.2, 0.4, 0.6},
+     * {0.2, 0.0, 0.8, 0.3},
+     * {0.4, 0.8, 0.0, 0.7},
+     * {0.6, 0.3, 0.7, 0.0}
+     * };
+     * AlgorithmController alg = new AlgorithmController(costes);
+     * String[] s = alg.getAlgorithms();111
+     * Object[] data = alg.executeAlgorithm(AlgorithmsNames.NN);
+     * }
+     */
 }
