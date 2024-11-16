@@ -9,7 +9,6 @@ public class SimilarityTable {
     private HashMap<String, Integer> fastIndexes;
     private Map<Integer, String> fastReverseIndexes;
     private Vector<Vector<Double>> relationMatrix;
-    // private double[][] relationMatrix;
 
     // CONSTRUCTORS
     public SimilarityTable(int id, HashMap<String, Integer> fastIndexes, Vector<Vector<Double>> relationMatrix) {
