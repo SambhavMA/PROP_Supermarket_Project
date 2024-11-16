@@ -225,8 +225,7 @@ public class ControllerDomini {
     public void generateDistribution(int similarityTableId, double cost, Vector<String> order,
             String usedAlgorithm) {
         int id = distributionContainer.newId();
-        Distribution distribution = new Distribution(id, similarityTableId, cost, order,
-                usedAlgorithm);
+        Distribution distribution = new Distribution(id, similarityTableId, cost, order, usedAlgorithm, 0);
         distributionContainer.addDistribution(id, distribution);
         userView.showMessage("Distribution generated: " + distribution.getId());
     }

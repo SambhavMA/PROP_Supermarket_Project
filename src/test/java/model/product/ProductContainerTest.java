@@ -24,9 +24,12 @@ public class ProductContainerTest {
         } catch (Exception e) {
             fail("Should not throw any exception");
         }
-        HashMap<String, Product> products = productContainer.getProducts();
-        assertTrue(products.containsKey("Test Product"));
-        assertEquals(product, products.getProductByName("Test Product"));
+        assertTrue(productContainer.getProducts().containsKey("Test Product"));
+        try {
+            assertEquals(product, productContainer.getProductByName("Test Product"));
+        } catch (Exception e) {
+            fail("Should not throw any exception");
+        }
     }
 
     @Test

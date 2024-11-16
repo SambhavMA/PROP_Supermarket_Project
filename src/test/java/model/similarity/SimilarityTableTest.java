@@ -40,18 +40,18 @@ public class SimilarityTableTest {
 
     // Test del constructor con id, fastIndexes y relationMatrix
     @Test
-    public void testConstructorWithMatrix() {
+    public void testConstructorWithFastIndexes() {
         assertEquals(1, similarityTableWithFI.getId());
         assertEquals(fastIndexes, similarityTableWithFI.getFastIndexes());
         assertEquals(relationMatrix, similarityTableWithFI.getRelationMatrix());
     }
 
-    // Test del constructor con id y fastIndexes sin relationMatrix
+    // Test del constructor con id y relationMatrix sin fastIndexes
     @Test
     public void testConstructorWithoutFastIndexes() {
         assertEquals(2, similarityTableWithoutFI.getId());
-        assertEquals(fastIndexes, similarityTableWithoutFI.getFastIndexes());
-        assertTrue(similarityTableWithoutFI.getRelationMatrix().isEmpty());
+        assertNull(similarityTableWithoutFI.getFastIndexes());
+        assertEquals(relationMatrix ,similarityTableWithoutFI.getRelationMatrix());
     }
 
     // Test del constructor con solo id

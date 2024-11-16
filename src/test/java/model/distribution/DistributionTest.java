@@ -33,21 +33,23 @@ public class DistributionTest {
         distributionWithAlgorithm = new Distribution(3, 3, 10, sampleOrder, "Dijkstra", 100.05);
     }
 
-    @Test
-    public void testConstructorWithId() {
-        assertEquals(1, emptyDistribution.getId());
-        assertNull(emptyDistribution.getOrder());
-        assertNull(emptyDistribution.getSections());
-        assertNull(emptyDistribution.getUsedAlgorithm());
-    }
 
-    @Test
-    public void testConstructorWithIdAndOrder() {
-        assertEquals(1, distribution.getId());
-        assertEquals(sampleOrder, distribution.getOrder());
-        assertNull(distribution.getSections());
-        assertNull(distribution.getUsedAlgorithm());
-    }
+//    @Test
+//    public void testConstructorWithId() {
+//        assertEquals(1, emptyDistribution.getId());
+//        assertNull(emptyDistribution.getOrder());
+//        assertNull(emptyDistribution.getSections());
+//        assertNull(emptyDistribution.getUsedAlgorithm());
+//    }
+//
+
+//    @Test
+//    public void testConstructorWithIdAndOrder() {
+//        assertEquals(1, distribution.getId());
+//        assertEquals(sampleOrder, distribution.getOrder());
+//        assertNull(distribution.getSections());
+//        assertNull(distribution.getUsedAlgorithm());
+//    }
 
     @Test
     public void testConstructorWithIdOrderAndAlgorithm() {
@@ -67,24 +69,23 @@ public class DistributionTest {
 
     @Test
     public void testGetId() {
-        assertEquals(1, distribution.getId());
+        assertEquals(3, distributionWithAlgorithm.getId());
     }
 
     @Test
     public void testGetOrder() {
-        assertEquals(sampleOrder, distribution.getOrder());
+        assertEquals(sampleOrder, distributionWithAlgorithm.getOrder());
     }
 
     @Test
     public void testGetSections() {
-        assertNull(distribution.getSections());
+        assertNull(distributionWithAlgorithm.getSections());
         assertEquals(sampleSections, distributionWithSections.getSections());
     }
 
     @Test
     public void testGetUsedAlgorithm() {
-        assertNull(distribution.getUsedAlgorithm());
-        assertEquals("Greedy", distributionWithSections.getUsedAlgorithm());
+        assertEquals("Dijkstra", distributionWithAlgorithm.getUsedAlgorithm());
     }
 
     // @Test
@@ -99,13 +100,13 @@ public class DistributionTest {
     public void testSetSections() {
         ArrayList<EnumTypeSections> newSections = new ArrayList<>();
         newSections.add(EnumTypeSections.Carn);
-        distribution.setSections(newSections);
-        assertEquals(newSections, distribution.getSections());
+        distributionWithSections.setSections(newSections);
+        assertEquals(newSections, distributionWithSections.getSections());
     }
 
     @Test
     public void testSetUsedAlgorithm() {
-        distribution.setUsedAlgorithm("Prim");
-        assertEquals("Prim", distribution.getUsedAlgorithm());
+        distributionWithAlgorithm.setUsedAlgorithm("Prim");
+        assertEquals("Prim", distributionWithAlgorithm.getUsedAlgorithm());
     }
 }
