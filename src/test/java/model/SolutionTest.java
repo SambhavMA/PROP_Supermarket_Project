@@ -1,17 +1,32 @@
-package model.algorithm;
+package test.model.algorithm;
 
-import java.util.Arrays;
+import main.model.algorithm.Solution;
+import org.junit.Before;
+import org.junit.Test;
 
-import static model.algorithm.AlgorithmController.costs;
+import static org.junit.Assert.*;
 
-public class Solution {
-    private int[] path;
-    private double cost;
 
-    public Solution() {
-        this.path = new int[costs[0].length];
-        Arrays.fill(path, -1);
-        this.cost = 0;
+public class SolutionTest {
+
+    private double[][] costsMock;
+
+    @BeforeClass
+    public void setUp() {
+        costsMock = new double[][]{
+            {0.0, 2.0, 3.0},
+            {2.0, 0.0, 4.0},
+            {3.0, 4.0, 0.0}
+        };
+        Solution.costs = costsMock;
+    }
+
+
+
+    @Test
+    public testCostructorZeroParameter() {
+        
+        assertArrayEquals(0, , 0.000001);
     }
     public Solution(int[] path) {
         this.path = Arrays.copyOf(path, path.length);
@@ -22,18 +37,6 @@ public class Solution {
         this.path = Arrays.copyOf(path, path.length);
         this.cost = cost;
     }
-    
-    public int[] getPath() {
-        return path;
-    }
-
-    public double getCost() {
-        return cost;
-    }
-
-    public int getSize() {
-        return path.length;
-    }
 
     public void swapAndUpdate(int x, int y) {
         removeCost(x, (x+1)%path.length, y, (y+1)%path.length);
@@ -43,6 +46,10 @@ public class Solution {
 
     //PRE: y > x+1 (cíclicamente, o sea si x = n, x+1 = 0), por lo tanto path.size > 4
     public void swap(int x, int y) { //swap de las aristas que tienen como "primer" (en el orden del path) vértice a i y a j 
+        /*int temp = path[i];
+        path[i] = path[j];
+        path[j] = temp;*/
+        int n1, n2; //defino quien va primero, si x o y
         if (y > x) { n1 = x; n2 = y; }
         else { n1 = y; n2 = x; }
         
@@ -54,6 +61,17 @@ public class Solution {
         
     }
 
+    public int[] getPath() {
+        return path;
+    }
+
+    public double getCost() {
+        return cost;
+    }
+
+    public int getSize() {
+        return path.length;
+    }
 
     private double costBetweenNodes(int x, int y) {
         return costs[x][y];

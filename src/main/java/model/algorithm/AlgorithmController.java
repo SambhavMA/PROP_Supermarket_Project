@@ -16,6 +16,10 @@ public class AlgorithmController {
         }
     }
 
+    public static double[][] getCosts() { //usada en el testing
+        return costs;
+    }
+
     public String[] getAlgorithms() {
         String[] algorithms = new String[AlgorithmsNames.values().length];
         for (int i = 0; i < algorithms.length; i++) {
@@ -34,7 +38,14 @@ public class AlgorithmController {
                 solution = algorithmNN.execute(rand.nextInt(costs.length), costs.length);
                 break;
             case HC:
-                solution = null;
+                Algorithm algorithmNN = new NearestNeighbor();
+                Solution[] initialSolutions;
+                for (int i = 0; i < 3; i++) {
+                    Random rand = new Random();
+                    initialSolutions[i] = algorithmNN.execute(rand.nextInt(costs.length), costs.length);
+                }
+                Algortihm algortihmHC = new HillClimbing();
+                solution = algorithmHC.execute(initialSolutions);
                 break;
             default:
                 solution = null;
