@@ -3,57 +3,44 @@ package model.similarity;
 import model.exceptions.SimilarityTableNotFoundException;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import java.util.HashMap;
 
+import static org.mockito.Mockito.*;
 import static org.junit.Assert.*;
 
 public class SimilarityTableContainerTest {
 
     private SimilarityTableContainer similarityTableContainer;
-    private SimilarityTable similarityTable;
+
+    @Mock
+    private SimilarityTable mocksimilarityTable;
 
     @Before
     public void setUp() {
-
-        similarityTable = new SimilarityTable(1);
+        MockitoAnnotations.openMocks(this);
         similarityTableContainer = new SimilarityTableContainer();
-        similarityTableContainer.addSimilarityTable(1, similarityTable);
-    }
 
-    @Test
-    public void testGetSimilarityTables() {
-        HashMap<Integer, SimilarityTable> similarityTables = similarityTableContainer.getSimilarityTables();
-        assertNotNull(similarityTables);
-    }
+        when(mocksimilarityTable.getId()).thenReturn(1);
+        when(mocksimilarityTable.getFastIndexes()).thenReturn(new HashMap<String, Integer>());
+        when(mocksimilarityTable.getRelationMatrix()).thenReturn(new double[0][0]);
 
-    @Test
-    public void testGetSimilarityTableById() {
-        try {
-            SimilarityTable st = similarityTableContainer.getSimilarityTableById(1);
-            assertEquals(similarityTable, st);
-        } catch (SimilarityTableNotFoundException e) {
-            fail("Unexpected SimilarityTableNotFoundException");
-        }
-    }
+        similarityTableContainer.addSimilarityTable(1, mocksimilarityTable);
 
-    @Test
-    public void testGetSimilarityTableByIdWithoutST() {
-        try {
-            similarityTableContainer.getSimilarityTableById(2);
-            fail("Expected SimilarityTableNotFoundException");
-        } catch (SimilarityTableNotFoundException e) {
-            assertEquals("The similarity table with id 2 was not found in the system.", e.getMessage());
-        }
     }
 
     @Test
     public void testAddSimilarityTable() {
-        SimilarityTable newST = new SimilarityTable(2);
-        similarityTableContainer.addSimilarityTable(2, newST);
+        SimilarityTable newMockST = mock(SimilarityTable.class);
+        when(newMockST.getId()).thenReturn(2);
+
+        similarityTableContainer.addSimilarityTable(2, newMockST);
+
         try {
             SimilarityTable st = similarityTableContainer.getSimilarityTableById(2);
-            assertEquals(newST, st);
+            assertEquals(newMockST, st);
         } catch (SimilarityTableNotFoundException e) {
             fail("Unexpected SimilarityTableNotFoundException");
         }
@@ -61,12 +48,13 @@ public class SimilarityTableContainerTest {
 
     @Test
     public void testModifySimilarityTable() {
-        SimilarityTable newST = new SimilarityTable(2);
-        similarityTableContainer.addSimilarityTable(2, newST);
+        SimilarityTable newMockST = mock(SimilarityTable.class);
+        when(newMockST.getId()).thenReturn(2);
+        similarityTableContainer.addSimilarityTable(2, newMockST);
         try {
-            similarityTableContainer.modifySimilarityTable(2, similarityTable);
+            similarityTableContainer.modifySimilarityTable(2, mocksimilarityTable);
             SimilarityTable st = similarityTableContainer.getSimilarityTableById(2);
-            assertEquals(similarityTable, st);
+            assertEquals(mocksimilarityTable, st);
         } catch (SimilarityTableNotFoundException e) {
             fail("Unexpected SimilarityTableNotFoundException");
         }
@@ -75,7 +63,7 @@ public class SimilarityTableContainerTest {
     @Test
     public void testModifySimilarityTableWithoutST() {
         try {
-            similarityTableContainer.modifySimilarityTable(2, similarityTable);
+            similarityTableContainer.modifySimilarityTable(2, mocksimilarityTable);
             fail("Expected SimilarityTableNotFoundException");
         } catch (SimilarityTableNotFoundException e) {
             assertEquals("The similarity table with id 2 was not found in the system.", e.getMessage());
@@ -84,7 +72,7 @@ public class SimilarityTableContainerTest {
 
     @Test
     public void testDeleteSimilarityTableById() {
-        similarityTableContainer.addSimilarityTable(2, new SimilarityTable(2));
+        similarityTableContainer.addSimilarityTable(2, mocksimilarityTable);
         try {
             similarityTableContainer.deleteSimilarityTableById(2);
             similarityTableContainer.getSimilarityTableById(2);

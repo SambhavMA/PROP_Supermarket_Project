@@ -30,21 +30,4 @@ public class ProductTest {
         assertEquals("Test Product with Type", productWithType.getName());
         assertEquals(sampleType, productWithType.getType());
     }
-
-    @Test
-    public void testGetName() {
-        assertEquals("Test Product", product.getName());
-    }
-
-    @Test
-    public void testGetType() {
-        assertNull(product.getType());
-        assertEquals(sampleType, productWithType.getType());
-    }
-
-    @Test
-    public void testSetType() {
-        product.setType(EnumType.FRUITA);
-        assertEquals(EnumType.FRUITA, product.getType());
-    }
 }

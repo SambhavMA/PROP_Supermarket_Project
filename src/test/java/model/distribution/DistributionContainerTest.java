@@ -2,20 +2,26 @@ package model.distribution;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
+import model.exceptions.DistributionNotFoundException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Vector;
 
+import static org.mockito.Mockito.*;
 import static org.junit.Assert.*;
 
 public class DistributionContainerTest {
 
     private DistributionContainer distributionContainer;
-    private Distribution distribution;
+
+    @Mock
+    private Distribution mockdistribution;
 
     @Before
     public void setUp() {
+        MockitoAnnotations.openMocks(this);
         distributionContainer = new DistributionContainer();
 
         ArrayList<EnumTypeSections>  sampleSections = new ArrayList<>();
@@ -26,7 +32,10 @@ public class DistributionContainerTest {
         sampleOrder.add("Product1");
         sampleOrder.add("Product2");
 
-        distribution = new Distribution(1, 1, sampleOrder, sampleSections, "Greedy");
+        when(mockdistribution.getSections()).thenReturn(sampleSections);
+        when(mockdistribution.getOrder()).thenReturn(sampleOrder);
+        when(mockdistribution.getUsedAlgorithm()).thenReturn("Greedy");
+        when(mockdistribution.getId()).thenReturn(1);
     }
 
     @Test
@@ -36,27 +45,15 @@ public class DistributionContainerTest {
         assertEquals(0, distributionContainer.getIdCounter());
     }
 
-    /*
-        Alomejor no añadir esta porque ya se comprueba en testAddDistribution
-
-    @Test
-    public void testGetDistributionById() {
-        Distribution distribution = new Distribution(1, sampleOrder, sampleSections, "Greedy");
-        distributionContainer.addDistribution(distribution);
-        assertEquals(distribution, distributionContainer.getDistributionById(1));
-    }
-
-     */
-
     @Test
     public void testAddDistribution() {
-        distributionContainer.addDistribution(1, distribution);
-        assertEquals(distribution, distributionContainer.getDistributions().get(1));
+        distributionContainer.addDistribution(1, mockdistribution);
+        assertEquals(mockdistribution, distributionContainer.getDistributions().get(1));
     }
 
     @Test
     public void testDeleteDistributionById() {
-        distributionContainer.addDistribution(1, distribution);
+        distributionContainer.addDistribution(1, mockdistribution);
         distributionContainer.deleteDistributionById(1);
         assertNull(distributionContainer.getDistributions().get(1));
     }
@@ -65,10 +62,5 @@ public class DistributionContainerTest {
     public void testNewId() {
         assertEquals(1, distributionContainer.newId());
         assertEquals(2, distributionContainer.newId());
-    }
-
-    @Test
-    public void testGetIdCounter() {
-        assertEquals(0, distributionContainer.getIdCounter());
     }
 }
