@@ -1,10 +1,17 @@
+package model.algorithm;
+
 import static org.junit.Assert.*;
 import org.junit.Test;
 
 import static org.mockito.Mockito.*;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.junit.Before;
+import org.junit.Test;
 
-package test.model.algorithm;
+import model.algorithm.HillClimbing;
+import model.algorithm.Solution;
+
 
 public class AlgorithmControllerTest {
 
@@ -23,7 +30,7 @@ public class AlgorithmControllerTest {
         };
 
         for (int i = 0; i < expectedCosts.length; i++) {
-            assertArrayEquals(expectedCosts[i], AlgorithmController..getCosts()[i], 0.000001); //el 0.000001 es el margen de error, lo pongo ya que los double pueden tener problemas de precisión
+            assertArrayEquals(expectedCosts[i], AlgorithmController.getCosts()[i], 0.000001); //el 0.000001 es el margen de error, lo pongo ya que los double pueden tener problemas de precisión
         } 
     }
 
@@ -34,7 +41,7 @@ public class AlgorithmControllerTest {
             {0.0, 0.0}
         };
 
-        AlgorithmController controller = new AlgorithmController(relationMatrix);
+        AlgorithmController controller = new AlgorithmController(relationMatrixTest);
 
         String[] algorithmNames = controller.getAlgorithms();
 
@@ -50,19 +57,19 @@ public class AlgorithmControllerTest {
         when(mockNN.execute(anyInt(), anyInt())).thenReturn(mockSolution);
         when(mockSolution.getCost()).thenReturn(10.0);
         when(mockSolution.getSize()).thenReturn(15);
-        when(mockSolution.getPath()).thenReturn(new int[]{0, 1, 2});
+        when(mockSolution.getPath()).thenReturn(new int[]{0, 1});
 
         double[][] relationMatrixTest = {
             {0.0, 0.0},
-            {0.0, 0.0}
+            {0.0, 0.0} //ponemos cualquier valor en relationMatrix porque da igual en la ejecución del test por los mocks
         };
-        AlgorithmController controller = new AlgorithmController(relationMatrixTest);
+        AlgorithmController controller = new AlgorithmController(relationMatrixTest, mockNN, null);
 
-        Object[] result = controller.executeAlgorithm(AlgorithmsNames.NN);
+        Object[] result = controller.executeAlgorithm("NN");
 
-        assertArrayEquals(new int[]{0, 1, 2}, (int[]) result[0]);
-        assertEquals(10, result[1]); 
-        assertEquals("Nearest Neighbor", result[2]);
+        assertArrayEquals(new int[]{0, 1}, (int[]) result[0]);
+        assertEquals(5.0, result[1]);
+        assertEquals("NN", result[2]);
     }
 
     @Test
@@ -73,26 +80,31 @@ public class AlgorithmControllerTest {
         nuestro caso estamos haciendo un test unitario sobre algorithm controler no evaluamos cómo
         funciona la clase algorithm*/
 
-        NearestNeighbor mockHC = mock(HillClimbing.class);
+        HillClimbing mockHC = mock(HillClimbing.class);
         Solution mockFinalSolution = mock(Solution.class);
 
-        when(mockHC.execute(any(Solution[].class)).thenReturn(mockFinalSolution);
+        when(mockHC.execute(any(Solution[].class))).thenReturn(mockFinalSolution);
         when(mockFinalSolution.getCost()).thenReturn(10.0);
         when(mockFinalSolution.getSize()).thenReturn(15);
-        when(mockFinalSolution.getPath()).thenReturn(new int[]{0, 1, 2});
+        when(mockFinalSolution.getPath()).thenReturn(new int[]{0, 1});
+
+        NearestNeighbor mockNN = mock(NearestNeighbor.class);
+        Solution mockInitialSolution = mock(Solution.class);
+        when(mockNN.execute(anyInt(), anyInt())).thenReturn(mockInitialSolution);
 
         double[][] relationMatrixTest = {
             {0.0, 0.0},
             {0.0, 0.0}
         };
-        AlgorithmController controller = new AlgorithmController(relationMatrixTest);
+        AlgorithmController controller = new AlgorithmController(relationMatrixTest, mockNN, mockHC);
+        //nos dan igual las soluciones iniciales porque en ultima instancia lo que importa es lo que retorne la clase HC, de la cual tenemos mock
 
         //no hacemos mock de algorithmNames ya que simplemente es un enum y no una clase como tal
-        Object[] result = controller.executeAlgorithm(AlgorithmsNames.HC);
+        Object[] result = controller.executeAlgorithm("HC");
 
-        assertArrayEquals(new int[]{0, 1, 2}, (int[]) result[0]);
-        assertEquals(10, result[1]); 
-        assertEquals("Hill Climbing", result[2]);
+        assertArrayEquals(new int[]{0, 1}, (int[]) result[0]);
+        assertEquals(5.0, result[1]);
+        assertEquals("HC", result[2]);
     }
 
     @Test(expected = Exception.class)
