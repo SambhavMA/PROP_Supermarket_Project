@@ -198,8 +198,8 @@ public class ControllerPresentacio {
         }
 
         try {
-            cDom.addSimilarityTable(products, similarities);
-            cIO.writeLine("La taula de similitud s'ha afegit correctament.");
+            int similarityTableId = cDom.addSimilarityTable(products, similarities);
+            cIO.writeLine("Taula de similitud afegida amb identificador: " + similarityTableId);
         } catch (ProductNotFoundException e) {
             cIO.writeLine("ERROR: " + e.getMessage());
         }
@@ -326,8 +326,8 @@ public class ControllerPresentacio {
                 cIO.writeLine(String.valueOf(p));
             }
 
-            cDom.generateDistribution(id, cost, names, chosenAlgorithm);
-
+            int distributionId = cDom.generateDistribution(id, cost, names, chosenAlgorithm);
+            cIO.writeLine("Distribution generated with id: " + distributionId);
         } catch (SimilarityTableNotFoundException e) {
             cIO.writeLine("ERROR: " + e.getMessage());
         } catch (Exception e) {

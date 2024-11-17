@@ -13,9 +13,7 @@ import model.distribution.DistributionContainer;
 import model.similarity.SimilarityTableContainer;
 import model.similarity.SimilarityTable;
 import utils.Pair;
-import utils.UserView;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
@@ -24,7 +22,6 @@ public class ControllerDomini {
     private ProductContainer productContainer = new ProductContainer();
     private DistributionContainer distributionContainer = new DistributionContainer();
     private SimilarityTableContainer similarityTableContainer = new SimilarityTableContainer();
-    private UserView userView = new UserView();
 
     private static ControllerDomini singletonObject;
 
@@ -57,6 +54,7 @@ public class ControllerDomini {
      * @param name Nom del producte
      * @param type Tipus del producte
      * @throws ProductAlreadyExistsException Si el producte ja existeix
+     * @throws NoTypeWithName                Si el tipus no existeix
      */
     public void addProduct(String name, String type) throws ProductAlreadyExistsException, NoTypeWithName {
         EnumType eType;
@@ -68,7 +66,6 @@ public class ControllerDomini {
 
         Product product = new Product(name, eType);
         productContainer.addProduct(product);
-        userView.showMessage("Product added: " + name);
     }
 
     /**
@@ -76,6 +73,8 @@ public class ControllerDomini {
      * 
      * @param name    Nom del producte
      * @param newType Nou tipus del producte
+     * @throws ProductNotFoundException Si el producte a modificar no existeix
+     * @throws NoTypeWithName          Si el nou tipus no existeix
      */
     public void modifyProduct(String name, String newType) throws ProductNotFoundException, NoTypeWithName {
         EnumType eNewType;
@@ -91,24 +90,24 @@ public class ControllerDomini {
         }
 
         product.setType(eNewType);
-        userView.showMessage("Product modified: " + name);
     }
 
     /**
      * Elimina un producte existent
      * 
      * @param name Nom del producte a eliminar
-     * @throws ProductNotFoundException Si el producte no existeix
+     * @throws ProductNotFoundException Si el producte a eliminar no existeix
      */
     public void deleteProduct(String name) throws ProductNotFoundException {
         productContainer.deleteProductByName(name);
-        userView.showMessage("Product deleted: " + name);
     }
 
     /**
-     * Torna un producte si existeix
+     * Retorna un producte si existeix
      * 
-     * @param name Nom del producte a comprovar
+     * @param name Nom del producte a buscar
+     * @return Pair amb el nom i el tipus del producte
+     * @throws ProductNotFoundException Si el producte buscat no existeix
      */
     public Pair<String, String> getProduct(String name) throws ProductNotFoundException {
         Product product = productContainer.getProductByName(name);
@@ -116,11 +115,14 @@ public class ControllerDomini {
     }
 
     /**
-     * Afegeix una nova taula de similitud
+     * Crea una nova taula de similitud i l'afegeix al container de taules de similitud
      * 
-     * @param similarityTable Taula de similitud a afegir
+     * @param productos   Llista de productes de la taula de similitud
+     * @param similitudes Llista de similituds entre productes (producte1, producte2, similitud)
+     * @return Identificador de la taula de similitud creada
+     * @throws ProductNotFoundException Si algun dels productes que formen la taula no existeix
      */
-    public void addSimilarityTable(List<String> productos, List<Pair<Pair<String, String>, Double>> similitudes)
+    public int addSimilarityTable(List<String> productos, List<Pair<Pair<String, String>, Double>> similitudes)
             throws ProductNotFoundException {
         int newId = similarityTableContainer.newId();
 
@@ -146,14 +148,17 @@ public class ControllerDomini {
 
         SimilarityTable similarityTable = new SimilarityTable(newId, fastIndexes, relationMatrix);
         similarityTableContainer.addSimilarityTable(newId, similarityTable);
+
+        return newId;
     }
 
     /**
-     * Modifica una taula de similitud
+     * Modifica els valors de les similituds d'una taula de similitud
      * 
-     * @param id                 Identificador de la taula de similitud
-     * @param newSimilarityTable Taula de similitud amb els nous canvis
-     * @throws SimilarityTableNotFoundException Si la taula de similitud no existeix
+     * @param id                 Identificador de la taula de similitud a modificar
+     * @param nuevasSimilitudes  Llista de noves similituds entre dos productes ja existents a la taula
+     * @throws SimilarityTableNotFoundException Si la taula de similitud a modificar no existeix
+     * @throws ProductNotFoundException          Si algun dels productes no existeix
      */
     public void modifySimilarityTable(int id, List<Pair<Pair<String, String>, Double>> nuevasSimilitudes)
             throws SimilarityTableNotFoundException, ProductNotFoundException {
@@ -192,9 +197,11 @@ public class ControllerDomini {
     }
 
     /**
-     * Retorna una taula de similitud
+     * Retorna una taula de similitud si existeix
      * 
-     * @param id Identificador de la taula de similitud a comprovar
+     * @param id Identificador de la taula de similitud a buscar
+     * @return Pair amb els productes de la taula i la matriu de similituds
+     * @throws SimilarityTableNotFoundException Si la taula de similitud a buscar no existeix
      */
     public Pair<Vector<Pair<String, Integer>>, double[][]> getSimilarityTable(int id)
             throws SimilarityTableNotFoundException {
@@ -211,18 +218,30 @@ public class ControllerDomini {
     }
 
     /**
-     * Afegeix una nova distribució al container de distribucions
+     * Crea i afegeix una nova distribució al container de distribucions
      *
-     * @param distribution Distribució a afegir
+     * @param similarityTableId Identificador de la taula de similitud a generar
+     * @param cost              Cost de la distribució
+     * @param order             Ordre dels productes de la distribució (Producte1, Producte2, ..., ProducteN)
+     * @param usedAlgorithm     Nom de l'algoritme utilitzat per generar la distribució
+     * @return Identificador de la distribució creada
      */
-    public void generateDistribution(int similarityTableId, double cost, Vector<String> order,
+    public int generateDistribution(int similarityTableId, double cost, Vector<String> order,
             String usedAlgorithm) {
         int id = distributionContainer.newId();
         Distribution distribution = new Distribution(id, similarityTableId, cost, order, usedAlgorithm, 0);
         distributionContainer.addDistribution(id, distribution);
-        userView.showMessage("Distribution generated: " + distribution.getId());
+
+        return distribution.getId();
     }
 
+    /**
+     * Modifica una distribució existent
+     *
+     * @param id      Identificador de la distribució a modificar
+     * @param changes Llista de productes a intercanviar d'ordre
+     * @throws DistributionNotFoundException Si la distribució a modificar no existeix
+     */
     public void modifyDistribution(int id, List<Pair<String, String>> changes) throws DistributionNotFoundException {
         Distribution distribution = distributionContainer.getDistributionById(id);
 
@@ -242,34 +261,21 @@ public class ControllerDomini {
      * Elimina una distribució del container de distribucions
      *
      * @param id Identificador de la distribució a eliminar
-     * @throws DistributionNotFoundException Si la distribució no existeix
+     * @throws DistributionNotFoundException Si la distribució a eliminar no existeix
      */
     public void deleteDistribution(int id) throws DistributionNotFoundException {
         distributionContainer.deleteDistributionById(id);
-        userView.showMessage("Distribution deleted: " + id);
     }
 
     /**
-     * Comprova si una distribució existeix
+     * Retorna una distribucio si existeix
      *
-     * @param id Identificador de la distribució a comprovar
+     * @param id Identificador de la distribució a buscar
+     * @return Distribució amb l'identificador id
+     * @throws DistributionNotFoundException Si la distribució a retornar no existeix
      */
     public Distribution getDistribution(int id) throws DistributionNotFoundException {
         Distribution distribution = distributionContainer.getDistributionById(id);
         return distribution;
     }
-
-    /*
-     * public void testingAlgorithm() throws Exception {
-     * double[][] costes = {
-     * {0.0, 0.2, 0.4, 0.6},
-     * {0.2, 0.0, 0.8, 0.3},
-     * {0.4, 0.8, 0.0, 0.7},
-     * {0.6, 0.3, 0.7, 0.0}
-     * };
-     * AlgorithmController alg = new AlgorithmController(costes);
-     * String[] s = alg.getAlgorithms();111
-     * Object[] data = alg.executeAlgorithm(AlgorithmsNames.NN);
-     * }
-     */
 }
