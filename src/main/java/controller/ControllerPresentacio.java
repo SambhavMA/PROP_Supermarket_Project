@@ -1,6 +1,5 @@
 package controller;
 
-import controller.ControllerIO;
 import model.algorithm.AlgorithmController;
 import model.distribution.Distribution;
 import model.exceptions.DistributionNotFoundException;
@@ -8,16 +7,13 @@ import model.exceptions.NoTypeWithName;
 import model.exceptions.ProductAlreadyExistsException;
 import model.exceptions.ProductNotFoundException;
 import model.exceptions.SimilarityTableNotFoundException;
-import model.product.EnumType;
-import model.product.Product;
-import model.similarity.SimilarityTable;
-import model.distribution.*;
 import utils.Pair;
 
 import java.util.*;
 
-import controller.ControllerDomini;
-
+/**
+ * @author Joan Gomez Catala (joan.gomez.catala@estudiantat.upc.edu)
+ */
 public class ControllerPresentacio {
     private ControllerDomini cDom = new ControllerDomini();
     private ControllerIO cIO = new ControllerIO(this);
@@ -266,15 +262,15 @@ public class ControllerPresentacio {
         try {
             Pair<Vector<Pair<String, Integer>>, double[][]> table = cDom.getSimilarityTable(id);
 
-            Vector<Pair<String, Integer>> products = table.getFirst();
-            double[][] similarities = table.getSecond();
+            Vector<Pair<String, Integer>> products = table.first();
+            double[][] similarities = table.second();
             for (int i = 0; i < products.size(); i++) {
-                cIO.writeLine("Product: " + products.get(i).getFirst() + " - Index: " + products.get(i).getSecond());
+                cIO.writeLine("Product: " + products.get(i).first() + " - Index: " + products.get(i).second());
             }
             for (int i = 0; i < similarities.length; i++) {
                 for (int j = 0; j < similarities[i].length; j++) {
-                    cIO.writeLine("Similarity between " + products.get(i).getFirst() + " and "
-                            + products.get(j).getFirst() + ": " + similarities[i][j]);
+                    cIO.writeLine("Similarity between " + products.get(i).first() + " and "
+                            + products.get(j).first() + ": " + similarities[i][j]);
                 }
             }
         } catch (SimilarityTableNotFoundException e) {
@@ -292,7 +288,7 @@ public class ControllerPresentacio {
         double[][] costs = null;
         try {
             Pair<Vector<Pair<String, Integer>>, double[][]> similarityTable = cDom.getSimilarityTable(id);
-            double[][] relationMatrix = similarityTable.getSecond();
+            double[][] relationMatrix = similarityTable.second();
 
             AlgorithmController cAlg = new AlgorithmController(relationMatrix);
 
@@ -309,13 +305,13 @@ public class ControllerPresentacio {
             int[] path = (int[]) result[0];
             double cost = (double) result[1];
 
-            Vector<Pair<String, Integer>> fastIndexes = similarityTable.getFirst();
+            Vector<Pair<String, Integer>> fastIndexes = similarityTable.first();
             Vector<String> names = new Vector<>(path.length);
 
             for (int n : path) {
                 for (Pair<String, Integer> pair : fastIndexes) {
-                    if (pair.getSecond().equals(n)) {
-                        names.add(pair.getFirst());
+                    if (pair.second().equals(n)) {
+                        names.add(pair.first());
                         break;
                     }
                 }

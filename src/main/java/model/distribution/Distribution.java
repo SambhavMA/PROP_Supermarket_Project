@@ -3,6 +3,9 @@ package model.distribution;
 import java.util.Vector;
 import java.util.ArrayList;
 
+/**
+ * @author Joan Gomez Catala (joan.gomez.catala@estudiantat.upc.edu)
+ */
 public class Distribution {
     private int id;
     private int similarityTableId;

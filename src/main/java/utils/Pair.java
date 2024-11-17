@@ -1,5 +1,8 @@
 package utils;
 
+/**
+ * @author Joan Gomez Catala (joan.gomez.catala@estudiantat.upc.edu)
+ */
 public class Pair <T1,T2>{
     public T1 first;
     public T2 second;
@@ -10,10 +13,10 @@ public class Pair <T1,T2>{
         this.first = first;
         this.second = second;
     }
-    public T1 getFirst() {
+    public T1 first() {
         return first;
     }
-    public T2 getSecond() {
+    public T2 second() {
         return second;
     }
 }

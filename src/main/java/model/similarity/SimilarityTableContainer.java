@@ -5,6 +5,9 @@ import model.exceptions.SimilarityTableNotFoundException;
 import java.util.Collection;
 import java.util.HashMap;
 
+/**
+ * @author Joan Gomez Catala (joan.gomez.catala@estudiantat.upc.edu)
+ */
 public class SimilarityTableContainer {
     private HashMap<Integer, SimilarityTable> similarityTables = new HashMap<>();
     private int idCounter;

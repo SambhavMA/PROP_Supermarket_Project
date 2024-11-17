@@ -9,6 +9,9 @@ import model.exceptions.SimilarityTableNotFoundException;
 import utils.Pair;
 import java.util.Vector;
 
+/**
+ * @author Joan Gomez Catala (joan.gomez.catala@estudiantat.upc.edu)
+ */
 public class ControllerIO {
     private Scanner scanner;
     private ControllerPresentacio controllerP;

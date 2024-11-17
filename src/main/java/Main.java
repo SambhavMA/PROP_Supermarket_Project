@@ -1,5 +1,3 @@
-package edu.upc.prop.supermarket;
-
 import controller.ControllerPresentacio;
 
 public class Main {

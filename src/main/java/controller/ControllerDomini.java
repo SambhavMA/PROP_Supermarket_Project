@@ -18,6 +18,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
 
+/**
+ * @author Joan Gomez Catala (joan.gomez.catala@estudiantat.upc.edu)
+ */
 public class ControllerDomini {
     private ProductContainer productContainer = new ProductContainer();
     private DistributionContainer distributionContainer = new DistributionContainer();
@@ -134,9 +137,9 @@ public class ControllerDomini {
         double[][] relationMatrix = new double[productos.size()][productos.size()];
 
         for (Pair<Pair<String, String>, Double> similitud : similitudes) {
-            String product1 = similitud.getFirst().getFirst();
-            String product2 = similitud.getFirst().getSecond();
-            Double value = similitud.getSecond();
+            String product1 = similitud.first().first();
+            String product2 = similitud.first().second();
+            Double value = similitud.second();
 
             Integer index1 = fastIndexes.get(product1);
             if (index1 == null) throw new ProductNotFoundException(product1);
@@ -167,9 +170,9 @@ public class ControllerDomini {
         double[][] relationMatrix = similarityTable.getRelationMatrix();
 
         for (Pair<Pair<String, String>, Double> similitud : nuevasSimilitudes) {
-            String product1 = similitud.getFirst().getFirst();
-            String product2 = similitud.getFirst().getSecond();
-            Double value = similitud.getSecond();
+            String product1 = similitud.first().first();
+            String product2 = similitud.first().second();
+            Double value = similitud.second();
 
 
             Integer index1 = fastIndexes.get(product1);
@@ -246,8 +249,8 @@ public class ControllerDomini {
         Distribution distribution = distributionContainer.getDistributionById(id);
 
         for (Pair<String, String> change : changes) {
-            String p1 = change.getFirst();
-            String p2 = change.getSecond();
+            String p1 = change.first();
+            String p2 = change.second();
 
             if (distribution.getOrder().contains(p1) || distribution.getOrder().contains(p2)) {
                 distribution.changeOrder(p1, p2);

@@ -1,5 +1,8 @@
 package model.product;
 
+/**
+ * @author Joan Gomez Catala (joan.gomez.catala@estudiantat.upc.edu)
+ */
 public class Product {
     private String name;
     private EnumType type;

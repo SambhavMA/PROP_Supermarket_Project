@@ -5,6 +5,9 @@ import model.exceptions.ProductNotFoundException;
 
 import java.util.HashMap;
 
+/**
+ * @author Joan Gomez Catala (joan.gomez.catala@estudiantat.upc.edu)
+ */
 public class ProductContainer {
     private HashMap<String, Product> products = new HashMap<>();
 
