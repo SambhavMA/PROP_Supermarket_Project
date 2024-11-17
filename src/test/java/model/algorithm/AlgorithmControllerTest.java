@@ -7,7 +7,6 @@ import static org.mockito.Mockito.*;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.junit.Before;
-import org.junit.Test;
 
 import model.algorithm.HillClimbing;
 import model.algorithm.Solution;
