@@ -129,27 +129,19 @@ public class ControllerDomini {
             fastIndexes.put(productos.get(i), i);
         }
 
-        Vector<Vector<Double>> relationMatrix = new Vector<>();
-        for (int i = 0; i < productos.size(); i++) {
-            Vector<Double> row = new Vector<>();
-            for (int j = 0; j < productos.size(); j++) {
-                row.add(0.0);
-            }
-            relationMatrix.add(row);
-        }
+        double[][] relationMatrix = new double[productos.size()][productos.size()];
 
         for (Pair<Pair<String, String>, Double> similitud : similitudes) {
             String product1 = similitud.getFirst().getFirst();
             String product2 = similitud.getFirst().getSecond();
             Double value = similitud.getSecond();
 
-            if (fastIndexes.containsKey(product1) && fastIndexes.containsKey(product2)) {
-                int index1 = fastIndexes.get(product1);
-                int index2 = fastIndexes.get(product2);
-
-                relationMatrix.get(index1).set(index2, value);
-                relationMatrix.get(index2).set(index1, value);
-            }
+            Integer index1 = fastIndexes.get(product1);
+            if (index1 == null) throw new ProductNotFoundException(product1);
+            Integer index2 = fastIndexes.get(product2);
+            if (index2 == null) throw new ProductNotFoundException(product2);
+            relationMatrix[index1][index2] = value;
+            relationMatrix[index2][index1] = value;
         }
 
         SimilarityTable similarityTable = new SimilarityTable(newId, fastIndexes, relationMatrix);
@@ -164,23 +156,24 @@ public class ControllerDomini {
      * @throws SimilarityTableNotFoundException Si la taula de similitud no existeix
      */
     public void modifySimilarityTable(int id, List<Pair<Pair<String, String>, Double>> nuevasSimilitudes)
-            throws SimilarityTableNotFoundException {
+            throws SimilarityTableNotFoundException, ProductNotFoundException {
         SimilarityTable similarityTable = similarityTableContainer.getSimilarityTableById(id);
         HashMap<String, Integer> fastIndexes = similarityTable.getFastIndexes();
-        Vector<Vector<Double>> relationMatrix = similarityTable.getRelationMatrix();
+        double[][] relationMatrix = similarityTable.getRelationMatrix();
 
         for (Pair<Pair<String, String>, Double> similitud : nuevasSimilitudes) {
             String product1 = similitud.getFirst().getFirst();
             String product2 = similitud.getFirst().getSecond();
             Double value = similitud.getSecond();
 
-            if (fastIndexes.containsKey(product1) && fastIndexes.containsKey(product2)) {
-                int index1 = fastIndexes.get(product1);
-                int index2 = fastIndexes.get(product2);
 
-                relationMatrix.get(index1).set(index2, value);
-                relationMatrix.get(index2).set(index1, value);
-            }
+            Integer index1 = fastIndexes.get(product1);
+            if (index1 == null) throw new ProductNotFoundException(product1);
+            Integer index2 = fastIndexes.get(product2);
+            if (index2 == null) throw new ProductNotFoundException(product2);
+            relationMatrix[index1][index2] = value;
+            relationMatrix[index2][index1] = value;
+
         }
 
         SimilarityTable modifiedSimilarityTable = new SimilarityTable(id, fastIndexes, relationMatrix);
@@ -203,7 +196,7 @@ public class ControllerDomini {
      * 
      * @param id Identificador de la taula de similitud a comprovar
      */
-    public Pair<Vector<Pair<String, Integer>>, Vector<Vector<Double>>> getSimilarityTable(int id)
+    public Pair<Vector<Pair<String, Integer>>, double[][]> getSimilarityTable(int id)
             throws SimilarityTableNotFoundException {
         SimilarityTable similarityTable = similarityTableContainer.getSimilarityTableById(id);
 
@@ -212,7 +205,7 @@ public class ControllerDomini {
             productos.add(new Pair<>(key, similarityTable.getFastIndexes().get(key)));
         }
 
-        Vector<Vector<Double>> relationMatrix = similarityTable.getRelationMatrix();
+        double[][] relationMatrix = similarityTable.getRelationMatrix();
 
         return new Pair<>(productos, relationMatrix);
     }

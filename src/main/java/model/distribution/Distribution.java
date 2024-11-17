@@ -13,7 +13,7 @@ public class Distribution {
     private String usedAlgorithm;
 
     public Distribution(int id, int similarityTableId, Vector<String> order, ArrayList<EnumTypeSections> sections,
-            String usedAlgorithm) {
+                        String usedAlgorithm) {
         this.id = id;
         this.similarityTableId = similarityTableId;
         this.order = order;
@@ -22,7 +22,7 @@ public class Distribution {
     }
 
     public Distribution(int id, int similarityTableId, double cost, Vector<String> order,
-            String usedAlgorithm, double temps) {
+                        String usedAlgorithm, double temps) {
         this.id = id;
         this.similarityTableId = similarityTableId;
         this.cost = cost;

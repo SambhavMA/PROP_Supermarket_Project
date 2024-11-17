@@ -240,7 +240,7 @@ public class ControllerPresentacio {
 
         try {
             cDom.modifySimilarityTable(id, newSimilarities);
-        } catch (SimilarityTableNotFoundException e) {
+        } catch (SimilarityTableNotFoundException | ProductNotFoundException e) {
             cIO.writeLine("ERROR: " + e.toString());
         }
     }
@@ -264,17 +264,17 @@ public class ControllerPresentacio {
 
         int id = cIO.readIntLine();
         try {
-            Pair<Vector<Pair<String, Integer>>, Vector<Vector<Double>>> table = cDom.getSimilarityTable(id);
+            Pair<Vector<Pair<String, Integer>>, double[][]> table = cDom.getSimilarityTable(id);
 
             Vector<Pair<String, Integer>> products = table.getFirst();
-            Vector<Vector<Double>> similarities = table.getSecond();
+            double[][] similarities = table.getSecond();
             for (int i = 0; i < products.size(); i++) {
                 cIO.writeLine("Product: " + products.get(i).getFirst() + " - Index: " + products.get(i).getSecond());
             }
-            for (int i = 0; i < similarities.size(); i++) {
-                for (int j = 0; j < similarities.get(i).size(); j++) {
+            for (int i = 0; i < similarities.length; i++) {
+                for (int j = 0; j < similarities[i].length; j++) {
                     cIO.writeLine("Similarity between " + products.get(i).getFirst() + " and "
-                            + products.get(j).getFirst() + ": " + similarities.get(i).get(j));
+                            + products.get(j).getFirst() + ": " + similarities[i][j]);
                 }
             }
         } catch (Exception e) {
@@ -291,16 +291,10 @@ public class ControllerPresentacio {
 
         double[][] costs = null;
         try {
-            Pair<Vector<Pair<String, Integer>>, Vector<Vector<Double>>> similarityTable = cDom.getSimilarityTable(id);
-            Vector<Vector<Double>> relationMatrix = similarityTable.getSecond();
+            Pair<Vector<Pair<String, Integer>>, double[][]> similarityTable = cDom.getSimilarityTable(id);
+            double[][] relationMatrix = similarityTable.getSecond();
 
-            costs = new double[relationMatrix.size()][relationMatrix.get(0).size()];
-            for (int i = 0; i < relationMatrix.size(); i++) {
-                for (int j = 0; j < relationMatrix.get(i).size(); j++) {
-                    costs[i][j] = 1 - relationMatrix.get(i).get(j);
-                }
-            }
-            AlgorithmController cAlg = new AlgorithmController(costs);
+            AlgorithmController cAlg = new AlgorithmController(relationMatrix);
 
             String[] algorithms = cAlg.getAlgorithms();
             cIO.writeLine("Algorithms available:");
