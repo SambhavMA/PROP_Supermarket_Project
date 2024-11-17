@@ -7,7 +7,6 @@ import java.util.Vector;
 public class SimilarityTable {
     private int id;
     private HashMap<String, Integer> fastIndexes;
-    private Map<Integer, String> fastReverseIndexes;
     private Vector<Vector<Double>> relationMatrix;
 
     // CONSTRUCTORS
@@ -36,10 +35,6 @@ public class SimilarityTable {
 
     public HashMap<String, Integer> getFastIndexes() {
         return fastIndexes;
-    }
-
-    public Map<Integer, String> getFastReverseIndexes() {
-        return fastReverseIndexes;
     }
 
     public Vector<Vector<Double>> getRelationMatrix() {
