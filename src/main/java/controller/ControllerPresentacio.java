@@ -14,10 +14,7 @@ import model.similarity.SimilarityTable;
 import model.distribution.*;
 import utils.Pair;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Vector;
+import java.util.*;
 
 import controller.ControllerDomini;
 
@@ -76,6 +73,7 @@ public class ControllerPresentacio {
                 getDistribution();
                 break;
             case "13":
+                cIO.exit();
                 break;
             default:
                 System.out.println("Invalid option.");
@@ -93,10 +91,8 @@ public class ControllerPresentacio {
 
         try {
             cDom.addProduct(nom, tipus);
-        } catch (ProductAlreadyExistsException e) {
-            cIO.writeLine("ERROR: " + e.toString());
-        } catch (NoTypeWithName e) {
-            cIO.writeLine("ERROR: " + e.toString());
+        } catch (ProductAlreadyExistsException | NoTypeWithName e) {
+            cIO.writeLine("ERROR: " + e.getMessage());
         }
     }
 
@@ -110,10 +106,8 @@ public class ControllerPresentacio {
 
         try {
             cDom.modifyProduct(nom, nouTipus);
-        } catch (ProductNotFoundException e) {
-            cIO.writeLine("ERROR: " + e.toString());
-        } catch (NoTypeWithName e) {
-            cIO.writeLine("ERROR: " + e.toString());
+        } catch (ProductNotFoundException | NoTypeWithName e) {
+            cIO.writeLine("ERROR: " + e.getMessage());
         }
     }
 
@@ -126,7 +120,7 @@ public class ControllerPresentacio {
         try {
             cDom.deleteProduct(nom);
         } catch (ProductNotFoundException e) {
-            cIO.writeLine("ERROR: " + e.toString());
+            cIO.writeLine("ERROR: " + e.getMessage());
         }
     }
 
@@ -140,12 +134,12 @@ public class ControllerPresentacio {
             Pair<String, String> product = cDom.getProduct(nom);
             cIO.writeLine("Producte: " + product.first + " Tipus: " + product.second);
         } catch (ProductNotFoundException e) {
-            cIO.writeLine("ERROR: " + e.toString());
+            cIO.writeLine("ERROR: " + e.getMessage());
         }
     }
 
     public void addSimilarityTable() {
-        cIO.writeLine("Ha escollit l'opció Add Similarity Table");
+        cIO.writeLine("Ha escollit l'opcio Add Similarity Table");
         cIO.writeLine(
                 "Indiqui els noms dels productes que vol afegir a la taula de similitud, un per línia. Quan hagi acabat, escrigui 'fi'");
 
@@ -159,7 +153,13 @@ public class ControllerPresentacio {
                 cIO.writeLine("El nom del producte no pot estar buit. Torni a intentar-ho.");
                 continue;
             }
-            products.add(line);
+            // mirar que line sea un producto valido
+            try {
+                cDom.getProduct(line);
+                products.add(line);
+            } catch (ProductNotFoundException e) {
+                cIO.writeLine("ERROR: " + e.getMessage());
+            }
         }
 
         cIO.writeLine("Indiqui les similituds entre els productes, una per línia. Quan hagi acabat, escrigui 'fi'");
@@ -193,7 +193,7 @@ public class ControllerPresentacio {
             } catch (NumberFormatException e) {
                 cIO.writeLine("El valor de similitud no és un número vàlid. Torni a intentar-ho.");
             } catch (Exception e) {
-                cIO.writeLine("Error al processar la entrada. Comprovi el format i torni-ho a intentar.aaaaa");
+                cIO.writeLine("Error al processar la entrada. Comprovi el format i torni-ho a intentar.");
             }
         }
 
@@ -241,7 +241,7 @@ public class ControllerPresentacio {
         try {
             cDom.modifySimilarityTable(id, newSimilarities);
         } catch (SimilarityTableNotFoundException | ProductNotFoundException e) {
-            cIO.writeLine("ERROR: " + e.toString());
+            cIO.writeLine("ERROR: " + e.getMessage());
         }
     }
 
@@ -254,7 +254,7 @@ public class ControllerPresentacio {
         try {
             cDom.deleteSimilarityTable(id);
         } catch (SimilarityTableNotFoundException e) {
-            System.out.println("ERROR: " + e.toString());
+            System.out.println("ERROR: " + e.getMessage());
         }
     }
 
@@ -277,8 +277,8 @@ public class ControllerPresentacio {
                             + products.get(j).getFirst() + ": " + similarities[i][j]);
                 }
             }
-        } catch (Exception e) {
-            cIO.writeLine("ERROR: " + e.toString());
+        } catch (SimilarityTableNotFoundException e) {
+            cIO.writeLine("ERROR: " + e.getMessage());
         }
     }
 
@@ -329,9 +329,10 @@ public class ControllerPresentacio {
             cDom.generateDistribution(id, cost, names, chosenAlgorithm);
 
         } catch (SimilarityTableNotFoundException e) {
-            cIO.writeLine("ERROR: " + e.toString());
+            cIO.writeLine("ERROR: " + e.getMessage());
         } catch (Exception e) {
-            cIO.writeLine("ERROR: " + e.toString());
+            // para todas las otras excepciones de algorithmController
+            cIO.writeLine("ERROR: " + e.getMessage());
         }
 
     }
@@ -363,7 +364,12 @@ public class ControllerPresentacio {
                 String product1 = parts[0];
                 String product2 = parts[1];
 
+                cDom.getProduct(product1);
+                cDom.getProduct(product2);
+
                 changes.add(new Pair<>(product1, product2));
+            } catch (ProductNotFoundException e) {
+                cIO.writeLine("ERROR: " + e.getMessage());
             } catch (Exception e) {
                 cIO.writeLine("Error al processar la entrada. Comprovi el format i torni-ho a intentar.");
             }
@@ -371,8 +377,8 @@ public class ControllerPresentacio {
 
         try {
             cDom.modifyDistribution(id, changes);
-        } catch (Exception e) {
-            cIO.writeLine("ERROR: " + e.toString());
+        } catch (DistributionNotFoundException e) {
+            cIO.writeLine("ERROR: " + e.getMessage());
         }
     }
 
@@ -385,7 +391,7 @@ public class ControllerPresentacio {
         try {
             cDom.deleteDistribution(id);
         } catch (DistributionNotFoundException e) {
-            cIO.writeLine("ERROR: " + e.toString());
+            cIO.writeLine("ERROR: " + e.getMessage());
         }
     }
 
@@ -393,7 +399,14 @@ public class ControllerPresentacio {
         cIO.writeLine("Ha escollit l'opcio Get Distribution");
         cIO.writeLine("Indiqui l'id de distribucio que vol veure:");
 
-        int id = cIO.readIntLine();
+        int id;
+
+        try {
+            id = cIO.readIntLine();
+        } catch (InputMismatchException e) {
+            cIO.writeLine("ERROR: L'identificador ha de ser un numero enter valid.");
+            return;
+        }
 
         try {
             Distribution distribution = cDom.getDistribution(id);
@@ -406,21 +419,7 @@ public class ControllerPresentacio {
             }
             cIO.writeLine("Algorithm: " + distribution.getUsedAlgorithm());
         } catch (DistributionNotFoundException e) {
-            cIO.writeLine("ERROR: " + e.toString());
+            cIO.writeLine("ERROR: " + e.getMessage());
         }
     }
-
-    /*
-     * public void testingAlgorithm() throws Exception {
-     * double[][] costes = {
-     * {0.0, 0.2, 0.4, 0.6},
-     * {0.2, 0.0, 0.8, 0.3},
-     * {0.4, 0.8, 0.0, 0.7},
-     * {0.6, 0.3, 0.7, 0.0}
-     * };
-     * AlgorithmController alg = new AlgorithmController(costes);
-     * String[] s = alg.getAlgorithms();
-     * Object[] data = alg.executeAlgorithm(AlgorithmsNames.NN);
-     * }
-     */
 }

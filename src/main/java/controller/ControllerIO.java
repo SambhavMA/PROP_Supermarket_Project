@@ -54,6 +54,8 @@ public class ControllerIO {
     }
 
     public void exit() {
+        System.out.println("\nAdios!\n");
+        System.exit(0);
     }
 
 }
