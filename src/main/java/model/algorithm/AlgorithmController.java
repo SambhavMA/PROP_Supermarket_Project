@@ -89,21 +89,27 @@ public class AlgorithmController {
         AlgorithmsNames algorithm = AlgorithmsNames.valueOf(a);
 
         Solution solution;
+        //double durationInSeconds;
+        //long startTime, endTime;
         switch(algorithm) {
             case NN:
                 //Algorithm nearestNeighbor = new NearestNeighbor();
+                //startTime = System.nanoTime();
                 Random rand = new Random();
                 solution = nearestNeighbor.execute(rand.nextInt(costs.length), costs.length);
+                //endTime = System.nanoTime();
                 break;
             case HC:
                 //Algorithm startingAlgorithmNN = new NearestNeighbor();
                 Solution[] initialSolutions = new Solution[3];
+                //startTime = System.nanoTime();
                 for (int i = 0; i < 3; i++) {
                     Random rand2 = new Random();
                     initialSolutions[i] = nearestNeighbor.execute(rand2.nextInt(costs.length), costs.length);
                 }
                 //Algorithm hillClimbing = new HillClimbing();
                 solution = hillClimbing.execute(initialSolutions);
+                //endTime = System.nanoTime();
                 break;
             default:
                 solution = null;
@@ -111,7 +117,8 @@ public class AlgorithmController {
                 break;
         }
         double finalCost = ((-1)*solution.getCost()) + solution.getSize();
-        return new Object[]{solution.getPath(), finalCost, algorithm.toString()};
+        //durationInSeconds = (endTime - startTime) / 1_000_000_000.0;
+        return new Object[]{solution.getPath(), finalCost, algorithm.toString()/* , durationInSeconds*/};
     }
 
 
