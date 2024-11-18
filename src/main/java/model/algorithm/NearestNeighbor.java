@@ -7,7 +7,8 @@ import java.util.ListIterator;
 import java.util.Random;
 
 /*
- * @author Sergio Polo
+ * @author Sergio Polo (sergio.polo@estudiantat.upc.edu)
+ *
  * Clase del Algoritmo Nearest Neighbor
  * 
  * <p>El algoritmo Nearest Neighbor, a partir de un nodo inicial, busca el nodo conexo a este con menor coste, 

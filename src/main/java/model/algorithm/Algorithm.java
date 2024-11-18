@@ -1,7 +1,7 @@
 package model.algorithm;
 
 /*
- * @author Sergio Polo
+ * @author Sergio Polo (sergio.polo@estudiantat.upc.edu)
  * 
  * Clase Algoritmo, es una clase abstracta que representa a un algoritmo
  * 

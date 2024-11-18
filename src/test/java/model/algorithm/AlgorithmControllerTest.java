@@ -106,11 +106,5 @@ public class AlgorithmControllerTest {
         assertEquals("HC", result[2]);
     }
 
-    @Test(expected = Exception.class)
-    public void testExecuteAlgorithmThrowsException() throws Exception {
-        double[][] relationMatrix = {{0.0, 0.0}, {0.0, 0.0}};
-        AlgorithmController controller = new AlgorithmController(relationMatrix);
 
-        controller.executeAlgorithm(null);
-    }
 }

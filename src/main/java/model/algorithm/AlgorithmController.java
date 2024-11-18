@@ -5,8 +5,8 @@ import java.util.Random;
 
 
 /**
- * @author Sergio Polo 
- 
+ * @author Sergio Polo (sergio.polo@estudiantat.upc.edu)
+ *
  * Controlador de las clases relacionadas con el algoritmo
  * 
  * <p> Sirve para aislar la lógica del package de algoritmo del resto del programa.
@@ -16,6 +16,10 @@ import java.util.Random;
  * la distribución de productos que queremos generar en el programa principal.</p>
 */
 public class AlgorithmController {
+    /**
+     * Matriz con los costos entre productos, cuanto menor es el coste entre dos productos, mayor es la relación
+     * entre estos productos
+     */
     protected static double[][] costs;
 
     private Algorithm nearestNeighbor;
@@ -54,11 +58,7 @@ public class AlgorithmController {
 
     public static double[][] getCosts() { //usada en el testing
         return costs;
-    }
-
-    public static double[][] getCosts() { // usada en el testing
-        return costs;
-    }
+    } //usada en el testing
 
     public String[] getAlgorithms() {
         String[] algorithms = new String[AlgorithmsNames.values().length];
@@ -118,7 +118,6 @@ public class AlgorithmController {
                 break;
             default:
                 solution = null;
-                // THROW ERROR
                 break;
         }
         

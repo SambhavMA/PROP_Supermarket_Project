@@ -6,7 +6,8 @@ import static model.algorithm.AlgorithmController.costs;
 
 
 /**
- * @author Sergio Polo y Sambhav Mayani Harlani
+ * @author Sergio Polo y Sambhav Mayani Harlani (sergio.polo@estudiantat.upc.edu i sambhav.mayani@estudiantat.upc.edu)
+ *
  * Clase solución
  * 
  * <p>Representa una solución al problema de ciclo hamiltoniano respecto al grafo representado
