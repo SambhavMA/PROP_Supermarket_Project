@@ -1,9 +1,0 @@
-Els algoritmes de cerca d'un arbre d'expansio minim com Kruskal o Prim, no troben una solucio valida al TSP. En molt poca probabilitat, l'arbre d'expansio minim pot ser una solucio sub-optima perque el cami que genera repeteix vertexos i per tant no es hamiltonia. Aquesta estrategia, forca a aplicar cerca local a partir d'aquesta no solucio.
-Degut a que nomes un existeix un arbre d'expansio minim per un graf concret, aplicar cerca local a partir d'aquest considerem que no 
-es efectiu doncs sempre portara a la mateixa solucio aplicant Hill Climbing multiples vegades i segons les caracteristiques del graf es pot estancar en un minim local facilment.
-Per tant, prioritzarem el factor d'arbitrarietat de la solucio inicial (tot i que les solucions inicials no siguin 
-tan bones) per tal que aplicant Hill Climbing d'escalada simple -que es mes eficient temporalment i combina mijor amb multiples execucions de solucions inicials- i poguer explorar un major espai de busqueda (per tal de no estancar-se en minims locals). Amb aixo, prioritzem generar solucions inicials amb algoritmes voracos menys costosos i aplicar Hill Climbing a aquestes solucions inicials.
-L'objectiu es fer una cerca de major cantitat pero menor cost temporal, per tal de quedar-nos amb la solucio mes optima.
-
-Demostracio que l'algorisme Nearest Neighbour podria donar camins de diferent cost depenent on es comenca.
-
