@@ -1,29 +1,19 @@
-# Initial commit 
+# COMO EJECUTAR EL PROYECTO
 
-Useful commands:
+## REQUISITOS:
+- Hay que estar en linux o mac
+- Hay que tener instalado java 22
 
-
-./gradlew test: will run your unit tests.
-./gradlew run : will run your application in the environment. This is useful to test your application in the development environment.
-./gradlew jar: will create the jar inside the directory <project root>/build/libs with only the project's code. Not dependencies.
-./gradlew assembleDist: will create a .tar and a .zip (both contain the same) in the directory <project root>/build/distributions that contain
-the whole directory structure that will allow to install your project along with its dependencies in a machine without IDE (only with java 11 installed) and run it.
-./gradlew clean: will clean the compilation files and the created artifacts
-
-
-More info
-
-
-Gradle application plugin
-https://docs.gradle.org/current/userguide/application_plugin.html
-
---Commit
-git add .
-git commit -m "Info commit"
-git push origin X-nom-issue
-
---Actualizar si tenemos commit pedientes
-git checkout main
-git pull
-git checkout X-nom-issue
-git merge main
+## FUNCIONALIDADES:
+### Gradle
+- ./gradlew build: compila el proyecto
+- ./gradlew test: corre los tests
+### Desde InteliJ IDE
+- Run 'Main' para correr el programa e introducir los datos por consola
+- Run 'Test' para correr los tests
+### Desde la terminal
+Después de compilar el proyecto con ./gradlew build, se puede correr el programa con los siguientes comandos:
+```
+# cd build/classes/java/main/
+# java Main < ../../../../juegosDePrueba/"nombreDelJuegoDePruebas"
+```
