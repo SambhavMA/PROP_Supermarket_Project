@@ -1,6 +1,5 @@
 package model.algorithm;
 
-
 import java.util.Arrays;
 import java.util.Random;
 
@@ -57,6 +56,10 @@ public class AlgorithmController {
         return costs;
     }
 
+    public static double[][] getCosts() { // usada en el testing
+        return costs;
+    }
+
     public String[] getAlgorithms() {
         String[] algorithms = new String[AlgorithmsNames.values().length];
         for (int i = 0; i < algorithms.length; i++) {
@@ -64,6 +67,7 @@ public class AlgorithmController {
         }
         return algorithms;
     }
+
 
     /**
      * Método para ejecutar un algoritmo
@@ -89,6 +93,7 @@ public class AlgorithmController {
         AlgorithmsNames algorithm = AlgorithmsNames.valueOf(a);
 
         Solution solution;
+
         //double durationInSeconds;
         //long startTime, endTime;
         switch(algorithm) {
@@ -113,14 +118,13 @@ public class AlgorithmController {
                 break;
             default:
                 solution = null;
-                //THROW ERROR
+                // THROW ERROR
                 break;
         }
+        
         double finalCost = ((-1)*solution.getCost()) + solution.getSize();
         //durationInSeconds = (endTime - startTime) / 1_000_000_000.0;
         return new Object[]{solution.getPath(), finalCost, algorithm.toString()/* , durationInSeconds*/};
     }
-
-
 
 }

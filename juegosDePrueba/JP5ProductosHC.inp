@@ -1,0 +1,49 @@
+1
+A
+Fruita
+1
+B
+Verdura
+1
+C
+Verdura
+1
+D
+Fruita
+1
+E
+Peix
+5
+A
+B
+C
+D
+E
+fi
+A B 0.7
+A C 0.8
+A D 1.0
+A E 0.2
+B A 0.7
+B C 0.9
+B D 0.3
+B E 0.6
+C A 0.8
+C B 0.9
+C D 0.5
+C E 0.4
+D A 1.0
+D B 0.3
+D C 0.5
+D E 0.1
+E A 0.2
+E B 0.6
+E C 0.4
+E D 0.1
+fi
+9
+1
+HC
+12
+1
+13

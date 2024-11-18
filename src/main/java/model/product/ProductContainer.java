@@ -1,15 +1,41 @@
 package model.product;
 
+import model.exceptions.ProductAlreadyExistsException;
+import model.exceptions.ProductNotFoundException;
+
 import java.util.HashMap;
 
+/**
+ * @author Joan Gomez Catala (joan.gomez.catala@estudiantat.upc.edu)
+ */
 public class ProductContainer {
     private HashMap<String, Product> products = new HashMap<>();
 
-    public void addProduct(Product product) {
-        products.put(product.getName(), product);
+    public void addProduct(Product product)  throws ProductAlreadyExistsException {
+        String name = product.getName();
+        if (products.containsKey(name)) {
+            throw new ProductAlreadyExistsException(name);
+        }
+        products.put(name, product);
+        new Product(name, product.getType());
     }
 
-    public Product getProductByName(String name) {
-        return products.get(name);
+    public HashMap<String, Product> getProducts() {
+        return products;
+    }
+
+    public Product getProductByName(String name) throws ProductNotFoundException {
+        if (products.containsKey(name)) {
+            return products.get(name);
+        }
+        throw new ProductNotFoundException(name);
+    }
+
+    // TODO aixo s'ha de fer amb excepcions, tambe hem de borrar de la classe Producte
+    public void deleteProductByName(String name) throws ProductNotFoundException {
+        if (!products.containsKey(name)) {
+            throw new ProductNotFoundException(name);
+        }
+        products.remove(name);
     }
 }
