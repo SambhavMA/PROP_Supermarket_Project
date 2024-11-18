@@ -6,7 +6,7 @@ import static model.algorithm.AlgorithmController.costs;
 
 
 /**
- * @author Sergio Polo y Sambhav Mayani Harlani (sergio.polo@estudiantat.upc.edu i sambhav.mayani@estudiantat.upc.edu)
+ * @author Sergio Polo y Sambhav Mayani Harlani (sergio.polo@estudiantat.upc.edu i sambhav.mayani@estudiantat.upc.edu)\n
  *
  * Clase solución
  * 
@@ -82,7 +82,7 @@ public class Solution {
         return costs[x][y];
     }
     
-    /*
+    /**
      * Retorna el coste entre 2 nodos de la matriz coste, a apartir de sus índices en <code>path</code>
      * 
      * @param x El primer indice de path
@@ -132,7 +132,7 @@ public class Solution {
         
     }
     
-    /*
+    /**
      * Función que hace swap entre 2 aristas de <code>path</code> y actualiza el coste total (<code>cost</code>) de Solution
      * Usada como "2_opt" en el algoritmo de {@link HillClimbing}
      * 

@@ -5,7 +5,7 @@ import java.util.Random;
 
 
 /**
- * @author Sergio Polo (sergio.polo@estudiantat.upc.edu)
+ * @author Sergio Polo (sergio.polo@estudiantat.upc.edu)\n
  *
  * Controlador de las clases relacionadas con el algoritmo
  * 

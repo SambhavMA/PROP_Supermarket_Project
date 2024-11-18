@@ -6,8 +6,8 @@ import java.util.LinkedList;
 import java.util.ListIterator;
 import java.util.Random;
 
-/*
- * @author Sergio Polo (sergio.polo@estudiantat.upc.edu)
+/**
+ * @author Sergio Polo (sergio.polo@estudiantat.upc.edu)\n
  *
  * Clase del Algoritmo Nearest Neighbor
  * 
@@ -23,7 +23,7 @@ public class NearestNeighbor extends Algorithm {
                 "Empezando en un nodo determinado hasta construyir un camino que los visite todos y vuelva a el.");
     }
 
-    /*
+    /**
      * Ejecuta el algoritmo sobre un nodo inicial y el numero de productos que tendra el resultado
      * 
      * @param initial El nodo inicial sobre el que empezaremos a iterar

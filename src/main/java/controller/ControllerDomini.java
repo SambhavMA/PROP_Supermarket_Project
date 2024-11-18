@@ -20,6 +20,8 @@ import java.util.Vector;
 
 /**
  * @author Joan Gomez Catala (joan.gomez.catala@estudiantat.upc.edu)
+ *
+ *
  */
 public class ControllerDomini {
     private ProductContainer productContainer = new ProductContainer();

@@ -6,8 +6,8 @@ import model.similarity.SimilarityTable;
 
 
 
-/*
- * @author Sambhav Mayani Harlani (sambhav.mayani@estudiantat.upc.edu)
+/**
+ * @author Sambhav Mayani Harlani (sambhav.mayani@estudiantat.upc.edu)\n
  * Clase del Algoritmo Hill Climbing
  * 
  * <p>Los algoritmos de tipo Hill Climbing, son algoritmos de optimización que a partir de una solución inicial a un problema,
@@ -24,7 +24,7 @@ public class HillClimbing extends Algorithm {
         super(AlgorithmsNames.HC.toString(), "Algoritmo Hill Climbing para optimización.");
     }
 
-    /*
+    /**
      * Funcion execute del HillClimbing a partir de un conjunto de soluciones inicial
      * 
      * @param solutions Conjunto de soluciones iniciales
