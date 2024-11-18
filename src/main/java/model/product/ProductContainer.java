@@ -7,6 +7,7 @@ import java.util.HashMap;
 
 /**
  * @author Joan Gomez Catala (joan.gomez.catala@estudiantat.upc.edu)
+ * <p>Clase que representa un contenedor de productos</p>
  */
 public class ProductContainer {
     private HashMap<String, Product> products = new HashMap<>();

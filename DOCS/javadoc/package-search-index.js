@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"controller"},{"l":"model.algorithm"},{"l":"model.distribution"},{"l":"model.exceptions"},{"l":"model.generic"},{"l":"model.product"},{"l":"model.similarity"},{"l":"utils"}];updateSearchResults();

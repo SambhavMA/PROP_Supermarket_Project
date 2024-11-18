@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 /**
  * @author Joan Gomez Catala (joan.gomez.catala@estudiantat.upc.edu)
+ *
+ * <p>Clase que representa una distribución de productos</p>
  */
 public class Distribution {
     private int id;
@@ -15,6 +17,14 @@ public class Distribution {
     private ArrayList<EnumTypeSections> sections;
     private String usedAlgorithm;
 
+    /**
+     * Constructora de la clase Distribution con secciones (actualmente no se usa)
+     * @param id
+     * @param similarityTableId
+     * @param order
+     * @param sections
+     * @param usedAlgorithm
+     */
     public Distribution(int id, int similarityTableId, Vector<String> order, ArrayList<EnumTypeSections> sections,
                         String usedAlgorithm) {
         this.id = id;
@@ -24,6 +34,15 @@ public class Distribution {
         this.usedAlgorithm = usedAlgorithm;
     }
 
+    /**
+     * Constructora de la clase Distribution sin secciones
+     * @param id
+     * @param similarityTableId
+     * @param cost
+     * @param order
+     * @param usedAlgorithm
+     * @param temps
+     */
     public Distribution(int id, int similarityTableId, double cost, Vector<String> order,
                         String usedAlgorithm, double temps) {
         this.id = id;
@@ -62,7 +81,12 @@ public class Distribution {
     }
 
     // SETTERS
-    // mirar que old_order.length == order.length
+
+    /**
+     * Cambia el orden de dos productos
+     * @param p1 Producto 1
+     * @param p2 Producto 2
+     */
     public void changeOrder(String p1, String p2) {
         int index1 = order.indexOf(p1);
         int index2 = order.indexOf(p2);
@@ -75,10 +99,11 @@ public class Distribution {
         this.sections = sections;
     }
 
+    public void setCost(double cost) {
+        this.cost = cost;
+    }
+
     public void setUsedAlgorithm(String usedAlgorithm) {
         this.usedAlgorithm = usedAlgorithm;
     }
-
-    // METHODS
-    // Controlador: getOrder -> hacer cambios necesarios -> setOrder
 }

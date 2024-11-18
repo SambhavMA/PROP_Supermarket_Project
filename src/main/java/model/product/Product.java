@@ -2,6 +2,7 @@ package model.product;
 
 /**
  * @author Joan Gomez Catala (joan.gomez.catala@estudiantat.upc.edu)
+ * <p>Clase que representa un producto</p>
  */
 public class Product {
     private String name;

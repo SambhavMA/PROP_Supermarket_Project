@@ -13,6 +13,7 @@ import java.util.*;
 
 /**
  * @author Joan Gomez Catala (joan.gomez.catala@estudiantat.upc.edu)
+ * <p>Clase que se encarga de la interacción con el usuario</p>
  */
 public class ControllerPresentacio {
     private ControllerDomini cDom = new ControllerDomini();
@@ -22,12 +23,18 @@ public class ControllerPresentacio {
         init();
     }
 
+    /**
+     * Inicializa el controlador de IO y espera la respuesta del usuario
+     */
     public void init() {
         cIO.showWelcomeMessage();
         cIO.showUseCases();
         waitResponse();
     }
 
+    /**
+     * Espera la respuesta del usuario y ejecuta la acción correspondiente
+     */
     public void waitResponse() {
         cIO.writeLine("\nEnter a number: ");
         String option = cIO.readLine();
@@ -77,6 +84,9 @@ public class ControllerPresentacio {
         waitResponse();
     }
 
+    /**
+     * Llama al controlador de IO y de Domini para añadir un producto
+     */
     public void addProduct() {
         cIO.writeLine("Ha escollit l'opcio Add Product");
         cIO.writeLine("Indiqui en linies diferents el nom del producte i el seu tipus");
@@ -92,6 +102,9 @@ public class ControllerPresentacio {
         }
     }
 
+    /**
+     * Llama al controlador de IO y de Domini para modificar un producto
+     */
     public void modifyProduct() {
         cIO.writeLine("Ha escollit l'opcio Modify Product");
         cIO.writeLine("Indiqui en linies diferents el nom del producte i el seu nou tipus");
@@ -107,6 +120,9 @@ public class ControllerPresentacio {
         }
     }
 
+    /**
+     * Llama al controlador de IO y de Domini para eliminar un producto
+     */
     public void deleteProduct() {
         cIO.writeLine("Ha escollit l'opcio Delete Product");
         cIO.writeLine("Indiqui el nom del producte a eliminar");
@@ -120,6 +136,9 @@ public class ControllerPresentacio {
         }
     }
 
+    /**
+     * Llama al controlador de IO y de Domini para obtener un producto
+     */
     public void getProduct() {
         cIO.writeLine("Ha escollit l'opcio Get Product");
         cIO.writeLine("Indiqui el nom del producte a consultar");
@@ -134,6 +153,9 @@ public class ControllerPresentacio {
         }
     }
 
+    /**
+     * Llama al controlador de IO y de Domini para añadir una tabla de similitud
+     */
     public void addSimilarityTable() {
         cIO.writeLine("Ha escollit l'opcio Add Similarity Table");
         cIO.writeLine(
@@ -201,6 +223,9 @@ public class ControllerPresentacio {
         }
     }
 
+    /**
+     * Llama al controlador de IO y de Domini para modificar una tabla de similitud
+     */
     public void modifySimilarityTable() {
         cIO.writeLine("Ha escollit l'opció Modify Similarity Table");
         cIO.writeLine("Indiqui l'identificador de la taula de similitud a modificar");
@@ -241,6 +266,9 @@ public class ControllerPresentacio {
         }
     }
 
+    /**
+     * Llama al controlador de IO y de Domini para eliminar una tabla de similitud
+     */
     public void deleteSimilarityTable() {
         cIO.writeLine("Ha escollit l'opcio Delete Similarity Table\n");
         cIO.writeLine("Indiqui l'identificador de la taula de similitud a eliminar");
@@ -254,6 +282,9 @@ public class ControllerPresentacio {
         }
     }
 
+    /**
+     * Llama al controlador de IO y de Domini para obtener una tabla de similitud
+     */
     public void getSimilarityTable() {
         cIO.writeLine("Ha escollit l'opcio Get Similarity Table\n");
         cIO.writeLine("Indiqui l'identificador de la taula de similitud a consultar");
@@ -278,7 +309,9 @@ public class ControllerPresentacio {
         }
     }
 
-    // TODO que no sea n2 el pasar de int a string
+    /**
+     * Llama al controlador de IO y de Domini para generar una distribución
+     */
     public void generateDistribution() {
         cIO.writeLine("Ha escollit l'opcio Generate Distribution");
         cIO.writeLine("Indiqui l'id de la taula de similitud que vol utilitzar");
@@ -333,6 +366,9 @@ public class ControllerPresentacio {
 
     }
 
+    /**
+     * Llama al controlador de IO y de Domini para modificar una distribución
+     */
     public void modifyDistribution() {
         cIO.writeLine("Ha escollit l'opcio Modify Distribution");
         cIO.writeLine("Indiqui l'id de distribucio que vol modificar:");
@@ -373,11 +409,14 @@ public class ControllerPresentacio {
 
         try {
             cDom.modifyDistribution(id, changes);
-        } catch (DistributionNotFoundException e) {
+        } catch (DistributionNotFoundException | SimilarityTableNotFoundException e) {
             cIO.writeLine("ERROR: " + e.getMessage());
         }
     }
 
+    /**
+     * Llama al controlador de IO y de Domini para eliminar una distribución
+     */
     public void deleteDistribution() {
         cIO.writeLine("Ha escollit l'opcio Delete Distribution");
         cIO.writeLine("Indiqui l'id de distribucio que vol eliminar:");
@@ -391,6 +430,9 @@ public class ControllerPresentacio {
         }
     }
 
+    /**
+     * Llama al controlador de IO y de Domini para obtener una distribución
+     */
     public void getDistribution() {
         cIO.writeLine("Ha escollit l'opcio Get Distribution");
         cIO.writeLine("Indiqui l'id de distribucio que vol veure:");

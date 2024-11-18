@@ -7,6 +7,7 @@ import java.util.HashMap;
 
 /**
  * @author Joan Gomez Catala (joan.gomez.catala@estudiantat.upc.edu)
+ * <p>Clase que representa un contenedor de tablas de similitud</p>
  */
 public class SimilarityTableContainer {
     private HashMap<Integer, SimilarityTable> similarityTables = new HashMap<>();

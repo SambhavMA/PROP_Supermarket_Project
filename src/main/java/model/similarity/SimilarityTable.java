@@ -6,6 +6,7 @@ import java.util.Vector;
 
 /**
  * @author Joan Gomez Catala (joan.gomez.catala@estudiantat.upc.edu)
+ * <p>Clase que representa una tabla de similitud</p>
  */
 public class SimilarityTable {
     private int id;

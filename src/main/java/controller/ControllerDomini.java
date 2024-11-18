@@ -20,8 +20,10 @@ import java.util.Vector;
 
 /**
  * @author Joan Gomez Catala (joan.gomez.catala@estudiantat.upc.edu)
- *
- *
+ * <p>S'encarrega de gestionar les operacions de domini.
+ * Aquestes operacions poden ser crear, modificar o eliminar productes, taules de similitud i distribucions.
+ * A més, també pot retornar informació sobre productes, taules de similitud i distribucions.
+ * Té els containers de productes, taules de similitud i distribucions com a atributs.</p>
  */
 public class ControllerDomini {
     private ProductContainer productContainer = new ProductContainer();
@@ -246,8 +248,9 @@ public class ControllerDomini {
      * @param id      Identificador de la distribució a modificar
      * @param changes Llista de productes a intercanviar d'ordre
      * @throws DistributionNotFoundException Si la distribució a modificar no existeix
+     * @throws SimilarityTableNotFoundException Si la taula de similitud de la distribució no existeix
      */
-    public void modifyDistribution(int id, List<Pair<String, String>> changes) throws DistributionNotFoundException {
+    public void modifyDistribution(int id, List<Pair<String, String>> changes) throws DistributionNotFoundException, SimilarityTableNotFoundException {
         Distribution distribution = distributionContainer.getDistributionById(id);
 
         for (Pair<String, String> change : changes) {
@@ -259,7 +262,19 @@ public class ControllerDomini {
             }
         }
 
-        // TODO recalcular costes
+        SimilarityTable similarityTable = similarityTableContainer.getSimilarityTableById(distribution.getSimilarityTableId());
+        double[][] relationMatrix = similarityTable.getRelationMatrix();
+        HashMap<String, Integer> fastIndexes = similarityTable.getFastIndexes();
+        Vector<String> order = distribution.getOrder();
+
+        double cost = 0.0;
+        for (int i = 0; i < order.size(); i++) {
+            Integer index1 = fastIndexes.get(order.get(i));
+            Integer index2 = fastIndexes.get(order.get((i + 1) % order.size()));
+            cost += relationMatrix[index1][index2];
+        }
+
+        distribution.setCost(cost);
     }
 
     /**

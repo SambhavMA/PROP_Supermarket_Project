@@ -3,6 +3,10 @@ package model.distribution;
 import model.exceptions.DistributionNotFoundException;
 import java.util.HashMap;
 
+/**
+ * @author Joan Gomez Catala (joan.gomez.catala@estudiantat.upc.edu)
+ * <p>Clase que representa un contenedor de distribuciones</p>
+ */
 public class DistributionContainer {
     private HashMap<Integer, Distribution> distributions = new HashMap<>();
     private int idCounter;

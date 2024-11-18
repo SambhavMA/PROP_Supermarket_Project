@@ -11,9 +11,9 @@
 ### Desde InteliJ IDE
 - Run 'Main' para correr el programa e introducir los datos por consola
 - Run 'Test' para correr los tests
-### Desde la terminal
-Después de compilar el proyecto con ./gradlew build, se puede correr el programa con los siguientes comandos:
+### Desde la terminal con JAR
+Se puede ejectuar el proyecto desde la terminal con los siguientes comandos:
 ```
-# cd build/classes/java/main/
-# java Main < ../../../../juegosDePrueba/"nombreDelJuegoDePruebas"
+# java -jar ./EXE/supermarket.jar  
+# java -jar ./EXE/supermarket.jar  < ./EXE/juegosDePrueba/"nombreDelJuegoDePrueba".inp 
 ```

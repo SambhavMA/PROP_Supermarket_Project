@@ -7,9 +7,8 @@ import model.similarity.SimilarityTable;
 
 
 /**
- * @author Sambhav Mayani Harlani (sambhav.mayani@estudiantat.upc.edu)\n
- * Clase del Algoritmo Hill Climbing
- * 
+ * @author Sambhav Mayani Harlani (sambhav.mayani@estudiantat.upc.edu)
+ *
  * <p>Los algoritmos de tipo Hill Climbing, son algoritmos de optimización que a partir de una solución inicial a un problema,
  * van evaluando pequeños cambios en esta hasta encontrar una mejora y aplicar los cambios iterativamente, hasta que ya no se
  * pueda mejorar más la solución.

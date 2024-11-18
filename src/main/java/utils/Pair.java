@@ -2,6 +2,7 @@ package utils;
 
 /**
  * @author Joan Gomez Catala (joan.gomez.catala@estudiantat.upc.edu)
+ * <p>Clase que representa un par de objetos</p>
  */
 public class Pair <T1,T2>{
     public T1 first;
