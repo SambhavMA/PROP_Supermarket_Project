@@ -4,6 +4,14 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+/*
+ * @author Sergio Polo
+ * Clase del Algoritmo Nearest Neighbor
+ * 
+ * <p>El algoritmo Nearest Neighbor, a partir de un nodo inicial, busca el nodo conexo a este con menor coste, 
+ * o sea, "su vecino mas cercano", así iterativamente hasta formar un ciclo hamiltoniano</p>
+ * 
+ */
 public class NearestNeighbor extends Algorithm {
 
     public NearestNeighbor() {
@@ -12,6 +20,15 @@ public class NearestNeighbor extends Algorithm {
                 "Empezando en un nodo determinado hasta construyir un camino que los visite todos y vuelva a el.");
     }
 
+    /*
+     * Ejecuta el algoritmo sobre un nodo inicial y el numero de productos que tendra el resultado
+     * 
+     * @param initial El nodo inicial sobre el que empezaremos a iterar
+     * @param nProducts El numero de nodos que tendra la solucion que retornaremos
+     * @return Solucion retornada, representa al ciclo hamiltoniano
+     * 
+     * @see Solution
+     */
     @Override
     public Solution execute(int initial, int nProducts) {
         double cost = 0.0;

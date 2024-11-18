@@ -5,13 +5,30 @@ import java.util.ArrayList;
 import model.similarity.SimilarityTable;
 
 
-
+/*
+ * @author Sambhav Mayani Harlani
+ * Clase del Algoritmo Hill Climbing
+ * 
+ * <p>Los algoritmos de tipo Hill Climbing, son algoritmos de optimización que a partir de una solución inicial a un problema,
+ * van evaluando pequeños cambios en esta hasta encontrar una mejora y aplicar los cambios iterativamente, hasta que ya no se
+ * pueda mejorar más la solución.
+ * En nuestro caso a un grupo de soluciones iniciales le vamos aplicando cambios de tipo 2_opt (Intercambio de dos aristas,
+ * descrito más en detalle en la función {@link Solution#swapAndUpdate(int x, int y)} en la clase solution) para intentar 
+ * mejorar las soluciones iniciales, y quedarnos con la solución minima de las soluciones iniciales mejoradas.</p>
+ * 
+ */
 public class HillClimbing extends Algorithm {
 
     public HillClimbing() {
         super(AlgorithmsNames.HC.toString(), "Algoritmo Hill Climbing para optimización.");
     }
 
+    /*
+     * Funcion execute del HillClimbing a partir de un conjunto de soluciones inicial
+     * 
+     * @param solutions Conjunto de soluciones iniciales
+     * @return Solucion final de devolvemos
+     */
     @Override
     public Solution execute(Solution[] solutions) {
         Solution bestSolution = solutions[0];
