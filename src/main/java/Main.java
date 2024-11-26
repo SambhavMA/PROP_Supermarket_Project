@@ -1,7 +1,8 @@
-import controller.ControllerPresentacio;
+import controller.old.ControllerPresentacio;
+import controller.presentation.CtrlPresentation;
 
 public class Main {
   public static void main(String[] args) {
-    ControllerPresentacio controllerPresentacio = new ControllerPresentacio();
+    CtrlPresentation.getInstance().startPresentation();
   }
 }

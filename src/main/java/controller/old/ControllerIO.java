@@ -1,13 +1,6 @@
-package controller;
+package controller.old;
 
 import java.util.Scanner;
-
-import model.exceptions.NoTypeWithName;
-import model.exceptions.ProductAlreadyExistsException;
-import model.exceptions.ProductNotFoundException;
-import model.exceptions.SimilarityTableNotFoundException;
-import utils.Pair;
-import java.util.Vector;
 
 /**
  * @author Joan Gomez Catala (joan.gomez.catala@estudiantat.upc.edu)

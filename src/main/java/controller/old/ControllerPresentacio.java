@@ -1,5 +1,6 @@
-package controller;
+package controller.old;
 
+import controller.ControllerDomini;
 import model.algorithm.AlgorithmController;
 import model.distribution.Distribution;
 import model.exceptions.DistributionNotFoundException;
