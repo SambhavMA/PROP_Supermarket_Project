@@ -26,27 +26,27 @@ import java.util.Vector;
  * Té els containers de productes, taules de similitud i distribucions com a atributs.</p>
  */
 public class ControllerDomini {
-    private ProductContainer productContainer = new ProductContainer();
-    private DistributionContainer distributionContainer = new DistributionContainer();
-    private SimilarityTableContainer similarityTableContainer = new SimilarityTableContainer();
+    private static ControllerDomini instance;
 
-    private static ControllerDomini singletonObject;
-
-    /**
-     * Crea una instancia de domini
-     */
-    public ControllerDomini() {
-        init();
-    }
+    private ProductContainer productContainer = ProductContainer.getInstance();
+    private DistributionContainer distributionContainer = DistributionContainer.getInstance();
+    private SimilarityTableContainer similarityTableContainer = SimilarityTableContainer.getInstance();
 
     /**
      * Retorna la intancia de ControllerDomini. Si no existeix, es crea
      */
     public static ControllerDomini getInstance() {
-        if (singletonObject == null) {
-            singletonObject = new ControllerDomini();
+        if (instance == null) {
+            instance = new ControllerDomini();
         }
-        return singletonObject;
+        return instance;
+    }
+
+    /**
+     * Constructora de la classe
+     */
+    public ControllerDomini() {
+        init();
     }
 
     /**
@@ -287,6 +287,7 @@ public class ControllerDomini {
         distributionContainer.deleteDistributionById(id);
     }
 
+    // TODO cambiar el return per un objecte, no es compleix la estructura de capes
     /**
      * Retorna una distribucio si existeix
      *
