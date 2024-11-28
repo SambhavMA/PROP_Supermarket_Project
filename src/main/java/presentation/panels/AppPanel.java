@@ -9,11 +9,11 @@ abstract class AppPanel extends JPanel {
 
     protected abstract void initializeComponents();
 
-    public void show() {
-        this.setVisible(true);
-    }
+    //public void show() {
+    //    this.setVisible(true);
+    //
 
-    public void hide() {
-        this.setVisible(false);
-    }
+    //public void hide() {
+        //this.setVisible(false);
+    //}
 }

@@ -12,9 +12,9 @@ public class ViewPrimary {
     private SimilarityTablesManagePanel similarityTablesManagePanel;
     private DistributionsManagePanel distributionsManagePanel;
 
+    private JButton buttonLlamadaDominio = new JButton("Llamada Dominio");
 
     public ViewPrimary() {
-
     }
 
     public void start() {
@@ -26,7 +26,7 @@ public class ViewPrimary {
 
     }
 
-    public void show() {
+    public void display() {
         frame.setVisible(true);
     }
 
@@ -44,7 +44,7 @@ public class ViewPrimary {
 
     private void showWelcomePanel() {
         if (welcomePanel == null) welcomePanel = new WelcomePanel();
-        else welcomePanel.show();
+        else welcomePanel.setVisible(true);
     }
 
     private void hideWelcomePanel() {

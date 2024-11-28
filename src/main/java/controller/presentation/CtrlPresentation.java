@@ -26,7 +26,7 @@ public class CtrlPresentation {
     public void startPresentation() {
         controllerDomini = ControllerDomini.getInstance();
         viewPrimary.start();
-        viewPrimary.show();
+        viewPrimary.display();
     }
 
     public void endPresentation() {
@@ -44,7 +44,7 @@ public class CtrlPresentation {
             viewSecundary.start();
         }
         viewSecundary.enable();
-        viewSecundary.show();
+        viewSecundary.display();
     }
 
     /**
@@ -55,7 +55,7 @@ public class CtrlPresentation {
         viewSecundary.stop();
         viewSecundary = null;
         viewPrimary.enable();
-        viewPrimary.show();
+        viewPrimary.display();
     }
 
 }

@@ -19,7 +19,7 @@ public class ViewSecundary {
         frame.dispose();
     }
 
-    public void show() {
+    public void display() {
         frame.setVisible(true);
     }
 
