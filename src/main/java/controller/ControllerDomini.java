@@ -30,6 +30,8 @@ public class ControllerDomini {
     private DistributionContainer distributionContainer = new DistributionContainer();
     private SimilarityTableContainer similarityTableContainer = new SimilarityTableContainer();
 
+    private ControllerPersistencia controllerPersistencia = new ControllerPersistencia();
+
     private static ControllerDomini singletonObject;
 
     /**
