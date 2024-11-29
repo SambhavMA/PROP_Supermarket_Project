@@ -1,11 +1,7 @@
 package controller;
 
 import model.distribution.Distribution;
-import model.exceptions.DistributionNotFoundException;
-import model.exceptions.NoTypeWithName;
-import model.exceptions.ProductAlreadyExistsException;
-import model.exceptions.ProductNotFoundException;
-import model.exceptions.SimilarityTableNotFoundException;
+import model.exceptions.*;
 import model.product.ProductContainer;
 import model.product.Product;
 import model.product.EnumType;
@@ -299,5 +295,13 @@ public class ControllerDomini {
     public Distribution getDistribution(int id) throws DistributionNotFoundException {
         Distribution distribution = distributionContainer.getDistributionById(id);
         return distribution;
+    }
+
+    public void generateTestFile(String path) throws IncorrectPath{
+        try{
+            controllerPersistencia.generateTestFile(path);
+        } catch(Exception e) {
+            throw new IncorrectPath(path);
+        }
     }
 }

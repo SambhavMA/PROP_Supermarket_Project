@@ -1,6 +1,9 @@
 package controller;
 
 import persistence.FileManager;
+import persistence.JSON.JsonManager;
+
+import model.exceptions.IncorrectPath;
 
 /**
  * @author David Calvo Espases (david.calvo.espases@estudiantat.upc.edu)
@@ -10,7 +13,18 @@ import persistence.FileManager;
  */
 
 public class ControllerPersistencia {
+
+    private FileManager fileManager;
     public ControllerPersistencia() {
-        ;
+        fileManager = new JsonManager();
+    }
+
+    /**
+     * Crea un fichero en la ruta especificada
+     * @param path ruta donde se creara el fichero
+     * @throws IncorrectPath si la ruta no es correcta
+     */
+    public void generateTestFile(String path) throws IncorrectPath{
+        fileManager.generateTestFile(path);
     }
 }
