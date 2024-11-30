@@ -2,7 +2,7 @@ package presentation.panels;
 
 import javax.swing.*;
 
-public class MenuPanel extends AppPanel {
+public class MenuPanel extends AbstractPanel {
     public MenuPanel() {
         super();
     }

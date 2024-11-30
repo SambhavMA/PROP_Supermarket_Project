@@ -11,6 +11,7 @@ public class ViewPrimary {
     private ProductsManagePanel productsManagePanel;
     private SimilarityTablesManagePanel similarityTablesManagePanel;
     private DistributionsManagePanel distributionsManagePanel;
+    private AbstractPanel actual;
 
     private JButton buttonLlamadaDominio = new JButton("Llamada Dominio");
 
@@ -19,6 +20,7 @@ public class ViewPrimary {
 
     public void start() {
         showWelcomePanel();
+        actual = welcomePanel;
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
@@ -77,5 +79,14 @@ public class ViewPrimary {
     private void hideDistributionManagePanel() {
         if(distributionsManagePanel != null) distributionsManagePanel.setVisible(false);
     }
+
+    private void transitionToPanel(AbstractPanel changeToPanel) {
+        actual.setVisible(false);
+        changeToPanel.setVisible(true);
+        actual = changeToPanel;
+    }
+
+
+
 
 }

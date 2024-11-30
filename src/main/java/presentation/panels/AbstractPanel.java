@@ -2,7 +2,7 @@ package presentation.panels;
 
 import javax.swing.*;
 
-abstract class AbstractPanel extends JPanel {
+public abstract class AbstractPanel extends JPanel {
     public AbstractPanel() {
         initializeComponents();
     }
