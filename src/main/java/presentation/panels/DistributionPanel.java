@@ -1,8 +1,6 @@
 package presentation.panels;
 
-import javax.swing.*;
-
-public class DistributionPanel extends AppPanel {
+public class DistributionPanel extends AbstractPanel {
     public DistributionPanel() {
         super();
     }

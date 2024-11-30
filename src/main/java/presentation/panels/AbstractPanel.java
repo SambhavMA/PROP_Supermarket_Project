@@ -2,8 +2,8 @@ package presentation.panels;
 
 import javax.swing.*;
 
-abstract class AppPanel extends JPanel {
-    public AppPanel() {
+abstract class AbstractPanel extends JPanel {
+    public AbstractPanel() {
         initializeComponents();
     }
 
@@ -11,6 +11,7 @@ abstract class AppPanel extends JPanel {
 
     public void show() {
         this.setVisible(true);
+        this.show();
     }
 
     public void hide() {

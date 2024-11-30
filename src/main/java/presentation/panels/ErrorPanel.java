@@ -1,8 +1,6 @@
 package presentation.panels;
 
-import javax.swing.*;
-
-public class ErrorPanel extends AppPanel {
+public class ErrorPanel extends AbstractPanel {
     public ErrorPanel() {
         super();
     }

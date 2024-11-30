@@ -1,8 +1,6 @@
 package presentation.panels;
 
-import javax.swing.*;
-
-public class SimilarityTablesManagePanel extends AppPanel {
+public class SimilarityTablesManagePanel extends AbstractPanel {
     public SimilarityTablesManagePanel() {
         super();
     }
