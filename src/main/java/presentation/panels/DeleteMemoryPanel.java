@@ -1,8 +1,11 @@
 package presentation.panels;
 
-public class DeleteMemoryPanel extends AbstractPanel {
+import javax.swing.*;
+
+public class DeleteMemoryPanel extends JPanel {
     public DeleteMemoryPanel() {
         super();
+        initializeComponents();
     }
 
     protected void initializeComponents() {

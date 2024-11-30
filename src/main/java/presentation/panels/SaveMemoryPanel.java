@@ -1,8 +1,11 @@
 package presentation.panels;
 
-public class SaveMemoryPanel extends AbstractPanel {
+import javax.swing.*;
+
+public class SaveMemoryPanel extends JPanel {
     public SaveMemoryPanel() {
         super();
+        initializeComponents();
     }
 
     protected void initializeComponents() {

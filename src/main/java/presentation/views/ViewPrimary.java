@@ -3,25 +3,26 @@ package presentation.views;
 import presentation.panels.*;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class ViewPrimary {
 
     private JFrame frame = new JFrame("Primary View");
-    private WelcomePanel welcomePanel;
-    private ProductsManagePanel productsManagePanel;
-    private SimilarityTablesManagePanel similarityTablesManagePanel;
-    private DistributionsManagePanel distributionsManagePanel;
-    private AbstractPanel actual;
-
-    private JButton buttonLlamadaDominio = new JButton("Llamada Dominio");
+    private WelcomePanel welcomePanel = new WelcomePanel();
+    private ProductsManagePanel productsManagePanel = new ProductsManagePanel();
+    private SimilarityTablesManagePanel similarityTablesManagePanel = new SimilarityTablesManagePanel();
+    private DistributionsManagePanel distributionsManagePanel = new DistributionsManagePanel();
+    private JPanel contentPanel = new JPanel();
+    private JPanel menu = new JPanel();
+    private JPanel infoPanel = new JPanel();
 
     public ViewPrimary() {
     }
 
     public void start() {
-        showWelcomePanel();
-        actual = welcomePanel;
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        initializeComponents();
+        transitionInfoPanel(welcomePanel);
+
     }
 
     public void stop() {
@@ -44,49 +45,32 @@ public class ViewPrimary {
         frame.setEnabled(false);
     }
 
-    private void showWelcomePanel() {
-        if (welcomePanel == null) welcomePanel = new WelcomePanel();
-        else welcomePanel.setVisible(true);
+    private void initializeComponents() {
+        initializeFrame();
+        initializeContentPanel();
     }
 
-    private void hideWelcomePanel() {
-        if (welcomePanel != null) welcomePanel.setVisible(false);
-    }
+    private void initializeFrame() {
+        frame.setMinimumSize(new Dimension(700,400));
+        frame.setPreferredSize(frame.getMinimumSize());
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-    private void showProductsManagePanel() {
-        if (productsManagePanel == null) productsManagePanel = new ProductsManagePanel();
-        else productsManagePanel.setVisible(true);
+        frame.getContentPane().add(contentPanel);
     }
-
-    private void hideProductsManagePanel() {
-        if (productsManagePanel != null) productsManagePanel.setVisible(false);
-    }
-
-    private void showSimilarityTableManagePanel() {
-        if (similarityTablesManagePanel == null) similarityTablesManagePanel = new SimilarityTablesManagePanel();
-        else similarityTablesManagePanel.setVisible(true);
-    }
-
-    private void hideSimilarityTableManagePanel() {
-        if(similarityTablesManagePanel != null) similarityTablesManagePanel.setVisible(false);
-    }
-
-    private void showDistributionManagePanel() {
-        if (distributionsManagePanel == null) distributionsManagePanel = new DistributionsManagePanel();
-        else distributionsManagePanel.setVisible(true);
-    }
-
-    private void hideDistributionManagePanel() {
-        if(distributionsManagePanel != null) distributionsManagePanel.setVisible(false);
-    }
-
-    private void transitionToPanel(AbstractPanel changeToPanel) {
-        actual.setVisible(false);
-        changeToPanel.setVisible(true);
-        actual = changeToPanel;
+    
+    private void initializeContentPanel() {
+        contentPanel.setLayout(new BorderLayout());
+        contentPanel.add(menu,BorderLayout.NORTH);
+        contentPanel.add(infoPanel,BorderLayout.CENTER);
     }
 
 
-
+    private void transitionInfoPanel(JPanel changeToPanel) {
+        contentPanel.remove(infoPanel);
+        infoPanel = changeToPanel;
+        contentPanel.add(infoPanel, BorderLayout.CENTER);
+        contentPanel.revalidate();
+        contentPanel.repaint();
+    }
 
 }
