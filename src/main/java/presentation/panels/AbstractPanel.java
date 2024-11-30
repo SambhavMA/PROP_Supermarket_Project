@@ -9,12 +9,4 @@ abstract class AbstractPanel extends JPanel {
 
     protected abstract void initializeComponents();
 
-    public void show() {
-        this.setVisible(true);
-        this.show();
-    }
-
-    public void hide() {
-        this.setVisible(false);
-    }
 }

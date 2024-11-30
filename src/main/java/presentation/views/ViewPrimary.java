@@ -12,9 +12,9 @@ public class ViewPrimary {
     private SimilarityTablesManagePanel similarityTablesManagePanel;
     private DistributionsManagePanel distributionsManagePanel;
 
+    private JButton buttonLlamadaDominio = new JButton("Llamada Dominio");
 
     public ViewPrimary() {
-
     }
 
     public void start() {
@@ -26,7 +26,7 @@ public class ViewPrimary {
 
     }
 
-    public void show() {
+    public void display() {
         frame.setVisible(true);
     }
 
@@ -44,38 +44,38 @@ public class ViewPrimary {
 
     private void showWelcomePanel() {
         if (welcomePanel == null) welcomePanel = new WelcomePanel();
-        else welcomePanel.show();
+        else welcomePanel.setVisible(true);
     }
 
     private void hideWelcomePanel() {
-        if (welcomePanel != null) welcomePanel.hide();
+        if (welcomePanel != null) welcomePanel.setVisible(false);
     }
 
     private void showProductsManagePanel() {
         if (productsManagePanel == null) productsManagePanel = new ProductsManagePanel();
-        else productsManagePanel.show();
+        else productsManagePanel.setVisible(true);
     }
 
     private void hideProductsManagePanel() {
-        if (productsManagePanel != null) productsManagePanel.hide();
+        if (productsManagePanel != null) productsManagePanel.setVisible(false);
     }
 
     private void showSimilarityTableManagePanel() {
         if (similarityTablesManagePanel == null) similarityTablesManagePanel = new SimilarityTablesManagePanel();
-        else similarityTablesManagePanel.show();
+        else similarityTablesManagePanel.setVisible(true);
     }
 
     private void hideSimilarityTableManagePanel() {
-        if(similarityTablesManagePanel != null) similarityTablesManagePanel.hide();
+        if(similarityTablesManagePanel != null) similarityTablesManagePanel.setVisible(false);
     }
 
     private void showDistributionManagePanel() {
         if (distributionsManagePanel == null) distributionsManagePanel = new DistributionsManagePanel();
-        else distributionsManagePanel.show();
+        else distributionsManagePanel.setVisible(true);
     }
 
     private void hideDistributionManagePanel() {
-        if(distributionsManagePanel != null) distributionsManagePanel.hide();
+        if(distributionsManagePanel != null) distributionsManagePanel.setVisible(false);
     }
 
 }
