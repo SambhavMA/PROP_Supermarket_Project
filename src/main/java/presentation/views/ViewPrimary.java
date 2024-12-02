@@ -8,10 +8,10 @@ import java.awt.*;
 public class ViewPrimary {
 
     private JFrame frame = new JFrame("Primary View");
-    private WelcomePanel welcomePanel = new WelcomePanel();
-    private ProductsManagePanel productsManagePanel = new ProductsManagePanel();
-    private SimilarityTablesManagePanel similarityTablesManagePanel = new SimilarityTablesManagePanel();
-    private DistributionsManagePanel distributionsManagePanel = new DistributionsManagePanel();
+    private WelcomePanel welcomePanel;
+    private ProductsManagePanel productsManagePanel;
+    private SimilarityTablesManagePanel similarityTablesManagePanel;
+    private DistributionsManagePanel distributionsManagePanel;
     private JPanel contentPanel = new JPanel();
     private JPanel menu = new JPanel();
     private JPanel infoPanel = new JPanel();
@@ -21,7 +21,7 @@ public class ViewPrimary {
 
     public void start() {
         initializeComponents();
-        transitionInfoPanel(welcomePanel);
+        transitionInfoPanel(getWelcomePanel());
 
     }
 
@@ -71,6 +71,27 @@ public class ViewPrimary {
         contentPanel.add(infoPanel, BorderLayout.CENTER);
         contentPanel.revalidate();
         contentPanel.repaint();
+    }
+
+    //LAZY start attributes
+    private WelcomePanel getWelcomePanel() {
+        if (welcomePanel == null) welcomePanel = new WelcomePanel();
+        return welcomePanel;
+    }
+
+    private ProductsManagePanel getProductsManagePanel() {
+        if (productsManagePanel == null) productsManagePanel = new ProductsManagePanel();
+        return productsManagePanel;
+    }
+
+    private SimilarityTablesManagePanel getSimilarityTablesManagePanel() {
+        if (similarityTablesManagePanel == null) similarityTablesManagePanel = new SimilarityTablesManagePanel();
+        return similarityTablesManagePanel;
+    }
+
+    private DistributionsManagePanel getDistributionsManagePanel() {
+        if (distributionsManagePanel == null) distributionsManagePanel = new DistributionsManagePanel();
+        return distributionsManagePanel;
     }
 
 }
