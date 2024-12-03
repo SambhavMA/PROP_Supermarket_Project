@@ -13,20 +13,20 @@ public class ViewPrimary {
     private SimilarityTablesManagePanel similarityTablesManagePanel;
     private DistributionsManagePanel distributionsManagePanel;
     private JPanel contentPanel = new JPanel();
-    private JPanel menu = new JPanel();
+    private MenuPanel menuPanel;
     private JPanel infoPanel = new JPanel();
 
     public ViewPrimary() {
+        initializeFrame();
     }
 
     public void start() {
         initializeComponents();
         transitionInfoPanel(getWelcomePanel());
-
     }
 
     public void stop() {
-
+        frame.dispose();
     }
 
     public void display() {
@@ -46,26 +46,28 @@ public class ViewPrimary {
     }
 
     private void initializeComponents() {
-        initializeFrame();
         initializeContentPanel();
+        initializeMenu();
     }
 
     private void initializeFrame() {
-        frame.setMinimumSize(new Dimension(700,400));
+        frame.setMinimumSize(new Dimension(700, 400));
         frame.setPreferredSize(frame.getMinimumSize());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
         frame.getContentPane().add(contentPanel);
     }
-    
+
     private void initializeContentPanel() {
         contentPanel.setLayout(new BorderLayout());
-        contentPanel.add(menu,BorderLayout.NORTH);
-        contentPanel.add(infoPanel,BorderLayout.CENTER);
+        contentPanel.add(infoPanel, BorderLayout.CENTER);
     }
 
+    private void initializeMenu() {
+        menuPanel = new MenuPanel(this);
+        contentPanel.add(menuPanel, BorderLayout.NORTH);
+    }
 
-    private void transitionInfoPanel(JPanel changeToPanel) {
+    public void transitionInfoPanel(JPanel changeToPanel) {
         contentPanel.remove(infoPanel);
         infoPanel = changeToPanel;
         contentPanel.add(infoPanel, BorderLayout.CENTER);
@@ -73,25 +75,32 @@ public class ViewPrimary {
         contentPanel.repaint();
     }
 
-    //LAZY start attributes
-    private WelcomePanel getWelcomePanel() {
+    public void transitionContentPanel(JPanel changeToPanel) {
+        contentPanel.remove(contentPanel.getComponent(1));
+        contentPanel.add(changeToPanel, BorderLayout.CENTER);
+        contentPanel.revalidate();
+        contentPanel.repaint();
+
+        menuPanel.updateButtonColors(changeToPanel);
+    }
+
+    public WelcomePanel getWelcomePanel() {
         if (welcomePanel == null) welcomePanel = new WelcomePanel();
         return welcomePanel;
     }
 
-    private ProductsManagePanel getProductsManagePanel() {
+    public ProductsManagePanel getProductsManagePanel() {
         if (productsManagePanel == null) productsManagePanel = new ProductsManagePanel();
         return productsManagePanel;
     }
 
-    private SimilarityTablesManagePanel getSimilarityTablesManagePanel() {
+    public SimilarityTablesManagePanel getSimilarityTablesManagePanel() {
         if (similarityTablesManagePanel == null) similarityTablesManagePanel = new SimilarityTablesManagePanel();
         return similarityTablesManagePanel;
     }
 
-    private DistributionsManagePanel getDistributionsManagePanel() {
+    public DistributionsManagePanel getDistributionsManagePanel() {
         if (distributionsManagePanel == null) distributionsManagePanel = new DistributionsManagePanel();
         return distributionsManagePanel;
     }
-
 }
