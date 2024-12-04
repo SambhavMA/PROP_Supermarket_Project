@@ -1,5 +1,7 @@
 package presentation.panels;
 
+import presentation.components.ItemList;
+
 import javax.swing.*;
 
 public class ProductPanel extends JPanel {
@@ -8,7 +10,9 @@ public class ProductPanel extends JPanel {
         initializeComponents();
     }
 
-    protected void initializeComponents() {
+    private void initializeComponents() {
 
     }
+
+
 }

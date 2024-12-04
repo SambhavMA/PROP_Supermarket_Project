@@ -18,9 +18,6 @@ public class ViewPrimary {
 
     public ViewPrimary() {
         initializeFrame();
-    }
-
-    public void start() {
         initializeComponents();
         transitionInfoPanel(getWelcomePanel());
     }
@@ -46,7 +43,7 @@ public class ViewPrimary {
     }
 
     private void initializeComponents() {
-        initializeContentPanel();
+        initializeInfoPanel();
         initializeMenu();
     }
 
@@ -57,7 +54,7 @@ public class ViewPrimary {
         frame.getContentPane().add(contentPanel);
     }
 
-    private void initializeContentPanel() {
+    private void initializeInfoPanel() {
         contentPanel.setLayout(new BorderLayout());
         contentPanel.add(infoPanel, BorderLayout.CENTER);
     }
@@ -84,6 +81,7 @@ public class ViewPrimary {
         menuPanel.updateButtonColors(changeToPanel);
     }
 
+    // LAZY INIT
     public WelcomePanel getWelcomePanel() {
         if (welcomePanel == null) welcomePanel = new WelcomePanel();
         return welcomePanel;

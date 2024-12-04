@@ -2,10 +2,9 @@ package controller.presentation;
 
 
 import controller.ControllerDomini;
+import presentation.panels.ViewSecundaryPanelsEnum;
 import presentation.views.ViewPrimary;
 import presentation.views.ViewSecundary;
-
-import javax.swing.*;
 
 public class CtrlPresentation {
     private ControllerDomini controllerDomini;
@@ -13,8 +12,6 @@ public class CtrlPresentation {
     private ViewSecundary viewSecundary;
 
     private CtrlPresentation() {
-        viewPrimary = new ViewPrimary();
-        viewSecundary = null;
     }
 
     private static class CtrlPresentationHolder {
@@ -27,7 +24,7 @@ public class CtrlPresentation {
 
     public void startPresentation() {
         controllerDomini = ControllerDomini.getInstance();
-        viewPrimary.start();
+        viewPrimary = new ViewPrimary();
         viewPrimary.display();
     }
 
@@ -39,10 +36,9 @@ public class CtrlPresentation {
      * Transiciona de la vista principal a la vista secundaria.
      * Deshabilita la principal que se seguira mostrando, mientras la secundaria se ejecuta en primer plano
      */
-    public void transitionPrimary_to_Secundary(JPanel panel) {
+    public void transitionPrimary_to_Secundary(ViewSecundaryPanelsEnum e) {
         viewPrimary.disable();
-        viewSecundary = new ViewSecundary(panel);
-        viewSecundary.start();
+        viewSecundary = new ViewSecundary(e);
         viewSecundary.enable();
         viewSecundary.display();
     }
