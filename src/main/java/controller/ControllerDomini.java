@@ -297,11 +297,58 @@ public class ControllerDomini {
         return distribution;
     }
 
-    public void generateTestFile(String path) throws IncorrectPath{
-        try{
-            controllerPersistencia.generateTestFile(path);
-        } catch(Exception e) {
-            throw new IncorrectPath(path);
+    /**
+     * Afegeix al programa els productes importats
+     * @param path Ruta on es troba el fitxer amb els productes
+     * @return Vector amb totes les distribucions
+     * @throws IncorrectPath Si la ruta no és correcta
+     */
+    public void importProducts(String path) throws IncorrectPath{
+        HashMap<String, String> products = controllerPersistencia.importProducts(path);
+    }
+
+    /**
+     * Afegeix al programa les taules de similituds importades
+     * @param path Ruta on es troba el fitxer amb les taules de similituds
+     * @return Pair amb els productes de la taula i la matriu de similituds
+     * @throws IncorrectPath Si la ruta no és correcta
+     */
+    public Pair<Vector<Pair<String, Integer>>, double[][]> importSimilarityTable(String path) throws IncorrectPath{
+        return controllerPersistencia.importSimilarityTable(path);
+    }
+
+    /**
+     * Exporta els productes a un fitxer
+     * @param path Ruta on es guardarà el fitxer amb els productes
+     * @throws IncorrectPath Si la ruta no és correcta
+     */
+    public void exportProducts(String path) throws IncorrectPath{
+        HashMap<String, String> products = new HashMap<>();
+        for (Product product : productContainer.getProducts().values()) {
+            products.put(product.getName(), product.getType().toString());
         }
+        controllerPersistencia.exportProducts(path, products);
+    }
+
+    /**
+     * Exporta les taules de similituds a un fitxer
+     * @param path Ruta on es guardarà el fitxer amb les taules de similituds
+     * @throws IncorrectPath Si la ruta no és correcta
+     */
+    public void exportSimilarityTable(String path) throws IncorrectPath{
+        Pair<Vector<Pair<String, Integer>>, double[][]> similarityTables = new Pair<>(new Vector<>(), new double[0][0]);
+        for (SimilarityTable table : similarityTableContainer.getSimilarityTables().values()) {
+            Vector<Pair<String, Integer>> products = new Vector<>();
+            for (String key : table.getFastIndexes().keySet()) {
+                products.add(new Pair<>(key, table.getFastIndexes().get(key)));
+            }
+            similarityTables = new Pair<>(products, table.getRelationMatrix());
+        }
+
+        controllerPersistencia.exportSimilarityTable(path, similarityTables);
+    }
+
+    public void saveDataMemory() {
+        ;
     }
 }

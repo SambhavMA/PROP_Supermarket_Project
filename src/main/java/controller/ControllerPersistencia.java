@@ -3,6 +3,10 @@ package controller;
 import persistence.FileManager;
 import persistence.JSON.JsonManager;
 
+import java.util.HashMap;
+import java.util.Vector;
+
+import utils.Pair;
 import model.exceptions.IncorrectPath;
 
 /**
@@ -20,11 +24,41 @@ public class ControllerPersistencia {
     }
 
     /**
-     * Crea un fichero en la ruta especificada
-     * @param path ruta donde se creara el fichero
+     * Retorna un HashMap con los productos importados
+     * @param path ruta donde se obtienen los productos
      * @throws IncorrectPath si la ruta no es correcta
      */
-    public void generateTestFile(String path) throws IncorrectPath{
-        fileManager.generateTestFile(path);
+    public HashMap<String, String> importProducts(String path) throws IncorrectPath{
+        return fileManager.importProducts(path);
     }
+
+    /**
+     * Retorna un Pair con los productos y la tabla de similitud importados
+     * @param path ruta donde se obtienen la tabla de similitud
+     * @throws IncorrectPath si la ruta no es correcta
+     */
+    public Pair<Vector<Pair<String, Integer>>, double[][]> importSimilarityTable(String path) throws IncorrectPath{
+        return fileManager.importSimilarityTable(path);
+    }
+
+    /**
+     * Exporta los productos a un fichero
+     * @param path ruta donde se creara el fichero
+     * @param products productos a exportar
+     * @throws IncorrectPath si la ruta no es correcta
+     */
+    public void exportProducts(String path, HashMap<String, String> products) throws IncorrectPath{
+        fileManager.exportProducts(path, products);
+    }
+
+    /**
+     * Exporta la tabla de similitud a un fichero
+     * @param path ruta donde se creara el fichero
+     * @param similarityTable tabla de similitud a exportar
+     * @throws IncorrectPath si la ruta no es correcta
+     */
+    public void exportSimilarityTable(String path, Pair<Vector<Pair<String, Integer>>, double[][]> similarityTable) throws IncorrectPath{
+        fileManager.exportSimilarityTable(path, similarityTable);
+    }
+
 }

@@ -1,6 +1,10 @@
 package persistence;
 
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.Vector;
+
+import utils.Pair;
 
 import model.exceptions.IncorrectPath;
 
@@ -11,12 +15,10 @@ import model.exceptions.IncorrectPath;
 
 public interface FileManager {
 
-    /*
-    public void exportProducts(HashMap<String, String> products);
-    public void exportSimilarityTable(Pair<Vector<Pair<String, Integer>>, double[][]> similarityTable);
-    public HashMap<String, String> importProducts();
-    public Pair<Vector<Pair<String, Integer>>, double[][]> importSimilarityTable();
-     */
+    HashMap<String, String> importProducts(String path) throws IncorrectPath;
+    Pair<Vector<Pair<String, Integer>>, double[][]> importSimilarityTable(String path) throws IncorrectPath;
+    void exportProducts(String path, HashMap<String, String> products) throws IncorrectPath;
+    void exportSimilarityTable(String path, Pair<Vector<Pair<String, Integer>>, double[][]> similarityTable) throws IncorrectPath;
 
-    public void generateTestFile(String path) throws IncorrectPath;
+
 }
