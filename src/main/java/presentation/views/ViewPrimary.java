@@ -92,7 +92,7 @@ public class ViewPrimary {
     }
 
     public ProductsManagePanel getProductsManagePanel() {
-        if (productsManagePanel == null) productsManagePanel = new ProductsManagePanel();
+        if (productsManagePanel == null) productsManagePanel = new ProductsManagePanel(this);
         return productsManagePanel;
     }
 

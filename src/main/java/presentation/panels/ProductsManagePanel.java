@@ -1,14 +1,16 @@
 package presentation.panels;
 
-import presentation.components.ItemList;
+import presentation.components.ItemListProducts;
+import presentation.views.ViewPrimary;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class ProductsManagePanel extends JPanel {
-    ItemList itemList;
+    ItemListProducts itemListProducts;
+    private ViewPrimary viewPrimary;
 
-    public ProductsManagePanel() {
+    public ProductsManagePanel(ViewPrimary viewPrimary) {
+        this.viewPrimary = viewPrimary;
         initializeComponents();
     }
 
@@ -32,8 +34,8 @@ public class ProductsManagePanel extends JPanel {
         JComponent[][] data = {{new JLabel("one"), new JLabel("two")},
                 {new JLabel("three"), new JLabel("four")}};
         String[] cols = {"one", "two"};
-        itemList = new ItemList(ViewSecundaryPanelsEnum.PRODUCTPANEL, 2, 2, cols, data);
+        itemListProducts = new ItemListProducts(viewPrimary, 2, 2, cols, data);
 
-        this.add(itemList);
+        this.add(itemListProducts);
     }
 }
