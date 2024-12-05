@@ -83,10 +83,23 @@ public class ControllerPresentacio {
             case "16":
                 exportSimilarityTable();
                 break;
-            case "18":
-                saveDataMemory();
-                break;
             case "17":
+                exportProductsToMemory();
+                break;
+            /*
+            case "18":
+                importProductsFromMemory();
+                    //si hi ha algun que ja esta al programa no l'afegim o es reinicia tot el que teniem i es carrega nomes lo de memoria?
+                break;
+             */
+
+            case "19":
+                exportSimilarityTablesToMemory();
+                break;
+            case "20":
+                importSimilarityTablesFromMemory();
+                break;
+            case "21":
                 cIO.exit();
                 break;
             default:
@@ -227,7 +240,7 @@ public class ControllerPresentacio {
         }
 
         try {
-            int similarityTableId = cDom.addSimilarityTable(products, similarities);
+                int similarityTableId = cDom.addSimilarityTable(products, similarities);
             cIO.writeLine("Taula de similitud afegida amb identificador: " + similarityTableId);
         } catch (ProductNotFoundException e) {
             cIO.writeLine("ERROR: " + e.getMessage());
@@ -535,7 +548,28 @@ public class ControllerPresentacio {
     /**
      * Llama al controlador de Domini para guardar los datos en memoria
      */
-    public void saveDataMemory() {
-        cDom.saveDataMemory();
+    public void exportProductsToMemory() {
+        cDom.exportProductsToMemory();
+    }
+
+    /**
+     * Llama al controlador de Domini para cargar los productos de memoria
+     */
+    public void importProductsFromMemory() {
+        cDom.importProdcutsFromMemory();
+    }
+
+    /**
+     * Llama al controlador de Domini para guardar las tablas de similitudes en memoria
+     */
+    public void exportSimilarityTablesToMemory() {
+        cDom.exportSimilarityTablesToMemory();
+    }
+
+    /**
+     * Llama al controlador de Domini para cargar las tablas de similitudes de memoria
+     */
+    public void importSimilarityTablesFromMemory() {
+        cDom.importSimilarityTablesFromMemory();
     }
 }

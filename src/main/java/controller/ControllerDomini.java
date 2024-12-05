@@ -348,7 +348,31 @@ public class ControllerDomini {
         controllerPersistencia.exportSimilarityTable(path, similarityTables);
     }
 
-    public void saveDataMemory() {
+    /**
+     * Exporta els productes del programa al fitxer memoria
+     */
+    public void exportProductsToMemory() {
+        ;
+    }
+
+    /**
+     * Importa els productes de memoria al programa
+     */
+    public void importProdcutsFromMemory() {
+        ;
+    }
+
+    /**
+     * Exporta les taules de similituds del programa al fitxer memoria
+     */
+    public void exportSimilarityTablesToMemory() {
+        ;
+    }
+
+    /**
+     * Importa les taules de similituds de memoria al programa
+     */
+    public void importSimilarityTablesFromMemory() {
         ;
     }
 }
