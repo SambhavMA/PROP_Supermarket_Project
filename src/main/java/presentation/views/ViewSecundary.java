@@ -1,26 +1,26 @@
 package presentation.views;
 
+import controller.presentation.CtrlPresentation;
 import presentation.components.DefaultButtons;
 import presentation.panels.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class ViewSecundary {
 
     private JFrame frame = new JFrame("Secundary View");
-    private ProductPanel productPanel;
-    private SimilarityTablePanel similarityTablePanel;
-    private DistributionPanel distributionPanel;
-    private GenerateDistributionPanel generateDistributionPanel;
+
     private JPanel contentPanel = new JPanel();
     private JPanel infoPanel = new JPanel();;
     private JPanel buttonPanel;
 
-    public ViewSecundary(ViewSecundaryPanelsEnum e) {
+    public ViewSecundary() {
         initializeFrame();
         initializeComponents();
-        transitionInfoPanel(getTypePanel(e));
+        //transitionInfoPanel();
     }
 
     public void stop() {
@@ -48,6 +48,13 @@ public class ViewSecundary {
         frame.setPreferredSize(frame.getMinimumSize());
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
+        frame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                CtrlPresentation.getInstance().transitionSecundary_to_Primary();
+            }
+        });
+
         frame.getContentPane().add(contentPanel);
     }
 
@@ -72,41 +79,5 @@ public class ViewSecundary {
         contentPanel.add(infoPanel, BorderLayout.CENTER);
         contentPanel.revalidate();
         contentPanel.repaint();
-    }
-
-
-    public ProductPanel getProductPanel() {
-        if (productPanel == null) productPanel = new ProductPanel();
-        return productPanel;
-    }
-
-    public SimilarityTablePanel getSimilarityTablePanel() {
-        if (similarityTablePanel == null) similarityTablePanel = new SimilarityTablePanel();
-        return similarityTablePanel;
-    }
-
-    public DistributionPanel getDistributionPanel() {
-        if (distributionPanel == null) distributionPanel = new DistributionPanel();
-        return distributionPanel;
-    }
-
-    public GenerateDistributionPanel getGenerateDistributionPanel() {
-        if (generateDistributionPanel == null) generateDistributionPanel = new GenerateDistributionPanel();
-        return generateDistributionPanel;
-    }
-
-    private JPanel getTypePanel(ViewSecundaryPanelsEnum e) {
-        switch (e) {
-            case PRODUCTPANEL:
-                return getProductPanel();
-            case SIMILARITYTABLEPANEL:
-                return getSimilarityTablePanel();
-            case DISTRIBUTIONPANEL:
-                return getDistributionPanel();
-            case GENERATEDISTRIBUTIONPANEL:
-                return getGenerateDistributionPanel();
-            default:
-                return null;
-        }
     }
 }

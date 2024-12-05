@@ -1,7 +1,6 @@
 package presentation.components;
 
 import controller.presentation.CtrlPresentation;
-import presentation.panels.ViewSecundaryPanelsEnum;
 
 import javax.swing.*;
 import java.awt.*;
@@ -57,7 +56,6 @@ public class ItemList extends JPanel {
                 public void mouseClicked(MouseEvent e) {
                     rowPanel.setBackground(Color.CYAN);
                     // Creates a new view
-
                     CtrlPresentation.getInstance().transitionPrimary_to_Secundary(typePanel);
                 }
 

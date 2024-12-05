@@ -12,6 +12,10 @@ public class ViewPrimary {
     private ProductsManagePanel productsManagePanel;
     private SimilarityTablesManagePanel similarityTablesManagePanel;
     private DistributionsManagePanel distributionsManagePanel;
+    private ProductPanel productPanel;
+    private SimilarityTablePanel similarityTablePanel;
+    private DistributionPanel distributionPanel;
+    private GenerateDistributionPanel generateDistributionPanel;
     private JPanel contentPanel = new JPanel();
     private MenuPanel menuPanel;
     private JPanel infoPanel = new JPanel();
@@ -100,5 +104,25 @@ public class ViewPrimary {
     public DistributionsManagePanel getDistributionsManagePanel() {
         if (distributionsManagePanel == null) distributionsManagePanel = new DistributionsManagePanel();
         return distributionsManagePanel;
+    }
+
+    public ProductPanel getProductPanel() {
+        if (productPanel == null) productPanel = new ProductPanel();
+        return productPanel;
+    }
+
+    public SimilarityTablePanel getSimilarityTablePanel() {
+        if (similarityTablePanel == null) similarityTablePanel = new SimilarityTablePanel();
+        return similarityTablePanel;
+    }
+
+    public DistributionPanel getDistributionPanel() {
+        if (distributionPanel == null) distributionPanel = new DistributionPanel();
+        return distributionPanel;
+    }
+
+    public GenerateDistributionPanel getGenerateDistributionPanel() {
+        if (generateDistributionPanel == null) generateDistributionPanel = new GenerateDistributionPanel();
+        return generateDistributionPanel;
     }
 }

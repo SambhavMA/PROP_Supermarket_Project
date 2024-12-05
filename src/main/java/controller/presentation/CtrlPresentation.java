@@ -2,7 +2,6 @@ package controller.presentation;
 
 
 import controller.ControllerDomini;
-import presentation.panels.ViewSecundaryPanelsEnum;
 import presentation.views.ViewPrimary;
 import presentation.views.ViewSecundary;
 
@@ -36,9 +35,9 @@ public class CtrlPresentation {
      * Transiciona de la vista principal a la vista secundaria.
      * Deshabilita la principal que se seguira mostrando, mientras la secundaria se ejecuta en primer plano
      */
-    public void transitionPrimary_to_Secundary(ViewSecundaryPanelsEnum e) {
+    public void transitionPrimary_to_Secundary() {
         viewPrimary.disable();
-        viewSecundary = new ViewSecundary(e);
+        viewSecundary = new ViewSecundary();
         viewSecundary.enable();
         viewSecundary.display();
     }
