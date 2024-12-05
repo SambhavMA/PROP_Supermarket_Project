@@ -53,10 +53,6 @@ public class CtrlPresentation {
         viewPrimary.display();
     }
 
-    public ViewPrimary getViewPrimary() {
-        return viewPrimary;
-    }
-
 
 
 
