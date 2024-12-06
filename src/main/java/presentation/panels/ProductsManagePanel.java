@@ -1,6 +1,7 @@
 package presentation.panels;
 
 import controller.presentation.CtrlPresentation;
+import model.exceptions.ProductNotFoundException;
 import presentation.components.ItemListProducts;
 import presentation.views.ViewPrimary;
 import utils.Pair;
@@ -10,7 +11,6 @@ import java.awt.*;
 
 public class ProductsManagePanel extends JPanel {
     ItemListProducts itemListProducts;
-    private JLabel noProducts = new JLabel("NO HAY PRODUCTOS EN EL SISTEMA", SwingConstants.CENTER);
     private ViewPrimary viewPrimary;
 
     public ProductsManagePanel(ViewPrimary viewPrimary) {
@@ -35,38 +35,30 @@ public class ProductsManagePanel extends JPanel {
     }
 
     private void initializeList() {
+        Pair<String, String>[] dataPresentation = CtrlPresentation.getInstance().getProducts();
+        if (dataPresentation.length > 0) {
+            JComponent[][] data = new JComponent[dataPresentation.length][2];
 
-        JComponent[][] data = processData();
-        if (data != null) {
+            for (int i = 0; i < data.length; i++) {
+                data[i][0] = new JLabel(dataPresentation[i].first);
+                data[i][1] = new JLabel(dataPresentation[i].second);
+            }
+
             String[] cols = CtrlPresentation.getInstance().getProductsCols();
             itemListProducts = new ItemListProducts(viewPrimary, 2, 2, cols, data);
 
             this.add(itemListProducts);
-
         } else {
+            JLabel noProductsTitle = new JLabel("No hay productos en el sistema");
+
             setLayout(new GridBagLayout());
 
-            noProducts.setFont(new Font("Arial", Font.BOLD, 24));
+            noProductsTitle.setFont(new Font("Arial", Font.BOLD, 24));
 
             JPanel textPanel = new JPanel(new GridLayout(2, 1));
-            textPanel.add(noProducts);
+            textPanel.add(noProductsTitle);
 
             add(textPanel);
         }
-
-    }
-
-    private JComponent[][] processData() {
-        Pair<String, String>[] data = CtrlPresentation.getInstance().getProducts();
-        if (data == null) return null;
-
-        JComponent[][] dataReturn = new JComponent[data.length][2];
-
-        for (int i = 0; i < data.length; i++) {
-            dataReturn[i][0] = new JLabel(data[i].first);
-            dataReturn[i][1] = new JLabel(data[i].second);
-        }
-
-        return dataReturn;
     }
 }

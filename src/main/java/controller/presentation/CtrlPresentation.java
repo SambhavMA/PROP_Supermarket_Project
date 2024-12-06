@@ -2,6 +2,7 @@ package controller.presentation;
 
 
 import controller.ControllerDomini;
+import model.exceptions.ProductNotFoundException;
 import presentation.views.ViewPrimary;
 import presentation.views.ViewSecundary;
 import utils.Pair;
@@ -62,7 +63,7 @@ public class CtrlPresentation {
         try {
             return controllerDomini.getProducts();
         } catch (Exception e) {
-            // No products in list
+            // show dialog error
             return null;
         }
     }

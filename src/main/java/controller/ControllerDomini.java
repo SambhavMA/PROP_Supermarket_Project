@@ -122,30 +122,27 @@ public class ControllerDomini {
         return new Pair<>(product.getName(), product.getType().toString());
     }
 
-    /**
-     * Retorna els productes del sistema
-     *
-     * @return Array de Pair amb identificadors de producte: {name, tipus}
-     * @throws ProductNotFoundException Si no hi ha productes al sistema
-     */
+
     public String[] getProductsCols() {
         return new String[]{"nombre", "tipo"};
     }
 
+    /**
+     * Retorna els productes del sistema
+     *
+     * @return Array de Pair amb identificadors de producte: {name, tipus}, retorna array buida si no hi ha productes al sistema
+     */
     public Pair<String, String>[] getProducts() throws ProductNotFoundException {
         HashMap<String, Product> products = productContainer.getProducts();
+        Pair<String, String>[] pairsArray = new Pair[0];
+        if (! products.isEmpty()) {
+            List<Pair<String, String>> pairsList = new ArrayList<>();
 
-        if (products.isEmpty()) {
-            throw new ProductNotFoundException("No products found in the container.");
+            for (Product product : products.values()) {
+                pairsList.add(new Pair<>(product.getName(), product.getType().toString()));
+            }
+            pairsArray = pairsList.toArray(new Pair[0]);
         }
-
-        List<Pair<String, String>> pairsList = new ArrayList<>();
-
-        for (Product product : products.values()) {
-            pairsList.add(new Pair<>(product.getName(), product.getType().toString()));
-        }
-
-        Pair<String, String>[] pairsArray = pairsList.toArray(new Pair[0]);
 
         return pairsArray;
     }
