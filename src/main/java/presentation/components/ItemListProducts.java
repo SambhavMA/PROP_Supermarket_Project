@@ -1,22 +1,21 @@
 package presentation.components;
 
-import controller.presentation.CtrlPresentation;
+import presentation.views.ViewPrimary;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class ItemList extends JPanel {
-
+public class ItemListProducts extends JPanel {
+    private ViewPrimary viewPrimary;
     int rows;
     int columns;
     String[] columnsTitles;
     Component[][] data;
-    ViewSecundaryPanelsEnum typePanel;
 
-    public ItemList(ViewSecundaryPanelsEnum typePanel, int glRow, int glColumn, String[] columnsTitles, Component[][] data) {
-        this.typePanel = typePanel;
+    public ItemListProducts(ViewPrimary viewPrimary, int glRow, int glColumn, String[] columnsTitles, Component[][] data) {
+        this.viewPrimary = viewPrimary;
         this.rows = glRow;
         this.columns = glColumn;
         this.columnsTitles = columnsTitles;
@@ -56,7 +55,8 @@ public class ItemList extends JPanel {
                 public void mouseClicked(MouseEvent e) {
                     rowPanel.setBackground(Color.CYAN);
                     // Creates a new view
-                    CtrlPresentation.getInstance().transitionPrimary_to_Secundary(typePanel);
+                    viewPrimary.transitionContentPanel(viewPrimary.getProductPanel());
+
                 }
 
                 @Override
