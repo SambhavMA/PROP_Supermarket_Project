@@ -124,7 +124,7 @@ public class ControllerDomini {
 
 
     public String[] getProductsCols() {
-        return new String[]{"nombre", "tipo"};
+        return new String[]{"Nombre", "Tipo"};
     }
 
     /**
@@ -133,8 +133,6 @@ public class ControllerDomini {
      * @return Array de Pair amb identificadors de producte: {name, tipus}, retorna array buida si no hi ha productes al sistema
      */
     public Pair<String, String>[] getProducts() throws ProductNotFoundException, ProductAlreadyExistsException {
-        testingAddingProducts();
-
         HashMap<String, Product> products = productContainer.getProducts();
         Pair<String, String>[] pairsArray = new Pair[0];
         if (! products.isEmpty()) {
@@ -156,6 +154,12 @@ public class ControllerDomini {
         productContainer.addProduct(new Product("P4", EnumType.PEIX));
         productContainer.addProduct(new Product("P5", EnumType.FRUITA));
         productContainer.addProduct(new Product("P6", EnumType.FRUITA));
+//        productContainer.addProduct(new Product("P7", EnumType.CARN));
+//        productContainer.addProduct(new Product("P8", EnumType.PEIX));
+//        productContainer.addProduct(new Product("P9", EnumType.CARN));
+//        productContainer.addProduct(new Product("P10", EnumType.PEIX));
+//        productContainer.addProduct(new Product("P11", EnumType.FRUITA));
+//        productContainer.addProduct(new Product("P12", EnumType.FRUITA));
     }
 
     /**

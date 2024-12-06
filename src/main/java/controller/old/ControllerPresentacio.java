@@ -20,7 +20,7 @@ public class ControllerPresentacio {
     private ControllerDomini cDom = new ControllerDomini();
     private ControllerIO cIO = new ControllerIO(this);
 
-    public ControllerPresentacio() {
+    public ControllerPresentacio() throws ProductAlreadyExistsException {
         init();
     }
 

@@ -12,6 +12,7 @@ public class ViewPrimary {
     private ProductsManagePanel productsManagePanel;
     private SimilarityTablesManagePanel similarityTablesManagePanel;
     private DistributionsManagePanel distributionsManagePanel;
+    private AddProductPanel addProductPanel;
     private ProductPanel productPanel;
     private SimilarityTablePanel similarityTablePanel;
     private DistributionPanel distributionPanel;
@@ -93,6 +94,7 @@ public class ViewPrimary {
 
     public ProductsManagePanel getProductsManagePanel() {
         if (productsManagePanel == null) productsManagePanel = new ProductsManagePanel(this);
+        productsManagePanel.updateList();
         return productsManagePanel;
     }
 
@@ -106,8 +108,13 @@ public class ViewPrimary {
         return distributionsManagePanel;
     }
 
-    public ProductPanel getProductPanel() {
-        if (productPanel == null) productPanel = new ProductPanel();
+    public AddProductPanel getAddProductPanel() {
+        if (addProductPanel == null) addProductPanel = new AddProductPanel(this);
+        return addProductPanel;
+    }
+
+    public ProductPanel getProductPanel(String name, String type) {
+        productPanel = new ProductPanel(this, name, type);
         return productPanel;
     }
 

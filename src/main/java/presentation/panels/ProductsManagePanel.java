@@ -1,7 +1,6 @@
 package presentation.panels;
 
 import controller.presentation.CtrlPresentation;
-import model.exceptions.ProductNotFoundException;
 import presentation.components.ItemListProducts;
 import presentation.views.ViewPrimary;
 import utils.Pair;
@@ -21,42 +20,41 @@ public class ProductsManagePanel extends JPanel {
     public ProductsManagePanel(ViewPrimary viewPrimary) {
         this.viewPrimary = viewPrimary;
         compose();
-
     }
 
     private void compose() {
-        Pair<String, String>[] dataPresentation = CtrlPresentation.getInstance().getProducts();
-        if (dataPresentation.length > 0) {
-            initializeList(dataPresentation);
-            initializeButtons();
+        setLayout(new BorderLayout());
 
-            contentPanel.setLayout(new BorderLayout());
-            contentPanel.add(itemListProducts, BorderLayout.CENTER);
-            JPanel buttonPanel = new JPanel();
-            buttonPanel.setLayout(new BorderLayout(10,10));
-            buttonPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-            buttonPanel.add(addProductButton, BorderLayout.WEST);
-            buttonPanel.add(importProductsButton, BorderLayout.CENTER);
-            buttonPanel.add(saveChangesButton, BorderLayout.EAST);
-            contentPanel.add(buttonPanel, BorderLayout.SOUTH);
-            this.add(contentPanel, BorderLayout.CENTER);
+        contentPanel.setLayout(new BorderLayout());
 
-        } else {
-            JLabel noProductsTitle = new JLabel("No hay productos en el sistema");
+        refreshContent();
 
-            setLayout(new GridBagLayout());
+        JPanel buttonPanel = new JPanel(new BorderLayout(10, 10));
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-            noProductsTitle.setFont(new Font("Arial", Font.BOLD, 24));
+        addProductButton.addActionListener(e -> viewPrimary.transitionContentPanel(viewPrimary.getAddProductPanel()));
 
-            JPanel textPanel = new JPanel(new GridLayout(2, 1));
-            textPanel.add(noProductsTitle);
+        addProductButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        importProductsButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        saveChangesButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
-            add(textPanel);
-        }
-    }
+        buttonPanel.add(addProductButton, BorderLayout.WEST);
+        buttonPanel.add(importProductsButton, BorderLayout.CENTER);
+        buttonPanel.add(saveChangesButton, BorderLayout.EAST);
 
-    private void initializeButtons() {
 
+        importProductsButton.addActionListener(e -> {
+            try {
+                CtrlPresentation.getInstance().test();
+                updateList();
+            } catch (Exception productNotFoundException) {
+                productNotFoundException.printStackTrace();
+            }
+        });
+
+        contentPanel.add(buttonPanel, BorderLayout.SOUTH);
+
+        this.add(contentPanel, BorderLayout.CENTER);
     }
 
     private void initializeList(Pair<String, String>[] dataP) {
@@ -68,6 +66,35 @@ public class ProductsManagePanel extends JPanel {
         }
 
         String[] cols = CtrlPresentation.getInstance().getProductsCols();
-        itemListProducts = new ItemListProducts(viewPrimary, 2, 2, cols, data);
+        itemListProducts = new ItemListProducts(viewPrimary, this, dataP.length, 2, cols, data);
+    }
+
+    public void updateList() {
+        refreshContent();
+        contentPanel.revalidate();
+        contentPanel.repaint();
+    }
+
+    private void refreshContent() {
+        contentPanel.removeAll();
+
+        Pair<String, String>[] dataPresentation = CtrlPresentation.getInstance().getProducts();
+
+        if (dataPresentation.length > 0) {
+            initializeList(dataPresentation);
+            contentPanel.add(itemListProducts, BorderLayout.CENTER);
+        } else {
+            JLabel noProductsTitle = new JLabel("No hay productos en el sistema", SwingConstants.CENTER);
+            noProductsTitle.setFont(new Font("Arial", Font.BOLD, 24));
+            contentPanel.add(noProductsTitle, BorderLayout.CENTER);
+        }
+
+        JPanel buttonPanel = new JPanel(new BorderLayout(10, 10));
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        buttonPanel.add(addProductButton, BorderLayout.WEST);
+        buttonPanel.add(importProductsButton, BorderLayout.CENTER);
+        buttonPanel.add(saveChangesButton, BorderLayout.EAST);
+
+        contentPanel.add(buttonPanel, BorderLayout.SOUTH);
     }
 }

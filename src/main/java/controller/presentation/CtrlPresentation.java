@@ -73,8 +73,33 @@ public class CtrlPresentation {
     }
 
     public void deleteProductById(String name) {
-
+        try {
+            controllerDomini.deleteProduct(name);
+        } catch (ProductNotFoundException e) {
+            System.out.println(e);
+        }
     }
 
+    public String addProduct(String name, String type) {
+        try {
+            controllerDomini.addProduct(name, type);
+            return null;
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
+    public String modifyProduct(String name, String type) {
+        try {
+            controllerDomini.modifyProduct(name, type);
+            return null;
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
+    public void test() throws Exception {
+        controllerDomini.testingAddingProducts();
+    }
 
 }
