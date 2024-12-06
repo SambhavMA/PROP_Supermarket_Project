@@ -4,6 +4,7 @@ package controller.presentation;
 import controller.ControllerDomini;
 import presentation.views.ViewPrimary;
 import presentation.views.ViewSecundary;
+import utils.Pair;
 
 public class CtrlPresentation {
     private ControllerDomini controllerDomini;
@@ -57,7 +58,18 @@ public class CtrlPresentation {
         return viewPrimary;
     }
 
+    public Pair<String, String>[] getProducts() {
+        try {
+            return controllerDomini.getProducts();
+        } catch (Exception e) {
+            // No products in list
+            return null;
+        }
+    }
 
+    public String[] getProductsCols() {
+        return controllerDomini.getProductsCols();
+    }
 
 
 }

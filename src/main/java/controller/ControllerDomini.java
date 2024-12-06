@@ -14,6 +14,7 @@ import model.similarity.SimilarityTableContainer;
 import model.similarity.SimilarityTable;
 import utils.Pair;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
@@ -119,6 +120,34 @@ public class ControllerDomini {
     public Pair<String, String> getProduct(String name) throws ProductNotFoundException {
         Product product = productContainer.getProductByName(name);
         return new Pair<>(product.getName(), product.getType().toString());
+    }
+
+    /**
+     * Retorna els productes del sistema
+     *
+     * @return Array de Pair amb identificadors de producte: {name, tipus}
+     * @throws ProductNotFoundException Si no hi ha productes al sistema
+     */
+    public String[] getProductsCols() {
+        return new String[]{"nombre", "tipo"};
+    }
+
+    public Pair<String, String>[] getProducts() throws ProductNotFoundException {
+        HashMap<String, Product> products = productContainer.getProducts();
+
+        if (products.isEmpty()) {
+            throw new ProductNotFoundException("No products found in the container.");
+        }
+
+        List<Pair<String, String>> pairsList = new ArrayList<>();
+
+        for (Product product : products.values()) {
+            pairsList.add(new Pair<>(product.getName(), product.getType().toString()));
+        }
+
+        Pair<String, String>[] pairsArray = pairsList.toArray(new Pair[0]);
+
+        return pairsArray;
     }
 
     /**
