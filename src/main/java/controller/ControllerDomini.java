@@ -132,7 +132,9 @@ public class ControllerDomini {
      *
      * @return Array de Pair amb identificadors de producte: {name, tipus}, retorna array buida si no hi ha productes al sistema
      */
-    public Pair<String, String>[] getProducts() throws ProductNotFoundException {
+    public Pair<String, String>[] getProducts() throws ProductNotFoundException, ProductAlreadyExistsException {
+        testingAddingProducts();
+
         HashMap<String, Product> products = productContainer.getProducts();
         Pair<String, String>[] pairsArray = new Pair[0];
         if (! products.isEmpty()) {
@@ -145,6 +147,15 @@ public class ControllerDomini {
         }
 
         return pairsArray;
+    }
+
+    public void testingAddingProducts() throws ProductAlreadyExistsException {
+        productContainer.addProduct(new Product("P1", EnumType.CARN));
+        productContainer.addProduct(new Product("P2", EnumType.PEIX));
+        productContainer.addProduct(new Product("P3", EnumType.CARN));
+        productContainer.addProduct(new Product("P4", EnumType.PEIX));
+        productContainer.addProduct(new Product("P5", EnumType.FRUITA));
+        productContainer.addProduct(new Product("P6", EnumType.FRUITA));
     }
 
     /**

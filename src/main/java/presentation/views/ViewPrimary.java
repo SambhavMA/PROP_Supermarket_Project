@@ -52,7 +52,7 @@ public class ViewPrimary {
     }
 
     private void initializeFrame() {
-        frame.setMinimumSize(new Dimension(700, 400));
+        frame.setMinimumSize(new Dimension(900, 400));
         frame.setPreferredSize(frame.getMinimumSize());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().add(contentPanel);

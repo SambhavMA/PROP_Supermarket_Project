@@ -72,5 +72,9 @@ public class CtrlPresentation {
         return controllerDomini.getProductsCols();
     }
 
+    public void deleteProductById(String name) {
+
+    }
+
 
 }
