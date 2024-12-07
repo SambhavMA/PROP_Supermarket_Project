@@ -1,8 +1,10 @@
 package model.product;
 
 public enum EnumType {
-    FRUITA,
+    FRUTA,
     VERDURA,
-    PEIX,
-    CARN
+    PESCADO,
+    CARNE,
+    ALCOHOL,
+    OTROS
 }

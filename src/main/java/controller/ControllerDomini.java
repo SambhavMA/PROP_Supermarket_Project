@@ -14,10 +14,7 @@ import model.similarity.SimilarityTableContainer;
 import model.similarity.SimilarityTable;
 import utils.Pair;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Vector;
+import java.util.*;
 
 /**
  * @author Joan Gomez Catala (joan.gomez.catala@estudiantat.upc.edu)
@@ -123,8 +120,13 @@ public class ControllerDomini {
     }
 
 
-    public String[] getProductsCols() {
-        return new String[]{"Nombre", "Tipo"};
+    /**
+     * Retorna els tipus de productes del sistema
+     *
+     * @return Una array de Strings dels tipus de productes del sistema
+     */
+    public String[] getProductsTypes() {
+        return new String[]{Arrays.toString(EnumType.values())};
     }
 
     /**
@@ -148,12 +150,12 @@ public class ControllerDomini {
     }
 
     public void testingAddingProducts() throws ProductAlreadyExistsException {
-        productContainer.addProduct(new Product("P1", EnumType.CARN));
-        productContainer.addProduct(new Product("P2", EnumType.PEIX));
-        productContainer.addProduct(new Product("P3", EnumType.CARN));
-        productContainer.addProduct(new Product("P4", EnumType.PEIX));
-        productContainer.addProduct(new Product("P5", EnumType.FRUITA));
-        productContainer.addProduct(new Product("P6", EnumType.FRUITA));
+        productContainer.addProduct(new Product("P1", EnumType.CARNE));
+        productContainer.addProduct(new Product("P2", EnumType.PESCADO));
+        productContainer.addProduct(new Product("P3", EnumType.CARNE));
+        productContainer.addProduct(new Product("P4", EnumType.PESCADO));
+        productContainer.addProduct(new Product("P5", EnumType.FRUTA));
+        productContainer.addProduct(new Product("P6", EnumType.FRUTA));
 //        productContainer.addProduct(new Product("P7", EnumType.CARN));
 //        productContainer.addProduct(new Product("P8", EnumType.PEIX));
 //        productContainer.addProduct(new Product("P9", EnumType.CARN));

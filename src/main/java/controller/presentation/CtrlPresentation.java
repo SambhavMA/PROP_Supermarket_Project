@@ -7,6 +7,8 @@ import presentation.views.ViewPrimary;
 import presentation.views.ViewSecundary;
 import utils.Pair;
 
+import javax.swing.*;
+
 public class CtrlPresentation {
     private ControllerDomini controllerDomini;
     private ViewPrimary viewPrimary;
@@ -63,20 +65,34 @@ public class CtrlPresentation {
         try {
             return controllerDomini.getProducts();
         } catch (Exception e) {
-            // show dialog error
+            JOptionPane.showMessageDialog(
+                    new JFrame(),
+                    e.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+            );
             return null;
         }
     }
 
     public String[] getProductsCols() {
-        return controllerDomini.getProductsCols();
+        return new String[] {"Nombre", "Tipo"};
+    }
+
+    public String[] getProductTypes() {
+        return controllerDomini.getProductsTypes();
     }
 
     public void deleteProductById(String name) {
         try {
             controllerDomini.deleteProduct(name);
         } catch (ProductNotFoundException e) {
-            System.out.println(e);
+            JOptionPane.showMessageDialog(
+                    new JFrame(),
+                    e.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+            );
         }
     }
 

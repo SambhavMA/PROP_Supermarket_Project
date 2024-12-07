@@ -10,7 +10,7 @@ public class AddProductPanel extends JPanel {
     private JLabel title = new JLabel("Añadir Producto", SwingConstants.CENTER);
     private JLabel nameLabel = new JLabel("Nombre:");
     private JTextField nameInput = new JTextField(20);
-    private JLabel typeLabel = new JLabel("Tipo:");
+    private JLabel typeLabel = new JLabel("Tipo: " + String.join(", ", CtrlPresentation.getInstance().getProductTypes()));
     private JTextField typeInput = new JTextField(20);
     private JButton submitButton = new JButton("Añadir");
 
@@ -41,12 +41,13 @@ public class AddProductPanel extends JPanel {
         add(nameInput, gbc);
 
         gbc.gridy = 2;
-        gbc.gridx = 0;
+        gbc.gridx = 0;;
         add(typeLabel, gbc);
         gbc.gridx = 1;
         add(typeInput, gbc);
 
-        gbc.gridy = 3;
+
+        gbc.gridy = 4;
         gbc.gridx = 0;
         gbc.gridwidth = 2;
         submitButton.setPreferredSize(new Dimension(120, 30));
