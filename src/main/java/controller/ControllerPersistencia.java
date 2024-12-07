@@ -8,7 +8,6 @@ import persistence.FileManager;
 import persistence.JSON.JsonManager;
 
 import java.util.List;
-import java.util.Vector;
 import java.util.ArrayList;
 
 import utils.Pair;
@@ -25,7 +24,6 @@ import model.exceptions.IncorrectPath;
 public class ControllerPersistencia {
 
     private FileManager fileManager;
-    JsonObject jsonData;
     public ControllerPersistencia() {
         fileManager = new JsonManager();
     }
@@ -36,6 +34,7 @@ public class ControllerPersistencia {
      * @throws IncorrectPath si la ruta no es correcta
      */
     public List<JsonObject> importProducts(String path) throws IncorrectPath{
+        JsonObject jsonData;
         try{
             jsonData = fileManager.importFromFile(path);
         } catch (IncorrectPath e) {
@@ -55,6 +54,7 @@ public class ControllerPersistencia {
      * @throws IncorrectPath si la ruta no es correcta
      */
     public List< Pair< List<String>, List< Pair<Pair<String, String>, Double> > > > importSimilarityTable(String path) throws IncorrectPath {
+        JsonObject jsonData;
         try{
             jsonData = fileManager.importFromFile(path);
         } catch (IncorrectPath e) {

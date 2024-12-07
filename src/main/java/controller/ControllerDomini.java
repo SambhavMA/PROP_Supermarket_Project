@@ -19,8 +19,6 @@ import java.util.Vector;
 import java.util.Set;
 import java.util.HashSet;
 
-import com.google.gson.JsonObject;
-
 /**
  * @author Joan Gomez Catala (joan.gomez.catala@estudiantat.upc.edu)
  * <p>S'encarrega de gestionar les operacions de domini.
@@ -335,7 +333,7 @@ public class ControllerDomini {
      * @return Pair amb els productes de la taula i la matriu de similituds
      * @throws IncorrectPath Si la ruta no és correcta
      */
-    public void importSimilarityTable(String path) throws IncorrectPath, ProductNotFoundException {
+    public void importSimilarityTables(String path) throws IncorrectPath, ProductNotFoundException {
         List< Pair< List<String>, List< Pair<Pair<String, String>, Double> > > > similarityTables;
         try {
             similarityTables = cP.importSimilarityTable(path);
@@ -386,7 +384,7 @@ public class ControllerDomini {
      * @param path Ruta on es guardarà el fitxer amb les taules de similituds
      * @throws IncorrectPath Si la ruta no és correcta
      */
-    public void exportSimilarityTable(String path) throws IncorrectPath {
+    public void exportSimilarityTables(String path) throws IncorrectPath {
         List<JsonObject> similarityTables = new ArrayList<>();
         for(SimilarityTable similarityTable : similarityTableContainer.getSimilarityTables().values()) {
             JsonObject STObject = new JsonObject();
@@ -416,48 +414,6 @@ public class ControllerDomini {
         }
         try {
             cP.exportSimilarityTable(path, similarityTables);
-        } catch (IncorrectPath e) {
-            throw new IncorrectPath(path);
-        }
-    }
-
-    /**
-     * Exporta els productes del programa al fitxer memoria
-     */
-    public void exportProductsToMemory(String path) throws IncorrectPath{
-        List<JsonObject> existingProducts;
-        try {
-            existingProducts = cP.importProducts(path);
-        } catch (IncorrectPath e) {
-            throw new IncorrectPath(path);
-        }
-
-        Set<String> productNames = new HashSet<>();
-        for(JsonObject product : existingProducts) {
-            productNames.add(product.get("name").getAsString());
-        }
-
-        for (Product product : productContainer.getProducts().values()) {
-            if (!productNames.contains(product.getName())) {
-                JsonObject productJson = new JsonObject();
-                productJson.addProperty("name", product.getName());
-                productJson.addProperty("type", product.getType().toString());
-                existingProducts.add(productJson);
-            }
-        }
-        try {
-            cP.exportProducts(path, existingProducts);
-        } catch (IncorrectPath e) {
-            throw new IncorrectPath(path);
-        }
-    }
-
-    /**
-     * Exporta les taules de similituds del programa al fitxer memoria
-     */
-    public void exportSimilarityTablesToMemory(String path) throws IncorrectPath {
-        try{
-            exportSimilarityTable(path);
         } catch (IncorrectPath e) {
             throw new IncorrectPath(path);
         }

@@ -507,7 +507,7 @@ public class ControllerPresentacio {
         String path;
         path = cIO.readLine();
         try {
-            cDom.importSimilarityTable(path);
+            cDom.importSimilarityTables(path);
         } catch (IncorrectPath e) {
             cIO.writeLine("ERROR: " + e.getMessage());
         } catch (ProductNotFoundException e) {
@@ -539,7 +539,7 @@ public class ControllerPresentacio {
         String path;
         path = cIO.readLine();
         try {
-            cDom.exportSimilarityTable(path);
+            cDom.exportSimilarityTables(path);
         } catch (IncorrectPath e) {
             cIO.writeLine("ERROR: " + e.getMessage());
         }
@@ -566,7 +566,7 @@ public class ControllerPresentacio {
     public void importSimilarityTablesFromMemory() {
         cIO.writeLine("Ha escollit l'opcio Import Similarity Tables From Memory");
         try {
-            cDom.importSimilarityTable("D:\\Uni\\PROP\\subgrup-prop12.4\\EXE\\memory\\SimilarityTables.json");
+            cDom.importSimilarityTables("D:\\Uni\\PROP\\subgrup-prop12.4\\EXE\\memory\\SimilarityTables.json");
         } catch (IncorrectPath e) {
             cIO.writeLine("ERROR: " + e.getMessage());
         } catch (ProductNotFoundException e) {
@@ -576,12 +576,12 @@ public class ControllerPresentacio {
     }
 
     /**
-     * Llama al controlador de Domini para guardar los datos en memoria
+     * Llama al controlador de Domini para guardar los productos en el fichero memoria
      */
     public void exportProductsToMemory() {
         cIO.writeLine("Ha escollit l'opcio Export Products To Memory");
         try {
-            cDom.exportProductsToMemory("D:\\Uni\\PROP\\subgrup-prop12.4\\EXE\\memory\\Products.json");
+            cDom.exportProducts("D:\\Uni\\PROP\\subgrup-prop12.4\\EXE\\memory\\Products.json");
         } catch (IncorrectPath e) {
             cIO.writeLine("ERROR: " + e.getMessage());
         }
@@ -589,12 +589,12 @@ public class ControllerPresentacio {
     }
 
     /**
-     * Llama al controlador de Domini para guardar las tablas de similitudes en memoria
+     * Llama al controlador de Domini para guardar las tablas de similitudes en el fichero memoria
      */
     public void exportSimilarityTablesToMemory() {
         cIO.writeLine("Ha escollit l'opcio Export Similarity Tables To Memory");
         try {
-            cDom.exportSimilarityTablesToMemory("D:\\Uni\\PROP\\subgrup-prop12.4\\EXE\\memory\\SimilarityTables.json");
+            cDom.exportSimilarityTables("D:\\Uni\\PROP\\subgrup-prop12.4\\EXE\\memory\\SimilarityTables.json");
         } catch (IncorrectPath e) {
             cIO.writeLine("ERROR: " + e.getMessage());
         }
