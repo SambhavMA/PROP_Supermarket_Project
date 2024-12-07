@@ -21,7 +21,7 @@ public class AddSimilarityTablePanel extends JPanel {
 
     private JLabel relationsInfo = new JLabel(
             "<html>Formato correcto: producto1 producto2 relacion<br>" +
-                    "Con un salto de linea entre relaciones y las relaciones entre 0 y 1<br>" +
+                    "Con un salto de linea entre relaciones y las relaciones entre 0 y 1.<br>" +
                     "Inserte las relaciones de la tabla de similitud:</html>"
     );
     private JTextArea relationsInput = new JTextArea();
@@ -107,8 +107,21 @@ public class AddSimilarityTablePanel extends JPanel {
     }
 
     private void handleSubmit() {
-        String[] products = productsInput.getText().trim().split("\n");
-        String[] relations = relationsInput.getText().trim().split("\n");
+        String[] products;
+        String[] relations;
+        try {
+           products = productsInput.getText().trim().split("\n");
+           relations = relationsInput.getText().trim().split("\n");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "El input esta en formato incorrecto.",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+            );
+            return;
+        }
+
 
         if (products.length == 0 || relations.length == 0) {
             JOptionPane.showMessageDialog(

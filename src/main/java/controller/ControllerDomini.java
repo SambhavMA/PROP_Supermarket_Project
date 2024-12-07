@@ -211,6 +211,7 @@ public class ControllerDomini {
      */
     public int addSimilarityTable(String[] productosP, String[] similitudesP) throws WrongInputException, ProductNotFoundException {
         List<Pair<Pair<String, String>, Double>> similitudes = new ArrayList<>();
+        List<String> productos = new ArrayList<>();
 
         try {
             for (String v : similitudesP) {
@@ -223,7 +224,16 @@ public class ControllerDomini {
             throw new WrongInputException();
         }
 
-        return addSimilarityTable(Arrays.asList(productosP), similitudes);
+        for (String p : productosP) {
+            try {
+                Product product = productContainer.getProductByName(p);
+                productos.add(product.getName());
+            } catch (ProductNotFoundException e) {
+                throw new ProductNotFoundException(p);
+            }
+        }
+
+        return addSimilarityTable(productos, similitudes);
     }
 
     /**
