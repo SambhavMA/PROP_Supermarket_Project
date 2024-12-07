@@ -63,7 +63,6 @@ public class ItemListProducts extends JPanel {
             productPanel.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
             JLabel rowLabel = new JLabel("" + (row + 1), SwingConstants.CENTER);
-            rowLabel.setPreferredSize(sizes);
             rowLabel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
             productPanel.add(rowLabel);
 

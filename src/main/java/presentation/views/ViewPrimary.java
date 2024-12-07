@@ -101,6 +101,7 @@ public class ViewPrimary {
 
     public SimilarityTablesManagePanel getSimilarityTablesManagePanel() {
         if (similarityTablesManagePanel == null) similarityTablesManagePanel = new SimilarityTablesManagePanel(this);
+        similarityTablesManagePanel.updateList();
         return similarityTablesManagePanel;
     }
 

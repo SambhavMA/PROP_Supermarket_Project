@@ -164,7 +164,15 @@ public class ControllerDomini {
 
     public String[] getSimilarityTables() {
         HashMap<Integer, SimilarityTable> similarityTableHashMap = similarityTableContainer.getSimilarityTables();
-        return similarityTableHashMap.keySet().toArray(new String[0]);
+
+        String[] ids = new String[similarityTableHashMap.size()];
+        int i = 0;
+        for (SimilarityTable s : similarityTableHashMap.values()) {
+            ids[i] = ""+s.getId();
+            i++;
+        }
+
+        return ids;
     }
 
     /**

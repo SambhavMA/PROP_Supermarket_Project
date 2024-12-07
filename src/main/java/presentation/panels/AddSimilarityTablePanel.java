@@ -21,7 +21,7 @@ public class AddSimilarityTablePanel extends JPanel {
 
     private JLabel relationsInfo = new JLabel(
             "<html>Formato correcto: producto1 producto2 relacion<br>" +
-                    "Con un salto de linea entre relaciones.<br>" +
+                    "Con un salto de linea entre relaciones y las relaciones entre 0 y 1<br>" +
                     "Inserte las relaciones de la tabla de similitud:</html>"
     );
     private JTextArea relationsInput = new JTextArea();

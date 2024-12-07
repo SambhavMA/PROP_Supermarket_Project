@@ -62,7 +62,7 @@ public class SimilarityTablesManagePanel extends JPanel {
         JComponent[] data = new JComponent[ids.length];
 
         for (int i = 0; i < ids.length; i++) {
-            data[i] = new JLabel(ids[i]);
+            data[i] = new JLabel(ids[i], SwingConstants.CENTER);
         }
 
         String[] cols = CtrlPresentation.getInstance().getSimilarityTablesCols();
