@@ -1,5 +1,7 @@
 package controller;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import model.distribution.Distribution;
 import model.exceptions.*;
 import model.product.ProductContainer;
@@ -10,9 +12,14 @@ import model.similarity.SimilarityTableContainer;
 import model.similarity.SimilarityTable;
 import utils.Pair;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
+import java.util.Set;
+import java.util.HashSet;
+
+import com.google.gson.JsonObject;
 
 /**
  * @author Joan Gomez Catala (joan.gomez.catala@estudiantat.upc.edu)
@@ -26,7 +33,7 @@ public class ControllerDomini {
     private DistributionContainer distributionContainer = new DistributionContainer();
     private SimilarityTableContainer similarityTableContainer = new SimilarityTableContainer();
 
-    private ControllerPersistencia controllerPersistencia = new ControllerPersistencia();
+    private ControllerPersistencia cP = new ControllerPersistencia();
 
     private static ControllerDomini singletonObject;
 
@@ -303,8 +310,23 @@ public class ControllerDomini {
      * @return Vector amb totes les distribucions
      * @throws IncorrectPath Si la ruta no és correcta
      */
-    public void importProducts(String path) throws IncorrectPath{
-        HashMap<String, String> products = controllerPersistencia.importProducts(path);
+    public void importProducts(String path) throws IncorrectPath, NoTypeWithName {
+        List<JsonObject> products;
+        try {
+            products = cP.importProducts(path);
+        } catch (IncorrectPath e) {
+            throw new IncorrectPath(path);
+        }
+
+        for (JsonObject product : products) {
+            String name = product.get("name").getAsString();
+            String type = product.get("type").getAsString();
+            try {
+                addProduct(name, type);
+            } catch (ProductAlreadyExistsException e) {
+                continue;
+            }
+        }
     }
 
     /**
@@ -313,8 +335,30 @@ public class ControllerDomini {
      * @return Pair amb els productes de la taula i la matriu de similituds
      * @throws IncorrectPath Si la ruta no és correcta
      */
-    public Pair<Vector<Pair<String, Integer>>, double[][]> importSimilarityTable(String path) throws IncorrectPath{
-        return controllerPersistencia.importSimilarityTable(path);
+    public void importSimilarityTable(String path) throws IncorrectPath, ProductNotFoundException {
+        List< Pair< List<String>, List< Pair<Pair<String, String>, Double> > > > similarityTables;
+        try {
+            similarityTables = cP.importSimilarityTable(path);
+        } catch (IncorrectPath e) {
+            throw new IncorrectPath(path);
+        }
+
+        for (Pair< List<String>, List< Pair<Pair<String, String>, Double> > > similarityTable : similarityTables) {
+            List<String> products = similarityTable.first();
+            for(String product : products) {
+                try {
+                    getProduct(product);
+                } catch (ProductNotFoundException e) {
+                    throw new ProductNotFoundException(e.getMessage());
+                }
+            }
+            List<Pair<Pair<String, String>, Double>> similarities = similarityTable.second();
+            try {
+                addSimilarityTable(products, similarities);
+            } catch (ProductNotFoundException e) {
+                throw new ProductNotFoundException(e.getMessage());
+            }
+        }
     }
 
     /**
@@ -323,11 +367,18 @@ public class ControllerDomini {
      * @throws IncorrectPath Si la ruta no és correcta
      */
     public void exportProducts(String path) throws IncorrectPath{
-        HashMap<String, String> products = new HashMap<>();
+        List<JsonObject> products = new ArrayList<>();
         for (Product product : productContainer.getProducts().values()) {
-            products.put(product.getName(), product.getType().toString());
+            JsonObject productJson = new JsonObject();
+            productJson.addProperty("name", product.getName());
+            productJson.addProperty("type", product.getType().toString());
+            products.add(productJson);
         }
-        controllerPersistencia.exportProducts(path, products);
+        try {
+            cP.exportProducts(path, products);
+        } catch (IncorrectPath e) {
+            throw new IncorrectPath(path);
+        }
     }
 
     /**
@@ -335,44 +386,80 @@ public class ControllerDomini {
      * @param path Ruta on es guardarà el fitxer amb les taules de similituds
      * @throws IncorrectPath Si la ruta no és correcta
      */
-    public void exportSimilarityTable(String path) throws IncorrectPath{
-        Pair<Vector<Pair<String, Integer>>, double[][]> similarityTables = new Pair<>(new Vector<>(), new double[0][0]);
-        for (SimilarityTable table : similarityTableContainer.getSimilarityTables().values()) {
-            Vector<Pair<String, Integer>> products = new Vector<>();
-            for (String key : table.getFastIndexes().keySet()) {
-                products.add(new Pair<>(key, table.getFastIndexes().get(key)));
-            }
-            similarityTables = new Pair<>(products, table.getRelationMatrix());
-        }
+    public void exportSimilarityTable(String path) throws IncorrectPath {
+        List<JsonObject> similarityTables = new ArrayList<>();
+        for(SimilarityTable similarityTable : similarityTableContainer.getSimilarityTables().values()) {
+            JsonObject STObject = new JsonObject();
+            STObject.addProperty("id", similarityTable.getId());
 
-        controllerPersistencia.exportSimilarityTable(path, similarityTables);
+            // Afegir productes
+            JsonArray productsArray = new JsonArray();
+            for(String product : similarityTable.getFastIndexes().keySet()) {
+                productsArray.add(product);
+            }
+            STObject.add("products", productsArray);
+
+            // Afegir similituds
+            JsonArray similaritiesArray = new JsonArray();
+            for(int i = 0; i < similarityTable.getRelationMatrix().length; i++) {
+                for(int j = i + 1; j < similarityTable.getRelationMatrix().length; j++) {
+                    JsonObject similarityObject = new JsonObject();
+                    similarityObject.addProperty("product1", similarityTable.getFastIndexes().keySet().toArray()[i].toString());
+                    similarityObject.addProperty("product2", similarityTable.getFastIndexes().keySet().toArray()[j].toString());
+                    similarityObject.addProperty("similarity", similarityTable.getRelationMatrix()[i][j]);
+                    similaritiesArray.add(similarityObject);
+                }
+            }
+
+            STObject.add("similarities", similaritiesArray);
+            similarityTables.add(STObject);
+        }
+        try {
+            cP.exportSimilarityTable(path, similarityTables);
+        } catch (IncorrectPath e) {
+            throw new IncorrectPath(path);
+        }
     }
 
     /**
      * Exporta els productes del programa al fitxer memoria
      */
-    public void exportProductsToMemory() {
-        ;
-    }
+    public void exportProductsToMemory(String path) throws IncorrectPath{
+        List<JsonObject> existingProducts;
+        try {
+            existingProducts = cP.importProducts(path);
+        } catch (IncorrectPath e) {
+            throw new IncorrectPath(path);
+        }
 
-    /**
-     * Importa els productes de memoria al programa
-     */
-    public void importProdcutsFromMemory() {
-        ;
+        Set<String> productNames = new HashSet<>();
+        for(JsonObject product : existingProducts) {
+            productNames.add(product.get("name").getAsString());
+        }
+
+        for (Product product : productContainer.getProducts().values()) {
+            if (!productNames.contains(product.getName())) {
+                JsonObject productJson = new JsonObject();
+                productJson.addProperty("name", product.getName());
+                productJson.addProperty("type", product.getType().toString());
+                existingProducts.add(productJson);
+            }
+        }
+        try {
+            cP.exportProducts(path, existingProducts);
+        } catch (IncorrectPath e) {
+            throw new IncorrectPath(path);
+        }
     }
 
     /**
      * Exporta les taules de similituds del programa al fitxer memoria
      */
-    public void exportSimilarityTablesToMemory() {
-        ;
-    }
-
-    /**
-     * Importa les taules de similituds de memoria al programa
-     */
-    public void importSimilarityTablesFromMemory() {
-        ;
+    public void exportSimilarityTablesToMemory(String path) throws IncorrectPath {
+        try{
+            exportSimilarityTable(path);
+        } catch (IncorrectPath e) {
+            throw new IncorrectPath(path);
+        }
     }
 }

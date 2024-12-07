@@ -1,12 +1,11 @@
 package persistence;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Vector;
-
-import utils.Pair;
-
 import model.exceptions.IncorrectPath;
+import com.google.gson.JsonObject;
+
+
+
+
 
 /**
  * @author David Calvo Espases (david.calvo.espases@estudiantat.upc.edu)
@@ -14,11 +13,18 @@ import model.exceptions.IncorrectPath;
  */
 
 public interface FileManager {
+    /**
+     * Importa un fichero
+     * @param path ruta donde se encuentra el fichero
+     * @throws IncorrectPath si la ruta no es correcta
+     */
+    JsonObject importFromFile(String path) throws IncorrectPath;
 
-    HashMap<String, String> importProducts(String path) throws IncorrectPath;
-    Pair<Vector<Pair<String, Integer>>, double[][]> importSimilarityTable(String path) throws IncorrectPath;
-    void exportProducts(String path, HashMap<String, String> products) throws IncorrectPath;
-    void exportSimilarityTable(String path, Pair<Vector<Pair<String, Integer>>, double[][]> similarityTable) throws IncorrectPath;
-
-
+    /**
+     * Exporta un fichero
+     * @param path ruta ddonde se exporta el fichero
+     * @param jsonObject contenido a exportar
+     * @throws IncorrectPath si la ruta no es correcta
+     */
+    void exportToFile(String path, JsonObject jsonObject) throws IncorrectPath;
 }

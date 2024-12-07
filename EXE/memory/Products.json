@@ -1,16 +1,1 @@
-{
-  "products": [
-    {
-      "name": "Poma",
-      "type": "FRUITA"
-    },
-    {
-      "name": "Pera",
-      "type": "FRUITA"
-    },
-    {
-      "name": "Platan",
-      "type": "FRUITA"
-    }
-  ]
-}
+{"Products":[{"name":"Filet","type":"CARN"},{"name":"Pera","type":"FRUITA"},{"name":"Poma","type":"FRUITA"},{"name":"Platan","type":"FRUITA"},{"name":"Llenguado","type":"PEIX"}]}

@@ -84,20 +84,16 @@ public class ControllerPresentacio {
                 exportSimilarityTable();
                 break;
             case "17":
+                importProductsFromMemory();
+                break;
+            case "18":
+                importSimilarityTablesFromMemory();
+                break;
+            case "19":
                 exportProductsToMemory();
                 break;
-            /*
-            case "18":
-                importProductsFromMemory();
-                    //si hi ha algun que ja esta al programa no l'afegim o es reinicia tot el que teniem i es carrega nomes lo de memoria?
-                break;
-             */
-
-            case "19":
-                exportSimilarityTablesToMemory();
-                break;
             case "20":
-                importSimilarityTablesFromMemory();
+                exportSimilarityTablesToMemory();
                 break;
             case "21":
                 cIO.exit();
@@ -497,6 +493,8 @@ public class ControllerPresentacio {
             cDom.importProducts(path);
         } catch (IncorrectPath e) {
             cIO.writeLine("ERROR: " + e.getMessage());
+        } catch (NoTypeWithName e) {
+            cIO.writeLine("ERROR: " + e.getMessage());
         }
     }
 
@@ -511,6 +509,8 @@ public class ControllerPresentacio {
         try {
             cDom.importSimilarityTable(path);
         } catch (IncorrectPath e) {
+            cIO.writeLine("ERROR: " + e.getMessage());
+        } catch (ProductNotFoundException e) {
             cIO.writeLine("ERROR: " + e.getMessage());
         }
     }
@@ -546,30 +546,57 @@ public class ControllerPresentacio {
     }
 
     /**
-     * Llama al controlador de Domini para guardar los datos en memoria
-     */
-    public void exportProductsToMemory() {
-        cDom.exportProductsToMemory();
-    }
-
-    /**
      * Llama al controlador de Domini para cargar los productos de memoria
      */
     public void importProductsFromMemory() {
-        cDom.importProdcutsFromMemory();
-    }
-
-    /**
-     * Llama al controlador de Domini para guardar las tablas de similitudes en memoria
-     */
-    public void exportSimilarityTablesToMemory() {
-        cDom.exportSimilarityTablesToMemory();
+        cIO.writeLine("Ha escollit l'opcio Import Products From Memory");
+        try {
+            cDom.importProducts("D:\\Uni\\PROP\\subgrup-prop12.4\\EXE\\memory\\Products.json");
+        } catch (IncorrectPath e) {
+            cIO.writeLine("ERROR: " + e.getMessage());
+        } catch (NoTypeWithName e) {
+            cIO.writeLine("ERROR: " + e.getMessage());
+        }
+        cIO.writeLine("Productes importats correctament");
     }
 
     /**
      * Llama al controlador de Domini para cargar las tablas de similitudes de memoria
      */
     public void importSimilarityTablesFromMemory() {
-        cDom.importSimilarityTablesFromMemory();
+        cIO.writeLine("Ha escollit l'opcio Import Similarity Tables From Memory");
+        try {
+            cDom.importSimilarityTable("D:\\Uni\\PROP\\subgrup-prop12.4\\EXE\\memory\\SimilarityTables.json");
+        } catch (IncorrectPath e) {
+            cIO.writeLine("ERROR: " + e.getMessage());
+        } catch (ProductNotFoundException e) {
+            cIO.writeLine("ERROR: " + e.getMessage());
+        }
+        cIO.writeLine("Taules de similituds importades correctament");
+    }
+
+    /**
+     * Llama al controlador de Domini para guardar los datos en memoria
+     */
+    public void exportProductsToMemory() {
+        cIO.writeLine("Ha escollit l'opcio Export Products To Memory");
+        try {
+            cDom.exportProductsToMemory("D:\\Uni\\PROP\\subgrup-prop12.4\\EXE\\memory\\Products.json");
+        } catch (IncorrectPath e) {
+            cIO.writeLine("ERROR: " + e.getMessage());
+        }
+        cIO.writeLine("Productes exportats correctament");
+    }
+
+    /**
+     * Llama al controlador de Domini para guardar las tablas de similitudes en memoria
+     */
+    public void exportSimilarityTablesToMemory() {
+        cIO.writeLine("Ha escollit l'opcio Export Similarity Tables To Memory");
+        try {
+            cDom.exportSimilarityTablesToMemory("D:\\Uni\\PROP\\subgrup-prop12.4\\EXE\\memory\\SimilarityTables.json");
+        } catch (IncorrectPath e) {
+            cIO.writeLine("ERROR: " + e.getMessage());
+        }
     }
 }

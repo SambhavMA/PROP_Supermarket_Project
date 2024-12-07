@@ -1,14 +1,12 @@
 package persistence.JSON;
 
 import persistence.FileManager;
-import utils.Pair;
 import model.exceptions.IncorrectPath;
 
-import java.util.HashMap;
-import java.util.Vector;
+import java.io.*;
 
-import java.io.FileWriter;
-import java.io.IOException;
+import com.google.gson.JsonObject;
+import com.google.gson.Gson;
 
 /**
  * @author David Calvo Espases (david.calvo.espases@estudiantat.upc.edu)
@@ -21,54 +19,44 @@ public class JsonManager implements FileManager{
     }
 
     /**
-     * Importa los productos de un fichero JSON
-     * @param path ruta donde se obtienen los productos
+     * Importa el contenido de un fichero JSON y retorna un JsonObject
+     * @param path ruta donde se encuentra el fichero JSON
      * @throws IncorrectPath si la ruta no es correcta
      */
     @Override
-    public HashMap<String, String> importProducts(String path) throws IncorrectPath {
-        return null;
-    }
-
-    /**
-     * Importa la tabla de similitud de un fichero JSON
-     * @param path ruta donde se obtiene la tabla de similitud
-     * @throws IncorrectPath si la ruta no es correcta
-     */
-    @Override
-    public Pair<Vector<Pair<String, Integer>>, double[][]> importSimilarityTable(String path) throws IncorrectPath {
-        return null;
-    }
-
-    /**
-     * Exporta los productos a un fichero JSON
-     * @param path ruta donde se creara el fichero
-     * @param products productos a exportar
-     * @throws IncorrectPath si la ruta no es correcta
-     */
-    @Override
-    public void exportProducts(String path, HashMap<String, String> products) throws IncorrectPath {
-        try {
-            FileWriter file = new FileWriter(path);
-            file.write(products.toString());
-            file.close();
+    public JsonObject importFromFile(String path) throws IncorrectPath {
+        try(BufferedReader reader = new BufferedReader(new FileReader(path))) {
+            Gson gson = new Gson();
+            return gson.fromJson(reader, JsonObject.class);
         } catch (IOException e) {
             throw new IncorrectPath(path);
         }
     }
 
     /**
-     * Exporta la tabla de similitud a un fichero JSON
+     * Exporta un JsonObject a un fichero JSON
      * @param path ruta donde se creara el fichero
-     * @param similarityTable tabla de similitud a exportar
+     * @param jsonObject contenido a exportar
      * @throws IncorrectPath si la ruta no es correcta
      */
     @Override
-    public void exportSimilarityTable(String path, Pair<Vector<Pair<String, Integer>>, double[][]> similarityTable) throws IncorrectPath {
-        try {
-            FileWriter file = new FileWriter(path);
-            file.write(similarityTable.toString());
-            file.close();
+    public void exportToFile(String path, JsonObject jsonObject) throws IncorrectPath {
+        File file = new File(path);
+
+        // Si el path es directorio se crea un fichero output.json
+        if(file.isDirectory()){
+            file = new File(file, "output.json");
+        }
+
+        // Si el path es un directorio que no existe se crea
+        if(!file.exists()){
+            file.getParentFile().mkdirs();
+        }
+
+
+        try(BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+            Gson gson = new Gson();
+            writer.write(gson.toJson(jsonObject));
         } catch (IOException e) {
             throw new IncorrectPath(path);
         }
