@@ -1,11 +1,7 @@
 package controller;
 
 import model.distribution.Distribution;
-import model.exceptions.DistributionNotFoundException;
-import model.exceptions.NoTypeWithName;
-import model.exceptions.ProductAlreadyExistsException;
-import model.exceptions.ProductNotFoundException;
-import model.exceptions.SimilarityTableNotFoundException;
+import model.exceptions.*;
 import model.product.ProductContainer;
 import model.product.Product;
 import model.product.EnumType;
@@ -134,7 +130,7 @@ public class ControllerDomini {
      *
      * @return Array de Pair amb identificadors de producte: {name, tipus}, retorna array buida si no hi ha productes al sistema
      */
-    public Pair<String, String>[] getProducts() throws ProductNotFoundException, ProductAlreadyExistsException {
+    public Pair<String, String>[] getProducts() {
         HashMap<String, Product> products = productContainer.getProducts();
         Pair<String, String>[] pairsArray = new Pair[0];
         if (! products.isEmpty()) {
@@ -162,6 +158,64 @@ public class ControllerDomini {
 //        productContainer.addProduct(new Product("P10", EnumType.PEIX));
 //        productContainer.addProduct(new Product("P11", EnumType.FRUITA));
 //        productContainer.addProduct(new Product("P12", EnumType.FRUITA));
+    }
+
+    // SIMILARITY TABLE FUNCTIONS
+
+    public String[] getSimilarityTables() {
+        HashMap<Integer, SimilarityTable> similarityTableHashMap = similarityTableContainer.getSimilarityTables();
+        return similarityTableHashMap.keySet().toArray(new String[0]);
+    }
+
+    /**
+     * Retorna una taula de similitud si existeix
+     *
+     * @param id Identificador de la taula de similitud a buscar
+     * @return Pair amb els productes de la taula i la matriu de similituds
+     * @throws SimilarityTableNotFoundException Si la taula de similitud a buscar no existeix
+     */
+    public Pair<Vector<Pair<String, Integer>>, double[][]> getSimilarityTable(int id)
+            throws SimilarityTableNotFoundException {
+        SimilarityTable similarityTable = similarityTableContainer.getSimilarityTableById(id);
+
+        Vector<Pair<String, Integer>> productos = new Vector<>();
+        for (String key : similarityTable.getFastIndexes().keySet()) {
+            productos.add(new Pair<>(key, similarityTable.getFastIndexes().get(key)));
+        }
+
+        double[][] relationMatrix = similarityTable.getRelationMatrix();
+
+        return new Pair<>(productos, relationMatrix);
+    }
+
+    public int getSimilarityTableNextId() {
+        return similarityTableContainer.nextId();
+    }
+
+    /**
+     * Parseja les dades en format simple i despres crea una taula de similitud
+     *
+     * @param productosP   Array de Strings amb els noms dels productes de la taula de similitud
+     * @param similitudesP Array de Strings amb les similituds entre productes (producte1, producte2, similitud)
+     * @return Identificador de la taula de similitud creada
+     * @throws WrongInputException Si les dades estan en un format incorrecte
+     * @throws ProductNotFoundException Si algun dels productes que formen la taula no existeix
+     */
+    public int addSimilarityTable(String[] productosP, String[] similitudesP) throws WrongInputException, ProductNotFoundException {
+        List<Pair<Pair<String, String>, Double>> similitudes = new ArrayList<>();
+
+        try {
+            for (String v : similitudesP) {
+                String[] linea = v.split(" ");
+                Pair<String, String> p = new Pair<>(linea[0], linea[1]);
+                Pair<Pair<String, String>, Double> p2 = new Pair<>(p, Double.parseDouble(linea[2]));
+                similitudes.add(p2);
+            }
+        } catch (Exception e) {
+            throw new WrongInputException();
+        }
+
+        return addSimilarityTable(Arrays.asList(productosP), similitudes);
     }
 
     /**
@@ -244,27 +298,6 @@ public class ControllerDomini {
      */
     public void deleteSimilarityTable(int id) throws SimilarityTableNotFoundException {
         similarityTableContainer.deleteSimilarityTableById(id);
-    }
-
-    /**
-     * Retorna una taula de similitud si existeix
-     * 
-     * @param id Identificador de la taula de similitud a buscar
-     * @return Pair amb els productes de la taula i la matriu de similituds
-     * @throws SimilarityTableNotFoundException Si la taula de similitud a buscar no existeix
-     */
-    public Pair<Vector<Pair<String, Integer>>, double[][]> getSimilarityTable(int id)
-            throws SimilarityTableNotFoundException {
-        SimilarityTable similarityTable = similarityTableContainer.getSimilarityTableById(id);
-
-        Vector<Pair<String, Integer>> productos = new Vector<>();
-        for (String key : similarityTable.getFastIndexes().keySet()) {
-            productos.add(new Pair<>(key, similarityTable.getFastIndexes().get(key)));
-        }
-
-        double[][] relationMatrix = similarityTable.getRelationMatrix();
-
-        return new Pair<>(productos, relationMatrix);
     }
 
     /**

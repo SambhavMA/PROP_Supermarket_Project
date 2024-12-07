@@ -14,6 +14,7 @@ public class ViewPrimary {
     private DistributionsManagePanel distributionsManagePanel;
     private AddProductPanel addProductPanel;
     private ProductPanel productPanel;
+    private AddSimilarityTablePanel addSimilarityTablePanel;
     private SimilarityTablePanel similarityTablePanel;
     private DistributionPanel distributionPanel;
     private GenerateDistributionPanel generateDistributionPanel;
@@ -99,7 +100,7 @@ public class ViewPrimary {
     }
 
     public SimilarityTablesManagePanel getSimilarityTablesManagePanel() {
-        if (similarityTablesManagePanel == null) similarityTablesManagePanel = new SimilarityTablesManagePanel();
+        if (similarityTablesManagePanel == null) similarityTablesManagePanel = new SimilarityTablesManagePanel(this);
         return similarityTablesManagePanel;
     }
 
@@ -118,9 +119,14 @@ public class ViewPrimary {
         return productPanel;
     }
 
-    public SimilarityTablePanel getSimilarityTablePanel() {
-        if (similarityTablePanel == null) similarityTablePanel = new SimilarityTablePanel();
+    public SimilarityTablePanel getSimilarityTablePanel(int id) {
+        if (similarityTablePanel == null) similarityTablePanel = new SimilarityTablePanel(this, id);
         return similarityTablePanel;
+    }
+
+    public AddSimilarityTablePanel getAddSimilarityTablePanel() {
+        if (addSimilarityTablePanel == null) addSimilarityTablePanel = new AddSimilarityTablePanel(this);
+        return addSimilarityTablePanel;
     }
 
     public DistributionPanel getDistributionPanel() {

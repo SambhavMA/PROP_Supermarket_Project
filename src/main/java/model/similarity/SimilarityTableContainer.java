@@ -54,4 +54,8 @@ public class SimilarityTableContainer {
     public int newId() {
         return ++idCounter;
     }
+
+    public int nextId() {
+        return idCounter + 1;
+    }
 }

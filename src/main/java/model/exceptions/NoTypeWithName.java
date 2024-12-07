@@ -5,6 +5,6 @@ package model.exceptions;
  */
 public class NoTypeWithName extends Exception {
     public NoTypeWithName(String type) {
-        super("The type " + type + " is not a valid type.");
+        super("El tipo: " + type + " no es un tipo valido.");
     }
 }

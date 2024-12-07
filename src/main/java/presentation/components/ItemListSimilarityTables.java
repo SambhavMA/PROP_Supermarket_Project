@@ -1,5 +1,9 @@
 package presentation.components;
 
+import controller.presentation.CtrlPresentation;
+import presentation.panels.ProductsManagePanel;
+import presentation.panels.SimilarityTablePanel;
+import presentation.panels.SimilarityTablesManagePanel;
 import presentation.views.ViewPrimary;
 
 import javax.swing.*;
@@ -9,13 +13,15 @@ import java.awt.event.MouseEvent;
 
 public class ItemListSimilarityTables extends JPanel {
     private ViewPrimary viewPrimary;
+    private SimilarityTablesManagePanel parentPanel;
     int rows;
     int columns;
     String[] columnsTitles;
-    Component[][] data;
+    JComponent[] data;
 
-    public ItemListSimilarityTables(ViewPrimary viewPrimary, int glRow, int glColumn, String[] columnsTitles, Component[][] data) {
+    public ItemListSimilarityTables(ViewPrimary viewPrimary, SimilarityTablesManagePanel parentPanel, int glRow, int glColumn, String[] columnsTitles, JComponent[] data) {
         this.viewPrimary = viewPrimary;
+        this.parentPanel = parentPanel;
         this.rows = glRow;
         this.columns = glColumn;
         this.columnsTitles = columnsTitles;
@@ -28,42 +34,96 @@ public class ItemListSimilarityTables extends JPanel {
         containerPanel.setLayout(new BoxLayout(containerPanel, BoxLayout.Y_AXIS));
         containerPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        //Contenedor de titulos
-        JPanel headerPanel = new JPanel(new GridLayout( 1, columns + 1));
-        headerPanel.add(new JLabel(""));
+        Dimension sizes = new Dimension(80, 25);
+
+        // contenedor de titulos
+        JPanel headerPanel = new JPanel(new GridLayout( 1, columns + 1, 0, 0));
+        JLabel blank = new JLabel("");
+        blank.setPreferredSize(sizes);
+        headerPanel.add(blank);
         for (int col = 0; col < columns; col++) {
             JLabel columnLabel = new JLabel(columnsTitles[col], SwingConstants.CENTER);
+            columnLabel.setPreferredSize(sizes);
             headerPanel.add(columnLabel);
         }
-        headerPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
-        containerPanel.add(headerPanel);
+        JLabel blank2 = new JLabel("");
+        blank2.setPreferredSize(sizes);
+        headerPanel.add(blank2);
 
-        //Contenedores de filas
+        headerPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
+        containerPanel.add(headerPanel, BorderLayout.NORTH);
+
+        // contenedores de filas
         for (int row = 0; row < rows; row++) {
-            JPanel rowPanel = new JPanel(new GridLayout(1, columns + 1, 10, 0)); // GridLayout for row elements
-            rowPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK)); // Optional border
-            rowPanel.setBackground(Color.LIGHT_GRAY);
+            final int currentRow = row;
+            JPanel rowPanel = new JPanel();
+            rowPanel.setLayout(new BoxLayout(rowPanel, BoxLayout.X_AXIS));
+            rowPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
+            JPanel stPanel = new JPanel(new GridLayout(1, columns + 1, 0, 0));
+            stPanel.setBackground(Color.LIGHT_GRAY);
+            stPanel.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
             JLabel rowLabel = new JLabel("" + (row + 1), SwingConstants.CENTER);
-            rowPanel.add(rowLabel);
-            for (int col = 0; col < columns; col++) {
-                rowPanel.add(data[row][col]);
-            }
+            rowLabel.setPreferredSize(sizes);
+            rowLabel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+            stPanel.add(rowLabel);
 
-            rowPanel.addMouseListener(new MouseAdapter() {
+            data[row].setBorder(BorderFactory.createLineBorder(Color.BLACK));
+            data[row].setPreferredSize(sizes);
+            stPanel.add(data[row]);
+
+            stPanel.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    rowPanel.setBackground(Color.CYAN);
-                    // Creates a new view
-                    viewPrimary.transitionContentPanel(viewPrimary.getSimilarityTablePanel());
+                    int id = Integer.parseInt(((JLabel) data[currentRow]).getText());
+                    viewPrimary.transitionContentPanel(viewPrimary.getSimilarityTablePanel(id));
+                }
 
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    stPanel.setBackground(Color.CYAN);
                 }
 
                 @Override
                 public void mouseExited(MouseEvent e) {
-                    rowPanel.setBackground(Color.LIGHT_GRAY);
+                    stPanel.setBackground(Color.LIGHT_GRAY);
                 }
             });
+
+            JButton deleteButton = new JButton("<html><div style='text-align: center; color: red;'>Eliminar</div></html>");
+            deleteButton.setPreferredSize(new Dimension(90, 25));
+            deleteButton.setMinimumSize(new Dimension(90, 25));
+            deleteButton.setMaximumSize(new Dimension(90, 25));
+            deleteButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+            deleteButton.addActionListener(e -> {
+                String productName = ((JLabel) data[currentRow]).getText();
+
+                int response = JOptionPane.showConfirmDialog(
+                        this,
+                        "¿Estás seguro de que deseas eliminar el producto \"" + productName + "\"?",
+                        "Confirmar eliminación",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.WARNING_MESSAGE
+                );
+
+                if (response == JOptionPane.YES_OPTION) {
+                    CtrlPresentation.getInstance().deleteProductById(productName);
+                    parentPanel.updateList();
+                    JOptionPane.showMessageDialog(
+                            this,
+                            "El producto \"" + productName + "\" ha sido eliminado exitosamente.",
+                            "Eliminación completada",
+                            JOptionPane.INFORMATION_MESSAGE
+                    );
+                }
+            });
+
+
+
+            rowPanel.add(stPanel);
+            rowPanel.add(deleteButton);
 
             containerPanel.add(rowPanel);
         }

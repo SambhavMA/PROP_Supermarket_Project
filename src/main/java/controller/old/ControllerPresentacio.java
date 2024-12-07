@@ -98,7 +98,7 @@ public class ControllerPresentacio {
 
         try {
             cDom.addProduct(nom, tipus);
-        } catch (ProductAlreadyExistsException | NoTypeWithName e) {
+        }  catch (Exception e) {
             cIO.writeLine("ERROR: " + e.getMessage());
         }
     }
@@ -116,7 +116,7 @@ public class ControllerPresentacio {
 
         try {
             cDom.modifyProduct(nom, nouTipus);
-        } catch (ProductNotFoundException | NoTypeWithName e) {
+        }  catch (Exception e) {
             cIO.writeLine("ERROR: " + e.getMessage());
         }
     }
@@ -132,7 +132,7 @@ public class ControllerPresentacio {
 
         try {
             cDom.deleteProduct(nom);
-        } catch (ProductNotFoundException e) {
+        } catch (Exception e) {
             cIO.writeLine("ERROR: " + e.getMessage());
         }
     }
@@ -149,7 +149,7 @@ public class ControllerPresentacio {
         try {
             Pair<String, String> product = cDom.getProduct(nom);
             cIO.writeLine("Producte: " + product.first + " Tipus: " + product.second);
-        } catch (ProductNotFoundException e) {
+        }  catch (Exception e) {
             cIO.writeLine("ERROR: " + e.getMessage());
         }
     }
@@ -176,7 +176,7 @@ public class ControllerPresentacio {
             try {
                 cDom.getProduct(line);
                 products.add(line);
-            } catch (ProductNotFoundException e) {
+            }  catch (Exception e) {
                 cIO.writeLine("ERROR: " + e.getMessage());
             }
         }
@@ -219,7 +219,7 @@ public class ControllerPresentacio {
         try {
             int similarityTableId = cDom.addSimilarityTable(products, similarities);
             cIO.writeLine("Taula de similitud afegida amb identificador: " + similarityTableId);
-        } catch (ProductNotFoundException e) {
+        }  catch (Exception e) {
             cIO.writeLine("ERROR: " + e.getMessage());
         }
     }
@@ -262,7 +262,7 @@ public class ControllerPresentacio {
 
         try {
             cDom.modifySimilarityTable(id, newSimilarities);
-        } catch (SimilarityTableNotFoundException | ProductNotFoundException e) {
+        }  catch (Exception e) {
             cIO.writeLine("ERROR: " + e.getMessage());
         }
     }

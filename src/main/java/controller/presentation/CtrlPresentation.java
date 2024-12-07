@@ -86,7 +86,7 @@ public class CtrlPresentation {
     public void deleteProductById(String name) {
         try {
             controllerDomini.deleteProduct(name);
-        } catch (ProductNotFoundException e) {
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(
                     new JFrame(),
                     e.getMessage(),
@@ -114,8 +114,38 @@ public class CtrlPresentation {
         }
     }
 
-    public void test() throws Exception {
-        controllerDomini.testingAddingProducts();
+    public void testProducts() {
+        try {
+            controllerDomini.testingAddingProducts();
+        } catch (Exception e) {
+
+        }
+
     }
 
+    // SIMILARITY TABLE FUNCTIONS
+    public int getSimilarityTableNextId() {
+        return controllerDomini.getSimilarityTableNextId();
+    }
+
+    public String addSimilarityTable(String[] products, String[] relations) {
+        try {
+            controllerDomini.addSimilarityTable(products, relations);
+            return null;
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
+    public void testSimilarityTables() {
+
+    }
+
+    public String[] getSimilarityTablesCols() {
+        return new String[] {"Id"};
+    }
+
+    public String[] getSimilarityTables() {
+        return controllerDomini.getSimilarityTables();
+    }
 }

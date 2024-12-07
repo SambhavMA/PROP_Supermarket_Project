@@ -45,7 +45,7 @@ public class ProductsManagePanel extends JPanel {
 
         importProductsButton.addActionListener(e -> {
             try {
-                CtrlPresentation.getInstance().test();
+                CtrlPresentation.getInstance().testProducts();
                 updateList();
             } catch (Exception productNotFoundException) {
                 productNotFoundException.printStackTrace();
@@ -66,7 +66,7 @@ public class ProductsManagePanel extends JPanel {
         }
 
         String[] cols = CtrlPresentation.getInstance().getProductsCols();
-        itemListProducts = new ItemListProducts(viewPrimary, this, dataP.length, 2, cols, data);
+        itemListProducts = new ItemListProducts(viewPrimary, this, dataP.length, cols.length, cols, data);
     }
 
     public void updateList() {
