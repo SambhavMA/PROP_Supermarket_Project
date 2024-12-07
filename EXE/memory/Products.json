@@ -1,0 +1,16 @@
+{
+  "products": [
+    {
+      "name": "Poma",
+      "type": "FRUITA"
+    },
+    {
+      "name": "Pera",
+      "type": "FRUITA"
+    },
+    {
+      "name": "Platan",
+      "type": "FRUITA"
+    }
+  ]
+}

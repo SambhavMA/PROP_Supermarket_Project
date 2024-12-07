@@ -1,0 +1,22 @@
+{
+  "SimilarityTables": [
+    {
+      "id": 1,
+      "products": ["Poma, Pera, Platan"],
+      "similarities": {
+        "Poma": {
+          "Pera": 0.5,
+          "Platan": 0.3
+        },
+        "Pera": {
+          "Poma": 0.5,
+          "Platan": 0.4
+        },
+        "Platan": {
+          "Poma": 0.3,
+          "Pera": 0.4
+        }
+      }
+    }
+  ]
+}
