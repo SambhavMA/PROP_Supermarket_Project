@@ -20,7 +20,7 @@ import model.similarity.SimilarityTable;
 public class HillClimbing extends Algorithm {
 
     public HillClimbing() {
-        super(AlgorithmsNames.HC.toString(), "Algoritmo Hill Climbing para optimización.");
+        super(AlgorithmsNames.HillClimbing.toString(), "Algoritmo Hill Climbing para optimización.");
     }
 
     /**

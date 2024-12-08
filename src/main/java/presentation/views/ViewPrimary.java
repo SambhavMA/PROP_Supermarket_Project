@@ -107,7 +107,8 @@ public class ViewPrimary {
     }
 
     public DistributionsManagePanel getDistributionsManagePanel() {
-        if (distributionsManagePanel == null) distributionsManagePanel = new DistributionsManagePanel();
+        if (distributionsManagePanel == null) distributionsManagePanel = new DistributionsManagePanel(this);
+        distributionsManagePanel.updateList();
         return distributionsManagePanel;
     }
 
@@ -138,13 +139,13 @@ public class ViewPrimary {
         return addSimilarityTablePanel2;
     }
 
-    public DistributionPanel getDistributionPanel() {
-        if (distributionPanel == null) distributionPanel = new DistributionPanel();
+    public DistributionPanel getDistributionPanel(int id) {
+        if (distributionPanel == null) distributionPanel = new DistributionPanel(this, id);
         return distributionPanel;
     }
 
     public GenerateDistributionPanel getGenerateDistributionPanel() {
-        if (generateDistributionPanel == null) generateDistributionPanel = new GenerateDistributionPanel();
+        if (generateDistributionPanel == null) generateDistributionPanel = new GenerateDistributionPanel(this);
         return generateDistributionPanel;
     }
 }

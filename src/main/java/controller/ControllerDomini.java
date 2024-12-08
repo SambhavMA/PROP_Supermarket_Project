@@ -1,5 +1,6 @@
 package controller;
 
+import model.algorithm.AlgorithmsNames;
 import model.distribution.Distribution;
 import model.exceptions.*;
 import model.product.ProductContainer;
@@ -391,5 +392,26 @@ public class ControllerDomini {
     public Distribution getDistribution(int id) throws DistributionNotFoundException {
         Distribution distribution = distributionContainer.getDistributionById(id);
         return distribution;
+    }
+
+    public String[][] getDistributions() {
+        HashMap<Integer, Distribution> distributions = distributionContainer.getDistributions();
+        String[][] parameters = new String[0][0];
+
+        if (! distributions.isEmpty()) {
+            List<String[]> parametersList = new ArrayList<>();
+
+            for (Distribution distribution : distributions.values()) {
+                parametersList.add(new String[]{""+distribution.getId(), ""+distribution.getSimilarityTableId(), distribution.getUsedAlgorithm(), ""+distribution.getCost()});
+            }
+
+            parameters = parametersList.toArray(new String[0][0]);
+        }
+
+        return parameters;
+    }
+
+    public String[] getAlgorithms() {
+        return new String[]{Arrays.toString(AlgorithmsNames.values())};
     }
 }

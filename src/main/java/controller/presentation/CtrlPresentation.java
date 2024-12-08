@@ -175,4 +175,22 @@ public class CtrlPresentation {
     public String[] getSimilarityTables() {
         return controllerDomini.getSimilarityTables();
     }
+
+    // DISTRIBUTION FUNCTIONS
+    public String[] getDistributionsCols() {
+        return new String[] {"Id", "Tabla de similitud", "Algoritmo generador", "Coste"};
+    }
+
+    public String[][] getDistributions() {
+        return controllerDomini.getDistributions();
+    }
+
+    public void deleteDistribution(int id) {
+        try {
+            controllerDomini.deleteDistribution(id);
+        } catch (Exception e) {
+
+        }
+
+    }
 }

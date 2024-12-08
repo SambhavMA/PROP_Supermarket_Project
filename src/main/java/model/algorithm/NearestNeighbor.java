@@ -18,7 +18,7 @@ import java.util.Random;
 public class NearestNeighbor extends Algorithm {
 
     public NearestNeighbor() {
-        super(AlgorithmsNames.NN.toString(), "Algoritmo Nearest Neighbor:\n" +
+        super(AlgorithmsNames.NearestNeighbor.toString(), "Algoritmo Nearest Neighbor:\n" +
                 "Consiste en escoger la arista de menor coste desde un nodo.\n" +
                 "Empezando en un nodo determinado hasta construyir un camino que los visite todos y vuelva a el.");
     }

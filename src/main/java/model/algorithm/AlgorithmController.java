@@ -97,14 +97,14 @@ public class AlgorithmController {
         //double durationInSeconds;
         //long startTime, endTime;
         switch(algorithm) {
-            case NN:
+            case NearestNeighbor:
                 //Algorithm nearestNeighbor = new NearestNeighbor();
                 //startTime = System.nanoTime();
                 Random rand = new Random();
                 solution = nearestNeighbor.execute(rand.nextInt(costs.length), costs.length);
                 //endTime = System.nanoTime();
                 break;
-            case HC:
+            case HillClimbing:
                 //Algorithm startingAlgorithmNN = new NearestNeighbor();
                 Solution[] initialSolutions = new Solution[3];
                 //startTime = System.nanoTime();
