@@ -93,25 +93,34 @@ public class ItemListSimilarityTables extends JPanel {
             deleteButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
             deleteButton.addActionListener(e -> {
-                String productName = ((JLabel) data[currentRow]).getText();
+                int stID = Integer.parseInt(((JLabel) data[currentRow]).getText());
 
                 int response = JOptionPane.showConfirmDialog(
                         this,
-                        "¿Estás seguro de que deseas eliminar el producto \"" + productName + "\"?",
+                        "¿Estás seguro de que deseas eliminar la tabla de similitud \"" + stID + "\"?",
                         "Confirmar eliminación",
                         JOptionPane.YES_NO_OPTION,
                         JOptionPane.WARNING_MESSAGE
                 );
 
                 if (response == JOptionPane.YES_OPTION) {
-                    CtrlPresentation.getInstance().deleteProductById(productName);
+                    String errorMessage = CtrlPresentation.getInstance().deleteSimilarityTable(stID);
                     parentPanel.updateList();
-                    JOptionPane.showMessageDialog(
-                            this,
-                            "El producto \"" + productName + "\" ha sido eliminado exitosamente.",
-                            "Eliminación completada",
-                            JOptionPane.INFORMATION_MESSAGE
-                    );
+                    if (errorMessage == null) {
+                        JOptionPane.showMessageDialog(
+                                this,
+                                "La tabla de similitud \"" + stID + "\" ha sido eliminada exitosamente.",
+                                "Eliminación completada",
+                                JOptionPane.INFORMATION_MESSAGE
+                        );
+                    } else {
+                        JOptionPane.showMessageDialog(
+                                this,
+                                "Error al eliminar la tabla " + errorMessage,
+                                "Error",
+                                JOptionPane.ERROR_MESSAGE
+                        );
+                    }
                 }
             });
 

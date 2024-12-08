@@ -8,6 +8,8 @@ import presentation.views.ViewSecundary;
 import utils.Pair;
 
 import javax.swing.*;
+import java.util.List;
+import java.util.Vector;
 
 public class CtrlPresentation {
     private ControllerDomini controllerDomini;
@@ -131,6 +133,31 @@ public class CtrlPresentation {
     public String addSimilarityTable(String[] products, String[] relations) {
         try {
             controllerDomini.addSimilarityTable(products, relations);
+            return null;
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
+    public Pair<Vector<Pair<String, Integer>>, double[][]> getSimilarityTable(int id) {
+        try {
+            return controllerDomini.getSimilarityTable(id);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public void modifySimilarityTable(int id, List<Pair<Pair<String, String>, Double>> nuevasSimilitudes) {
+        try {
+            controllerDomini.modifySimilarityTable(id, nuevasSimilitudes);
+        } catch (Exception e) {
+            // nothing
+        }
+    }
+
+    public String deleteSimilarityTable(int id) {
+        try {
+            controllerDomini.deleteSimilarityTable(id);
             return null;
         } catch (Exception e) {
             return e.getMessage();

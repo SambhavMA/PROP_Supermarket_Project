@@ -42,7 +42,7 @@ public class AddSimilarityTablePanel2 extends JPanel {
 
         add(scrollPane, BorderLayout.CENTER);
 
-        JButton saveButton = new JButton("Guardar Relaciones");
+        JButton saveButton = new JButton("Guardar Tabla");
         saveButton.addActionListener(e -> handleSaveRelations());
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(saveButton);
@@ -68,7 +68,7 @@ public class AddSimilarityTablePanel2 extends JPanel {
 
         CtrlPresentation.getInstance().addSimilarityTable(productosP, similitudesP);
 
-        JOptionPane.showMessageDialog(this, "Relaciones guardadas correctamente.");
+        JOptionPane.showMessageDialog(this, "Tabla de Similitud añadida correctamente.");
         viewPrimary.transitionContentPanel(viewPrimary.getSimilarityTablesManagePanel());
     }
 

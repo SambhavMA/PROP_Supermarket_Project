@@ -122,7 +122,7 @@ public class ViewPrimary {
     }
 
     public SimilarityTablePanel getSimilarityTablePanel(int id) {
-        if (similarityTablePanel == null) similarityTablePanel = new SimilarityTablePanel(this, id);
+        similarityTablePanel = new SimilarityTablePanel(this, id);
         return similarityTablePanel;
     }
 
@@ -133,7 +133,7 @@ public class ViewPrimary {
     }
 
     public AddSimilarityTablePanel2 getAddSimilarityTablePanel2(String[] selectedProducts) {
-        if (addSimilarityTablePanel2 == null) addSimilarityTablePanel2 = new AddSimilarityTablePanel2(this, selectedProducts);
+        addSimilarityTablePanel2 = new AddSimilarityTablePanel2(this, selectedProducts);
 //        addSimilarityTablePanel2.updateList();
         return addSimilarityTablePanel2;
     }

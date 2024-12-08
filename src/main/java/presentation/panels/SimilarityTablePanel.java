@@ -2,6 +2,7 @@ package presentation.panels;
 
 import controller.presentation.CtrlPresentation;
 import presentation.views.ViewPrimary;
+import utils.Pair;
 
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
@@ -9,35 +10,43 @@ import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Vector;
 
 public class SimilarityTablePanel extends JPanel {
     private JLabel title = new JLabel("Modificar Tabla de Similitud", SwingConstants.CENTER);
     private JTable similarityTable;
     private String[] products;
+    private Pair<Vector<Pair<String, Integer>>, double[][]> st;
+    private double[][] similarityMatrix;
+    private int id;
 
-    private JButton saveButton = new JButton("Guardar Relaciones");
+    private JButton saveButton = new JButton("Guardar Tabla");
     private ViewPrimary viewPrimary;
 
     public SimilarityTablePanel(ViewPrimary viewPrimary, int id) {
         this.viewPrimary = viewPrimary;
+        this.st = CtrlPresentation.getInstance().getSimilarityTable(id);
+        this.id = id;
+
+        this.products = this.st.first().stream().map(Pair::first).toArray(String[]::new);
+        this.similarityMatrix = this.st.second();
+
         initializeComponents();
     }
 
     protected void initializeComponents() {
         setLayout(new BorderLayout(10, 10));
 
-        // Título
         title.setFont(new Font("Arial", Font.BOLD, 24));
         add(title, BorderLayout.NORTH);
 
-        // Crear el modelo de la tabla
-        SimilarityTableModel tableModel = new SimilarityTableModel(products);
+        SimilarityTableModel tableModel = new SimilarityTableModel(products, similarityMatrix);
+
         similarityTable = new JTable(tableModel);
 
-        // Configurar renderizador y editor para celdas de la matriz
         similarityTable.setDefaultRenderer(Object.class, new SimilarityCellRenderer());
 
-        // Crear un row header para la columna izquierda
         JList<String> rowHeader = new JList<>(products);
         rowHeader.setFixedCellWidth(150);
         rowHeader.setFixedCellHeight(similarityTable.getRowHeight());
@@ -47,7 +56,6 @@ public class SimilarityTablePanel extends JPanel {
         scrollPane.setRowHeaderView(rowHeader);
         add(scrollPane, BorderLayout.CENTER);
 
-        // Botón de guardar relaciones
         saveButton.setPreferredSize(new Dimension(150, 30));
         saveButton.addActionListener(e -> handleSaveRelations());
         JPanel buttonPanel = new JPanel();
@@ -56,40 +64,41 @@ public class SimilarityTablePanel extends JPanel {
     }
 
     private void handleSaveRelations() {
-        // Obtener los valores de la matriz
         SimilarityTableModel model = (SimilarityTableModel) similarityTable.getModel();
         float[][] relations = model.getRelations();
 
-        // Crear el array de productos y similitudes
-        ArrayList<String> similitudesList = new ArrayList<>();
+        List<Pair<Pair<String, String>, Double>> nuevasSimilitudes = new ArrayList<>();
+
         for (int i = 0; i < relations.length; i++) {
             for (int j = 0; j < relations[i].length; j++) {
-                if (i > j && relations[i][j] != 0) { // Solo considerar la mitad inferior
-                    similitudesList.add(products[i] + " " + products[j] + " " + relations[i][j]);
+                if (i > j && relations[i][j] != (float) similarityMatrix[i][j]) {
+                    nuevasSimilitudes.add(new Pair<>(
+                            new Pair<>(products[i], products[j]),
+                            (double) relations[i][j]
+                    ));
                 }
             }
         }
 
-        String[] similitudesP = similitudesList.toArray(new String[0]);
+        CtrlPresentation.getInstance().modifySimilarityTable(id, nuevasSimilitudes);
 
-        // Llamar a la función del controlador
-        // CtrlPresentation.getInstance().guardarRelaciones(products, similitudesP);
-
-        JOptionPane.showMessageDialog(this, "Relaciones guardadas correctamente.");
+        JOptionPane.showMessageDialog(this, "Tabla de Similitud añadida correctamente.");
+        viewPrimary.transitionContentPanel(viewPrimary.getSimilarityTablesManagePanel());
     }
 
-    // Modelo personalizado para la tabla
+
     private static class SimilarityTableModel extends AbstractTableModel {
         private String[] products;
         private float[][] relations;
 
-        public SimilarityTableModel(String[] products) {
+        public SimilarityTableModel(String[] products, double[][] similarityMatrix) {
             this.products = products;
             this.relations = new float[products.length][products.length];
 
-            // Inicializar relaciones con 0 por defecto
-            for (int i = 0; i < relations.length; i++) {
-                Arrays.fill(relations[i], 0);
+            for (int i = 0; i < similarityMatrix.length; i++) {
+                for (int j = 0; j < similarityMatrix[i].length; j++) {
+                    this.relations[i][j] = (float) similarityMatrix[i][j];
+                }
             }
         }
 
@@ -111,14 +120,14 @@ public class SimilarityTablePanel extends JPanel {
         @Override
         public Object getValueAt(int rowIndex, int columnIndex) {
             if (rowIndex == columnIndex) {
-                return "—"; // Diagonal principal no editable
+                return "—";
             }
             return relations[rowIndex][columnIndex];
         }
 
         @Override
         public boolean isCellEditable(int rowIndex, int columnIndex) {
-            return rowIndex > columnIndex; // Solo editable en la mitad inferior
+            return rowIndex > columnIndex;
         }
 
         @Override
@@ -148,7 +157,7 @@ public class SimilarityTablePanel extends JPanel {
         }
     }
 
-    // Renderizador de celdas personalizado
+
     private static class SimilarityCellRenderer extends JLabel implements TableCellRenderer {
         public SimilarityCellRenderer() {
             setOpaque(true);
@@ -159,20 +168,16 @@ public class SimilarityTablePanel extends JPanel {
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
             setText(value.toString());
             if (row == column) {
-                setBackground(Color.LIGHT_GRAY); // Diagonal principal
+                setBackground(Color.LIGHT_GRAY);
             } else if (row > column) {
-                setBackground(Color.WHITE); // Editables
+                setBackground(Color.WHITE);
             } else {
-                setBackground(Color.GRAY); // No editables
-            }
-            if (isSelected) {
-                setBackground(Color.CYAN);
+                setBackground(Color.GRAY);
             }
             return this;
         }
     }
 
-    // Renderizador para la columna izquierda
     private static class RowHeaderRenderer extends JLabel implements ListCellRenderer<String> {
         public RowHeaderRenderer(JTable table) {
             setOpaque(true);
