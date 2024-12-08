@@ -30,7 +30,7 @@ public class ControllerDomini {
     private ProductContainer productContainer = ProductContainer.getInstance();
     private DistributionContainer distributionContainer = DistributionContainer.getInstance();
     private SimilarityTableContainer similarityTableContainer = SimilarityTableContainer.getInstance();
-
+    private ControllerPersistencia cP = new ControllerPersistencia();
     /**
      * Retorna la intancia de ControllerDomini. Si no existeix, es crea
      */

@@ -28,7 +28,7 @@ public class JsonManager implements FileManager{
      */
     @Override
     public JsonObject importFromFile(String path) throws IncorrectPathException, IOErrorException, FileCanNotReadException {
-        if (path.contains("..") || path.contains(":") || path.contains("%")) {
+        if (path.contains("..") || path.contains("%")) {
             throw new IncorrectPathException("Invalid path: " + path);
         }
 
@@ -58,7 +58,7 @@ public class JsonManager implements FileManager{
      */
     @Override
     public void exportToFile(String path, JsonObject jsonObject) throws IncorrectPathException, IOErrorException, FileCanNotWriteException {
-        if (path.contains("..") || path.contains(":") || path.contains("%")) {
+        if (path.contains("..") || path.contains("%")) {
             throw new IncorrectPathException("Invalid path: " + path);
         }
 
