@@ -10,6 +10,16 @@ import java.util.HashMap;
  * <p>Clase que representa un contenedor de productos</p>
  */
 public class ProductContainer {
+    // Singleton
+    private static ProductContainer instance;
+
+    public static ProductContainer getInstance() {
+        if (instance == null) {
+            instance = new ProductContainer();
+        }
+        return instance;
+    }
+
     private HashMap<String, Product> products = new HashMap<>();
 
     public void addProduct(Product product)  throws ProductAlreadyExistsException {

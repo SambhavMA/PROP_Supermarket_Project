@@ -10,11 +10,21 @@ import java.util.HashMap;
  * <p>Clase que representa un contenedor de tablas de similitud</p>
  */
 public class SimilarityTableContainer {
+    // Singleton
+    private static SimilarityTableContainer instance;
+
+    public static SimilarityTableContainer getInstance() {
+        if (instance == null) {
+            instance = new SimilarityTableContainer();
+        }
+        return instance;
+    }
+
     private HashMap<Integer, SimilarityTable> similarityTables = new HashMap<>();
     private int idCounter;
 
     // CONSTRUCTORS
-    public SimilarityTableContainer() {
+    private SimilarityTableContainer() {
         this.similarityTables = new HashMap<>();
         this.idCounter = 0;
     }
