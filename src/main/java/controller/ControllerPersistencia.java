@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 import utils.Pair;
-import model.exceptions.IncorrectPath;
+import model.exceptions.IncorrectPathException;
 
 
 /**
@@ -31,14 +31,14 @@ public class ControllerPersistencia {
     /**
      * Retorna un HashMap con los productos importados
      * @param path ruta donde se obtienen los productos
-     * @throws IncorrectPath si la ruta no es correcta
+     * @throws IncorrectPathException si la ruta no es correcta
      */
-    public List<JsonObject> importProducts(String path) throws IncorrectPath{
+    public List<JsonObject> importProducts(String path) throws IncorrectPathException {
         JsonObject jsonData;
         try{
             jsonData = fileManager.importFromFile(path);
-        } catch (IncorrectPath e) {
-            throw new IncorrectPath(path);
+        } catch (IncorrectPathException e) {
+            throw new IncorrectPathException(path);
         }
         JsonArray productsArray = jsonData.getAsJsonArray("Products");
         List<JsonObject> products = new ArrayList<>();
@@ -51,14 +51,14 @@ public class ControllerPersistencia {
     /**
      * Retorna un Pair de la lista de productos de cada tabla de similitud importada y las similitudes de estos
      * @param path ruta donde se obtienen la tabla de similitud
-     * @throws IncorrectPath si la ruta no es correcta
+     * @throws IncorrectPathException si la ruta no es correcta
      */
-    public List< Pair< List<String>, List< Pair<Pair<String, String>, Double> > > > importSimilarityTable(String path) throws IncorrectPath {
+    public List< Pair< List<String>, List< Pair<Pair<String, String>, Double> > > > importSimilarityTable(String path) throws IncorrectPathException {
         JsonObject jsonData;
         try{
             jsonData = fileManager.importFromFile(path);
-        } catch (IncorrectPath e) {
-            throw new IncorrectPath(path);
+        } catch (IncorrectPathException e) {
+            throw new IncorrectPathException(path);
         }
         List< Pair< List<String>, List< Pair<Pair<String, String>, Double> > > > similarityTables = new ArrayList<>();
         JsonArray STArray = jsonData.getAsJsonArray("SimilarityTables");
@@ -89,9 +89,9 @@ public class ControllerPersistencia {
      * Exporta los productos a un fichero
      * @param path ruta donde se creara el fichero
      * @param products productos a exportar
-     * @throws IncorrectPath si la ruta no es correcta
+     * @throws IncorrectPathException si la ruta no es correcta
      */
-    public void exportProducts(String path, List<JsonObject> products) throws IncorrectPath{
+    public void exportProducts(String path, List<JsonObject> products) throws IncorrectPathException {
         JsonObject result = new JsonObject();
         JsonArray productsArray = new JsonArray();
         for (JsonObject product : products) {
@@ -100,8 +100,8 @@ public class ControllerPersistencia {
         result.add("Products", productsArray);
         try {
             fileManager.exportToFile(path, result);
-        } catch (IncorrectPath e) {
-            throw new IncorrectPath(path);
+        } catch (IncorrectPathException e) {
+            throw new IncorrectPathException(path);
         }
     }
 
@@ -109,9 +109,9 @@ public class ControllerPersistencia {
      * Exporta la tabla de similitud a un fichero
      * @param path ruta donde se creara el fichero
      * @param similarityTable tabla de similitud a exportar
-     * @throws IncorrectPath si la ruta no es correcta
+     * @throws IncorrectPathException si la ruta no es correcta
      */
-    public void exportSimilarityTable(String path, List<JsonObject> similarityTable) throws IncorrectPath{
+    public void exportSimilarityTable(String path, List<JsonObject> similarityTable) throws IncorrectPathException {
         JsonObject result = new JsonObject();
         JsonArray STArray = new JsonArray();
         for (JsonObject ST : similarityTable) {
@@ -120,8 +120,8 @@ public class ControllerPersistencia {
         result.add("SimilarityTables", STArray);
         try {
             fileManager.exportToFile(path, result);
-        } catch (IncorrectPath e) {
-            throw new IncorrectPath(path);
+        } catch (IncorrectPathException e) {
+            throw new IncorrectPathException(path);
         }
     }
 }

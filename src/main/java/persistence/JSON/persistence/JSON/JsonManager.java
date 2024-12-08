@@ -1,22 +1,21 @@
-package persistence.JSON;
+package persistence.JSON.persistence.JSON;
 
-import persistence.FileManager;
-import model.exceptions.IncorrectPathException;
-import model.exceptions.IOErrorException;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import model.exceptions.FileCanNotReadException;
 import model.exceptions.FileCanNotWriteException;
+import model.exceptions.IOErrorException;
+import model.exceptions.IncorrectPathException;
+import persistence.JSON.persistence.FileManager;
 
 import java.io.*;
-
-import com.google.gson.JsonObject;
-import com.google.gson.Gson;
 
 /**
  * @author David Calvo Espases (david.calvo.espases@estudiantat.upc.edu)
  * <p>Clase para la gestion de ficheros JSON</p>
  */
 
-public class JsonManager implements FileManager{
+public class JsonManager implements FileManager {
     public JsonManager() {
         ;
     }
@@ -28,17 +27,13 @@ public class JsonManager implements FileManager{
      */
     @Override
     public JsonObject importFromFile(String path) throws IncorrectPathException, IOErrorException, FileCanNotReadException {
-        if (path.contains("..") || path.contains(":") || path.contains("%")) {
-            throw new IncorrectPathException("Invalid path: " + path);
-        }
-
         File file = new File(path);
 
         if(!file.exists()){
             throw new IncorrectPathException(path);
         }
 
-        if(file.exists() && !file.canRead()){
+        if(!file.canRead()){
             throw new FileCanNotReadException(path);
         }
 
@@ -58,10 +53,6 @@ public class JsonManager implements FileManager{
      */
     @Override
     public void exportToFile(String path, JsonObject jsonObject) throws IncorrectPathException, IOErrorException, FileCanNotWriteException {
-        if (path.contains("..") || path.contains(":") || path.contains("%")) {
-            throw new IncorrectPathException("Invalid path: " + path);
-        }
-
         File file = new File(path);
 
         // Si el path es directorio se crea un fichero output.json

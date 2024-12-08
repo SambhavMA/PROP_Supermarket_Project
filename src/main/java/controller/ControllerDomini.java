@@ -16,8 +16,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
-import java.util.Set;
-import java.util.HashSet;
 
 /**
  * @author Joan Gomez Catala (joan.gomez.catala@estudiantat.upc.edu)
@@ -306,14 +304,14 @@ public class ControllerDomini {
      * Afegeix al programa els productes importats
      * @param path Ruta on es troba el fitxer amb els productes
      * @return Vector amb totes les distribucions
-     * @throws IncorrectPath Si la ruta no és correcta
+     * @throws IncorrectPathException Si la ruta no és correcta
      */
-    public void importProducts(String path) throws IncorrectPath, NoTypeWithName {
+    public void importProducts(String path) throws IncorrectPathException, NoTypeWithName {
         List<JsonObject> products;
         try {
             products = cP.importProducts(path);
-        } catch (IncorrectPath e) {
-            throw new IncorrectPath(path);
+        } catch (IncorrectPathException e) {
+            throw new IncorrectPathException(path);
         }
 
         for (JsonObject product : products) {
@@ -331,14 +329,14 @@ public class ControllerDomini {
      * Afegeix al programa les taules de similituds importades
      * @param path Ruta on es troba el fitxer amb les taules de similituds
      * @return Pair amb els productes de la taula i la matriu de similituds
-     * @throws IncorrectPath Si la ruta no és correcta
+     * @throws IncorrectPathException Si la ruta no és correcta
      */
-    public void importSimilarityTables(String path) throws IncorrectPath, ProductNotFoundException {
+    public void importSimilarityTables(String path) throws IncorrectPathException, ProductNotFoundException {
         List< Pair< List<String>, List< Pair<Pair<String, String>, Double> > > > similarityTables;
         try {
             similarityTables = cP.importSimilarityTable(path);
-        } catch (IncorrectPath e) {
-            throw new IncorrectPath(path);
+        } catch (IncorrectPathException e) {
+            throw new IncorrectPathException(path);
         }
 
         for (Pair< List<String>, List< Pair<Pair<String, String>, Double> > > similarityTable : similarityTables) {
@@ -362,9 +360,9 @@ public class ControllerDomini {
     /**
      * Exporta els productes a un fitxer
      * @param path Ruta on es guardarà el fitxer amb els productes
-     * @throws IncorrectPath Si la ruta no és correcta
+     * @throws IncorrectPathException Si la ruta no és correcta
      */
-    public void exportProducts(String path) throws IncorrectPath{
+    public void exportProducts(String path) throws IncorrectPathException {
         List<JsonObject> products = new ArrayList<>();
         for (Product product : productContainer.getProducts().values()) {
             JsonObject productJson = new JsonObject();
@@ -374,17 +372,17 @@ public class ControllerDomini {
         }
         try {
             cP.exportProducts(path, products);
-        } catch (IncorrectPath e) {
-            throw new IncorrectPath(path);
+        } catch (IncorrectPathException e) {
+            throw new IncorrectPathException(path);
         }
     }
 
     /**
      * Exporta les taules de similituds a un fitxer
      * @param path Ruta on es guardarà el fitxer amb les taules de similituds
-     * @throws IncorrectPath Si la ruta no és correcta
+     * @throws IncorrectPathException Si la ruta no és correcta
      */
-    public void exportSimilarityTables(String path) throws IncorrectPath {
+    public void exportSimilarityTables(String path) throws IncorrectPathException {
         List<JsonObject> similarityTables = new ArrayList<>();
         for(SimilarityTable similarityTable : similarityTableContainer.getSimilarityTables().values()) {
             JsonObject STObject = new JsonObject();
@@ -414,8 +412,8 @@ public class ControllerDomini {
         }
         try {
             cP.exportSimilarityTable(path, similarityTables);
-        } catch (IncorrectPath e) {
-            throw new IncorrectPath(path);
+        } catch (IncorrectPathException e) {
+            throw new IncorrectPathException(path);
         }
     }
 }

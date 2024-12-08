@@ -1,7 +1,7 @@
-package persistence;
+package persistence.JSON.persistence;
 
-import model.exceptions.IncorrectPathException;
 import com.google.gson.JsonObject;
+import model.exceptions.IncorrectPathException;
 
 
 
