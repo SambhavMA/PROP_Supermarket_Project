@@ -64,11 +64,6 @@ public class ItemListSimilarityTables extends JPanel {
             stPanel.setBackground(Color.LIGHT_GRAY);
             stPanel.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
-            JLabel rowLabel = new JLabel("" + (row + 1), SwingConstants.CENTER);
-            rowLabel.setPreferredSize(sizes);
-            rowLabel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-            stPanel.add(rowLabel);
-
             data[row].setBorder(BorderFactory.createLineBorder(Color.BLACK));
             data[row].setPreferredSize(sizes);
             stPanel.add(data[row]);

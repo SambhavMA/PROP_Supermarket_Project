@@ -33,7 +33,7 @@ public class SimilarityTablesManagePanel extends JPanel {
         JPanel buttonPanel = new JPanel(new BorderLayout(10, 10));
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        addSimilarityTableButton.addActionListener(e -> viewPrimary.transitionContentPanel(viewPrimary.getAddSimilarityTablePanel()));
+        addSimilarityTableButton.addActionListener(e -> viewPrimary.transitionContentPanel(viewPrimary.getAddSimilarityTablePanel1()));
 
         addSimilarityTableButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         importSimilarityTablesButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
