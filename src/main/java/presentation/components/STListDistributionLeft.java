@@ -12,7 +12,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class STListDistributionLeft extends JPanel{
+public class STListDistributionLeft extends JPanel {
     private ViewPrimary viewPrimary;
     private GenerateDistributionPanel parentPanel;
     int rows;
@@ -20,6 +20,7 @@ public class STListDistributionLeft extends JPanel{
     String[] columnsTitles;
     JComponent[] data;
     String emptyMessage;
+    private JPanel selectedPanel;
 
     public STListDistributionLeft(ViewPrimary viewPrimary, GenerateDistributionPanel parentPanel, int glRow, int glColumn, String[] columnsTitles, JComponent[] data, String emptyMessage) {
         this.viewPrimary = viewPrimary;
@@ -29,6 +30,7 @@ public class STListDistributionLeft extends JPanel{
         this.columnsTitles = columnsTitles;
         this.data = data;
         this.emptyMessage = emptyMessage;
+        this.selectedPanel = null;
         initialize();
     }
 
@@ -62,33 +64,29 @@ public class STListDistributionLeft extends JPanel{
 
                 stPanel.addMouseListener(new MouseAdapter() {
                     private final int stId = Integer.parseInt(((JLabel) data[currentRow]).getText());
-                    private boolean clicked = false;
 
                     @Override
                     public void mouseClicked(MouseEvent e) {
-                        if (!clicked) {
-                            // Select ST
-                            // call functions on parent
-                            stPanel.setBackground(Color.CYAN);
-                            clicked = true;
-                            parentPanel.setSelectedSTId(stId);
-                        } else {
-                            // Unselect
-                            // call functions on parent
-                            stPanel.setBackground(Color.LIGHT_GRAY);
-                            clicked = false;
-                            parentPanel.setSelectedSTId(null);
+                        if (selectedPanel != null) {
+                            selectedPanel.setBackground(Color.LIGHT_GRAY);
                         }
+
+                        stPanel.setBackground(Color.YELLOW);
+                        selectedPanel = stPanel;
+
+                        parentPanel.setSelectedSTId(stId);
                     }
 
                     @Override
                     public void mouseEntered(MouseEvent e) {
-                        stPanel.setBackground(Color.CYAN);
+                        if (selectedPanel != stPanel) {
+                            stPanel.setBackground(Color.CYAN);
+                        }
                     }
 
                     @Override
                     public void mouseExited(MouseEvent e) {
-                        if (!clicked) {
+                        if (selectedPanel != stPanel) {
                             stPanel.setBackground(Color.LIGHT_GRAY);
                         }
                     }
@@ -107,3 +105,4 @@ public class STListDistributionLeft extends JPanel{
         add(scrollPane, BorderLayout.CENTER);
     }
 }
+

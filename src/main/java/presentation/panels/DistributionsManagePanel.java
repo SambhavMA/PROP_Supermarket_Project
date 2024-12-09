@@ -70,9 +70,36 @@ public class DistributionsManagePanel extends JPanel {
             initializeList(dataPresentation);
             contentPanel.add(itemListDistributions, BorderLayout.CENTER);
         } else {
+            JPanel noDataPanel = new JPanel();
+            noDataPanel.setLayout(new GridBagLayout());
+
             JLabel noDistributionTitle = new JLabel("No hay distribuciones en el sistema", SwingConstants.CENTER);
             noDistributionTitle.setFont(new Font("Arial", Font.BOLD, 24));
-            contentPanel.add(noDistributionTitle, BorderLayout.CENTER);
+
+            JLabel textoRecargar = new JLabel("Si has generado una distribución, puede que se esté ejecutando en segundo plano", SwingConstants.CENTER);
+            textoRecargar.setFont(new Font("Arial", Font.PLAIN, 12));
+            textoRecargar.setForeground(Color.GRAY);
+
+            JButton reloadButton = new JButton("Recargar");
+            reloadButton.setFont(new Font("Arial", Font.BOLD, 12));
+            reloadButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
+            reloadButton.addActionListener(e -> updateList());
+
+            GridBagConstraints gbc = new GridBagConstraints();
+            gbc.insets = new Insets(10, 10, 10, 10);
+            gbc.gridx = 0;
+            gbc.gridy = 0;
+
+            noDataPanel.add(noDistributionTitle, gbc);
+
+            gbc.gridy++;
+            noDataPanel.add(textoRecargar, gbc);
+
+            gbc.gridy++;
+            noDataPanel.add(reloadButton, gbc);
+
+            contentPanel.add(noDataPanel, BorderLayout.CENTER);
         }
 
         JPanel buttonPanel = new JPanel(new BorderLayout(10, 10));
@@ -81,4 +108,6 @@ public class DistributionsManagePanel extends JPanel {
 
         contentPanel.add(buttonPanel, BorderLayout.SOUTH);
     }
+
+
 }

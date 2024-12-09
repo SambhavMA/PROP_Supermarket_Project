@@ -113,7 +113,7 @@ public class GenerateDistributionPanel extends JPanel {
                     );
                     boolean v = CtrlPresentation.getInstance().generateDistribution(selectedSTId, (String) comboBoxAlgorithms.getSelectedItem());
                     if (v) {
-                        viewPrimary.transitionContentPanel(viewPrimary.getDistributionPanel(distributionId));
+                        viewPrimary.transitionContentPanel(viewPrimary.getDistributionsManagePanel());
                         //For testing: System.out.println(Arrays.deepToString(CtrlPresentation.getInstance().getDistribution(distributionId)));
                     }
                 }

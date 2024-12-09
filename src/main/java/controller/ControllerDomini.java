@@ -149,12 +149,12 @@ public class ControllerDomini {
     }
 
     public void testingAddingProducts() throws ProductAlreadyExistsException {
-        productContainer.addProduct(new Product("P1", EnumType.CARNE));
-        productContainer.addProduct(new Product("P2", EnumType.PESCADO));
-        productContainer.addProduct(new Product("P3", EnumType.CARNE));
-        productContainer.addProduct(new Product("P4", EnumType.PESCADO));
-        productContainer.addProduct(new Product("P5", EnumType.FRUTA));
-        productContainer.addProduct(new Product("P6", EnumType.FRUTA));
+        productContainer.addProduct(new Product("Bistec", EnumType.CARNE));
+        productContainer.addProduct(new Product("Salmon", EnumType.PESCADO));
+        productContainer.addProduct(new Product("Lomo", EnumType.CARNE));
+        productContainer.addProduct(new Product("Atun", EnumType.PESCADO));
+        productContainer.addProduct(new Product("Manzana", EnumType.FRUTA));
+        productContainer.addProduct(new Product("Pera", EnumType.FRUTA));
 //        productContainer.addProduct(new Product("P7", EnumType.CARN));
 //        productContainer.addProduct(new Product("P8", EnumType.PEIX));
 //        productContainer.addProduct(new Product("P9", EnumType.CARN));
