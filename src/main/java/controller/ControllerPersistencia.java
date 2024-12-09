@@ -29,7 +29,7 @@ public class ControllerPersistencia {
     }
 
     /**
-     * Retorna un HashMap con los productos importados
+     * Retorna una lista con los productos importados
      * @param path ruta donde se obtienen los productos
      * @throws IncorrectPathException si la ruta no es correcta
      */
@@ -49,11 +49,11 @@ public class ControllerPersistencia {
     }
 
     /**
-     * Retorna un Pair de la lista de productos de cada tabla de similitud importada y las similitudes de estos
-     * @param path ruta donde se obtienen la tabla de similitud
+     * Retorna una lista de Pairs de la lista de productos de cada tabla de similitud importada y las similitudes de estos
+     * @param path ruta donde se obtienen las tabla de similitudes
      * @throws IncorrectPathException si la ruta no es correcta
      */
-    public List< Pair< List<String>, List< Pair<Pair<String, String>, Double> > > > importSimilarityTable(String path) throws IncorrectPathException {
+    public List< Pair< List<String>, List< Pair<Pair<String, String>, Double> > > > importSimilarityTables(String path) throws IncorrectPathException {
         JsonObject jsonData;
         try{
             jsonData = fileManager.importFromFile(path);
@@ -106,12 +106,12 @@ public class ControllerPersistencia {
     }
 
     /**
-     * Exporta la tabla de similitud a un fichero
+     * Exporta las tablas de similitudes a un fichero
      * @param path ruta donde se creara el fichero
      * @param similarityTable tabla de similitud a exportar
      * @throws IncorrectPathException si la ruta no es correcta
      */
-    public void exportSimilarityTable(String path, List<JsonObject> similarityTable) throws IncorrectPathException {
+    public void exportSimilarityTables(String path, List<JsonObject> similarityTable) throws IncorrectPathException {
         JsonObject result = new JsonObject();
         JsonArray STArray = new JsonArray();
         for (JsonObject ST : similarityTable) {

@@ -333,7 +333,7 @@ public class ControllerDomini {
     public void importSimilarityTables(String path) throws IncorrectPathException, ProductNotFoundException {
         List< Pair< List<String>, List< Pair<Pair<String, String>, Double> > > > similarityTables;
         try {
-            similarityTables = cP.importSimilarityTable(path);
+            similarityTables = cP.importSimilarityTables(path);
         } catch (IncorrectPathException e) {
             throw new IncorrectPathException(path);
         }
@@ -410,7 +410,7 @@ public class ControllerDomini {
             similarityTables.add(STObject);
         }
         try {
-            cP.exportSimilarityTable(path, similarityTables);
+            cP.exportSimilarityTables(path, similarityTables);
         } catch (IncorrectPathException e) {
             throw new IncorrectPathException(path);
         }
