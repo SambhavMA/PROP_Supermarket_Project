@@ -356,7 +356,7 @@ public class ControllerPresentacio {
                 cIO.writeLine(String.valueOf(p));
             }
 
-            int distributionId = cDom.generateDistribution(id, cost, names, chosenAlgorithm);
+            int distributionId = cDom.createDistribution(id, cost, names, chosenAlgorithm);
             cIO.writeLine("Distribution generated with id: " + distributionId);
         } catch (SimilarityTableNotFoundException e) {
             cIO.writeLine("ERROR: " + e.getMessage());
@@ -435,6 +435,7 @@ public class ControllerPresentacio {
      * Llama al controlador de IO y de Domini para obtener una distribución
      */
     public void getDistribution() {
+        /*
         cIO.writeLine("Ha escollit l'opcio Get Distribution");
         cIO.writeLine("Indiqui l'id de distribucio que vol veure:");
 
@@ -448,6 +449,7 @@ public class ControllerPresentacio {
         }
 
         try {
+
             Distribution distribution = cDom.getDistribution(id);
             cIO.writeLine("Id: " + distribution.getId());
             cIO.writeLine("Similarity Table Id: " + distribution.getSimilarityTableId());
@@ -460,5 +462,6 @@ public class ControllerPresentacio {
         } catch (DistributionNotFoundException e) {
             cIO.writeLine("ERROR: " + e.getMessage());
         }
+        */
     }
 }

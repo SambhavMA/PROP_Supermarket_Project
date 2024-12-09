@@ -64,6 +64,10 @@ public class Distribution {
         return cost;
     }
 
+    public double getTemps() {
+        return temps;
+    }
+
     public Vector<String> getOrder() {
         return order;
     }

@@ -145,7 +145,7 @@ public class ViewPrimary {
     }
 
     public GenerateDistributionPanel getGenerateDistributionPanel() {
-        if (generateDistributionPanel == null) generateDistributionPanel = new GenerateDistributionPanel(this);
+        generateDistributionPanel = new GenerateDistributionPanel(this);
         return generateDistributionPanel;
     }
 }

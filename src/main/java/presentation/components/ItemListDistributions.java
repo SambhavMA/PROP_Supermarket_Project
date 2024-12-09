@@ -42,7 +42,9 @@ public class ItemListDistributions extends JPanel {
             headerPanel.add(columnLabel);
         }
         JLabel blank2 = new JLabel("");
-        blank2.setPreferredSize(sizes);
+        blank2.setPreferredSize(new Dimension(90, 25));
+        blank2.setMinimumSize(new Dimension(90, 25));
+        blank2.setMaximumSize(new Dimension(90, 25));
         headerPanel.add(blank2);
 
         headerPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
@@ -55,7 +57,7 @@ public class ItemListDistributions extends JPanel {
             rowPanel.setLayout(new BoxLayout(rowPanel, BoxLayout.X_AXIS));
             rowPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
-            JPanel distributionPanel = new JPanel(new GridLayout(1, columns + 1, 0, 0));
+            JPanel distributionPanel = new JPanel(new GridLayout(1, columns, 0, 0));
             distributionPanel.setBackground(Color.LIGHT_GRAY);
             distributionPanel.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
@@ -92,18 +94,18 @@ public class ItemListDistributions extends JPanel {
             deleteButton.addActionListener(e -> {
                 int response = JOptionPane.showConfirmDialog(
                         this,
-                        "¿Estás seguro de que deseas eliminar la distribucion con id: \"" + id + "\"?",
+                        "¿Estás seguro de que deseas eliminar la distribucion con id: " + id + "?",
                         "Confirmar eliminación",
                         JOptionPane.YES_NO_OPTION,
                         JOptionPane.WARNING_MESSAGE
                 );
 
                 if (response == JOptionPane.YES_OPTION) {
-                    CtrlPresentation.getInstance().deleteDistribution(currentRow);
+                    CtrlPresentation.getInstance().deleteDistribution(id);
                     parentPanel.updateList();
                     JOptionPane.showMessageDialog(
                             this,
-                            "La distribucion con id: \"" + id + "\" ha sido eliminado exitosamente.",
+                            "La distribucion con id: " + id + " ha sido eliminado exitosamente.",
                             "Eliminación completada",
                             JOptionPane.INFORMATION_MESSAGE
                     );

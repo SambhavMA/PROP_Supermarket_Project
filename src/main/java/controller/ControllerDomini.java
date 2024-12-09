@@ -1,5 +1,6 @@
 package controller;
 
+import model.algorithm.AlgorithmController;
 import model.algorithm.AlgorithmsNames;
 import model.distribution.Distribution;
 import model.exceptions.*;
@@ -11,6 +12,7 @@ import model.similarity.SimilarityTableContainer;
 import model.similarity.SimilarityTable;
 import utils.Pair;
 
+import java.text.DecimalFormat;
 import java.util.*;
 
 /**
@@ -328,13 +330,45 @@ public class ControllerDomini {
      * @param usedAlgorithm     Nom de l'algoritme utilitzat per generar la distribució
      * @return Identificador de la distribució creada
      */
-    public int generateDistribution(int similarityTableId, double cost, Vector<String> order,
+    public int createDistribution(int similarityTableId, double cost, Vector<String> order,
             String usedAlgorithm) {
         int id = distributionContainer.newId();
         Distribution distribution = new Distribution(id, similarityTableId, cost, order, usedAlgorithm, 0);
         distributionContainer.addDistribution(id, distribution);
 
         return distribution.getId();
+    }
+
+    public void generateDistribution(int stId, String algorithm) throws SimilarityTableNotFoundException, DistributionCreationErrorException{
+        double[][] costs = null;
+
+        Pair<Vector<Pair<String, Integer>>, double[][]> similarityTable = getSimilarityTable(stId);
+        double[][] relationMatrix = similarityTable.second();
+
+        try {
+            AlgorithmController cAlg = new AlgorithmController(relationMatrix);
+
+            Object[] result = cAlg.executeAlgorithm(algorithm);
+
+            int[] path = (int[]) result[0];
+            double cost = (double) result[1];
+
+            Vector<Pair<String, Integer>> fastIndexes = similarityTable.first();
+            Vector<String> names = new Vector<>(path.length);
+
+            for (int n : path) {
+                for (Pair<String, Integer> pair : fastIndexes) {
+                    if (pair.second().equals(n)) {
+                        names.add(pair.first());
+                        break;
+                    }
+                }
+            }
+
+            createDistribution(stId, cost, names, algorithm);
+        } catch (Exception e) {
+            throw new DistributionCreationErrorException();
+        }
     }
 
     /**
@@ -389,12 +423,23 @@ public class ControllerDomini {
      * @return Distribució amb l'identificador id
      * @throws DistributionNotFoundException Si la distribució a retornar no existeix
      */
-    public Distribution getDistribution(int id) throws DistributionNotFoundException {
+    public String[][] getDistribution(int id) throws DistributionNotFoundException {
+        // De moment no es passen les seccions
+        DecimalFormat df = new DecimalFormat("#.###");
+
         Distribution distribution = distributionContainer.getDistributionById(id);
-        return distribution;
+        return new String[][]{new String[]{""+distribution.getId()},
+                new String[]{""+distribution.getSimilarityTableId()},
+                new String[]{df.format(distribution.getCost())},
+                new String[]{df.format(distribution.getTemps())},
+                distribution.getOrder().toArray(new String[0]),
+                new String[]{distribution.getUsedAlgorithm()}
+        };
     }
 
     public String[][] getDistributions() {
+        DecimalFormat df = new DecimalFormat("#.###");
+
         HashMap<Integer, Distribution> distributions = distributionContainer.getDistributions();
         String[][] parameters = new String[0][0];
 
@@ -402,7 +447,9 @@ public class ControllerDomini {
             List<String[]> parametersList = new ArrayList<>();
 
             for (Distribution distribution : distributions.values()) {
-                parametersList.add(new String[]{""+distribution.getId(), ""+distribution.getSimilarityTableId(), distribution.getUsedAlgorithm(), ""+distribution.getCost()});
+                parametersList.add(new String[]{""+distribution.getId(),
+                        ""+distribution.getSimilarityTableId(), distribution.getUsedAlgorithm(),
+                        df.format(distribution.getCost())});
             }
 
             parameters = parametersList.toArray(new String[0][0]);
@@ -412,6 +459,12 @@ public class ControllerDomini {
     }
 
     public String[] getAlgorithms() {
-        return new String[]{Arrays.toString(AlgorithmsNames.values())};
+        return Arrays.stream(AlgorithmsNames.values())
+                .map(Enum::name)
+                .toArray(String[]::new);
+    }
+
+    public int getDistributionNextId() {
+        return distributionContainer.nextId();
     }
 }

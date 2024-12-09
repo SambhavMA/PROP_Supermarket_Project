@@ -185,11 +185,50 @@ public class CtrlPresentation {
         return controllerDomini.getDistributions();
     }
 
-    public void deleteDistribution(int id) {
+    public String deleteDistribution(int id) {
         try {
             controllerDomini.deleteDistribution(id);
+            return null;
         } catch (Exception e) {
+            return e.getMessage();
+        }
 
+    }
+
+    public String[] getAlgorithms() {
+        return controllerDomini.getAlgorithms();
+    }
+
+    public String[][] getDistribution(int id) {
+        try {
+            return controllerDomini.getDistribution(id);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(
+                    new JFrame(),
+                    e.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+            );
+            return new String[0][0];
+        }
+    }
+
+    public int getDistributionNextId() {
+        return controllerDomini.getDistributionNextId();
+    }
+
+    public boolean generateDistribution(int stId, String usedAlgorithm) {
+        try {
+            controllerDomini.generateDistribution(stId, usedAlgorithm);
+            return true;
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(
+                    new JFrame(),
+                    e.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+            );
+            return false;
         }
 
     }

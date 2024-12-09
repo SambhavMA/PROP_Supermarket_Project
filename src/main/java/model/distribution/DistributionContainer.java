@@ -41,4 +41,8 @@ public class DistributionContainer {
     }
 
     public int getIdCounter() { return idCounter; }
+
+    public int nextId() {
+        return idCounter + 1;
+    }
 }

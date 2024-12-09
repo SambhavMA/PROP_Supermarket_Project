@@ -58,10 +58,10 @@ public class STListDistributionLeft extends JPanel{
 
                 data[row].setBorder(BorderFactory.createLineBorder(Color.BLACK));
                 data[row].setPreferredSize(sizes);
-                stPanel.add(new JLabel("id: " + data[row]));
+                stPanel.add(new JLabel("Tabla de similitud con id: " + ((JLabel) data[row]).getText(), SwingConstants.CENTER));
 
                 stPanel.addMouseListener(new MouseAdapter() {
-                    private final int currentIndex = currentRow;
+                    private final int stId = Integer.parseInt(((JLabel) data[currentRow]).getText());
                     private boolean clicked = false;
 
                     @Override
@@ -69,13 +69,15 @@ public class STListDistributionLeft extends JPanel{
                         if (!clicked) {
                             // Select ST
                             // call functions on parent
-                            stPanel.setBackground(Color.BLUE);
+                            stPanel.setBackground(Color.CYAN);
                             clicked = true;
+                            parentPanel.setSelectedSTId(stId);
                         } else {
                             // Unselect
                             // call functions on parent
                             stPanel.setBackground(Color.LIGHT_GRAY);
                             clicked = false;
+                            parentPanel.setSelectedSTId(null);
                         }
                     }
 
@@ -86,7 +88,9 @@ public class STListDistributionLeft extends JPanel{
 
                     @Override
                     public void mouseExited(MouseEvent e) {
-                        stPanel.setBackground(Color.LIGHT_GRAY);
+                        if (!clicked) {
+                            stPanel.setBackground(Color.LIGHT_GRAY);
+                        }
                     }
                 });
 
@@ -94,13 +98,12 @@ public class STListDistributionLeft extends JPanel{
 
                 containerPanel.add(rowPanel);
             }
-
-            JScrollPane scrollPane = new JScrollPane(containerPanel);
-            scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-            scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-
-            setLayout(new BorderLayout());
-            add(scrollPane, BorderLayout.CENTER);
         }
+        JScrollPane scrollPane = new JScrollPane(containerPanel);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+
+        setLayout(new BorderLayout());
+        add(scrollPane, BorderLayout.CENTER);
     }
 }

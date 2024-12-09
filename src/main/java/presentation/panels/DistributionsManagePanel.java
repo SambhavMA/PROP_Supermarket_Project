@@ -48,7 +48,7 @@ public class DistributionsManagePanel extends JPanel {
 
         for (int i = 0; i < data.length; i++) {
             for (int j = 0; j < cols.length; j++) {
-                data[i][j] = new JLabel(dataP[i][j]);
+                data[i][j] = new JLabel(dataP[i][j], SwingConstants.CENTER);
             }
         }
 
