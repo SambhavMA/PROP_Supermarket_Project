@@ -482,7 +482,7 @@ public class ControllerPresentacio {
     }
 
     /**
-        * Llama al controlador de IO y de Domini para importar productos
+        * Llama al controlador de IO y de Domini para importar productos des de un fichero
      */
     public void importProducts() {
         cIO.writeLine("Ha escollit l'opcio Import Products");
@@ -499,7 +499,7 @@ public class ControllerPresentacio {
     }
 
     /**
-     * Llama al controlador de IO y de Domini para importar una tabla de similitud
+     * Llama al controlador de IO y de Domini para importar tablas de similitudes des de un fichero
      */
     public void importSimilarityTable() {
         cIO.writeLine("Ha escollit l'opcio Import Similarity Table");

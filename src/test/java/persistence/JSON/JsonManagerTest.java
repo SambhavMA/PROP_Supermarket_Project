@@ -19,8 +19,6 @@ import model.exceptions.FileCanNotReadException;
 import model.exceptions.FileCanNotWriteException;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.mock;
 
 public class JsonManagerTest {
     private JsonManager jsonManager;
@@ -34,17 +32,14 @@ public class JsonManagerTest {
     public void setUp() {
         jsonManager = new JsonManager();
 
-        // Create test files
         new File(testDir).mkdirs();
 
-        // Create valid json file
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(validPath))) {
             writer.write("{\"Products\":[{\"name\":\"Poma\",\"type\":\"FRUITA\"}]}");
         } catch (IOException e) {
             throw new FileCanNotWriteException(validPath);
         }
 
-        // Create restricted json file
         File restrictedJson = new File(restrictedPath);
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(restrictedJson))) {
             writer.write("{\"Products\":[]}");
@@ -54,13 +49,12 @@ public class JsonManagerTest {
         restrictedJson.setWritable(false, false);
 
 
-        // Create valid directory
         new File(validDir).mkdirs();
     }
 
     @After
     public void tearDown() {
-        // Delete test files
+        deleteDirectory(new File(validDir));
         deleteDirectory(new File(testDir));
     }
 

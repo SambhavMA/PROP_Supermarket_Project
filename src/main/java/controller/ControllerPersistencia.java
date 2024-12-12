@@ -17,7 +17,7 @@ import model.exceptions.IncorrectPathException;
 /**
  * @author David Calvo Espases (david.calvo.espases@estudiantat.upc.edu)
  * <p>Se encarga de gestionar las operaciones de persistencia.
- * Estas operaciones son importar o exportar productos y tablas de similitud.
+ * Estas operaciones son importar o exportar productos y tablas de similitudes.
  * Tiene la interficie de FileManager como atributo.</p>
  */
 
@@ -31,6 +31,7 @@ public class ControllerPersistencia {
     /**
      * Retorna una lista con los productos importados
      * @param path ruta donde se obtienen los productos
+     * @return lista de productos
      * @throws IncorrectPathException si la ruta no es correcta
      */
     public List<JsonObject> importProducts(String path) throws IncorrectPathException {
@@ -51,6 +52,7 @@ public class ControllerPersistencia {
     /**
      * Retorna una lista de Pairs de la lista de productos de cada tabla de similitud importada y las similitudes de estos
      * @param path ruta donde se obtienen las tabla de similitudes
+     * @return lista de Pairs de la lista de productos de cada tabla de similitud importada y las similitudes de estos
      * @throws IncorrectPathException si la ruta no es correcta
      */
     public List< Pair< List<String>, List< Pair<Pair<String, String>, Double> > > > importSimilarityTables(String path) throws IncorrectPathException {
@@ -63,13 +65,11 @@ public class ControllerPersistencia {
         List< Pair< List<String>, List< Pair<Pair<String, String>, Double> > > > similarityTables = new ArrayList<>();
         JsonArray STArray = jsonData.getAsJsonArray("SimilarityTables");
         for(JsonElement ST : STArray){
-            //Lista de los productos de la tabla de similitud
             List<String> products = new ArrayList<>();
             for(JsonElement product : ST.getAsJsonObject().getAsJsonArray("products")){
                 products.add(product.getAsString());
             }
 
-            //Lista de las similitudes de los productos
             List< Pair<Pair<String, String>, Double> > similarities = new ArrayList<>();
             for(JsonElement similarity : ST.getAsJsonObject().getAsJsonArray("similarities")){
                 JsonObject similarityObject = similarity.getAsJsonObject();
@@ -88,7 +88,8 @@ public class ControllerPersistencia {
     /**
      * Exporta los productos a un fichero
      * @param path ruta donde se creara el fichero
-     * @param products productos a exportar
+     * @param products lista de productos a exportar
+     *
      * @throws IncorrectPathException si la ruta no es correcta
      */
     public void exportProducts(String path, List<JsonObject> products) throws IncorrectPathException {
@@ -108,7 +109,7 @@ public class ControllerPersistencia {
     /**
      * Exporta las tablas de similitudes a un fichero
      * @param path ruta donde se creara el fichero
-     * @param similarityTable tabla de similitud a exportar
+     * @param similarityTable lista de tablas de similitudes a exportar
      * @throws IncorrectPathException si la ruta no es correcta
      */
     public void exportSimilarityTables(String path, List<JsonObject> similarityTable) throws IncorrectPathException {

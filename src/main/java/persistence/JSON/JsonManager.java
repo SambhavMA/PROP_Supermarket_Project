@@ -24,7 +24,10 @@ public class JsonManager implements FileManager{
     /**
      * Importa el contenido de un fichero JSON y retorna un JsonObject
      * @param path ruta donde se encuentra el fichero JSON
+     * @return contenido del fichero
      * @throws IncorrectPathException si la ruta no es correcta
+     * @throws IOErrorException si hay un error de lectura
+     * @throws FileCanNotReadException si no se puede leer el fichero
      */
     @Override
     public JsonObject importFromFile(String path) throws IncorrectPathException, IOErrorException, FileCanNotReadException {
@@ -54,7 +57,10 @@ public class JsonManager implements FileManager{
      * Exporta un JsonObject a un fichero JSON
      * @param path ruta donde se creara el fichero
      * @param jsonObject contenido a exportar
+     *
      * @throws IncorrectPathException si la ruta no es correcta
+     * @throws IOErrorException si hay un error de escritura
+     * @throws FileCanNotWriteException si no se puede escribir en el fichero
      */
     @Override
     public void exportToFile(String path, JsonObject jsonObject) throws IncorrectPathException, IOErrorException, FileCanNotWriteException {
@@ -64,7 +70,6 @@ public class JsonManager implements FileManager{
 
         File file = new File(path);
 
-        // Si el path es directorio se crea un fichero output.json
         if(file.isDirectory()){
             file = new File(file, "output.json");
         }

@@ -22,7 +22,7 @@ import java.util.Vector;
  * <p>S'encarrega de gestionar les operacions de domini.
  * Aquestes operacions poden ser crear, modificar o eliminar productes, taules de similitud i distribucions.
  * A més, també pot retornar informació sobre productes, taules de similitud i distribucions.
- * Té els containers de productes, taules de similitud i distribucions com a atributs.</p>
+ * Té el controller peristencia i els containers de productes, taules de similitud i distribucions com a atributs.</p>
  */
 public class ControllerDomini {
     private static ControllerDomini instance;
@@ -302,8 +302,9 @@ public class ControllerDomini {
     /**
      * Afegeix al programa els productes importats
      * @param path Ruta on es troba el fitxer amb els productes
-     * @return Vector amb totes les distribucions
-     * @throws IncorrectPathException Si la ruta no és correcta
+     *
+     * @throws IncorrectPathException Si la ruta no és correcte
+     * @throws NoTypeWithName         Si el tipus no existeix
      */
     public void importProducts(String path) throws IncorrectPathException, NoTypeWithName {
         List<JsonObject> products;
@@ -320,6 +321,8 @@ public class ControllerDomini {
                 addProduct(name, type);
             } catch (ProductAlreadyExistsException e) {
                 continue;
+            } catch (NoTypeWithName e) {
+                throw new NoTypeWithName(type);
             }
         }
     }
@@ -327,8 +330,9 @@ public class ControllerDomini {
     /**
      * Afegeix al programa les taules de similituds importades
      * @param path Ruta on es troba el fitxer amb les taules de similituds
-     * @return Pair amb els productes de la taula i la matriu de similituds
-     * @throws IncorrectPathException Si la ruta no és correcta
+     *
+     * @throws IncorrectPathException Si la ruta no és correcte
+     * @throws ProductNotFoundException Si algun dels productes no existeix
      */
     public void importSimilarityTables(String path) throws IncorrectPathException, ProductNotFoundException {
         List< Pair< List<String>, List< Pair<Pair<String, String>, Double> > > > similarityTables;
@@ -344,7 +348,7 @@ public class ControllerDomini {
                 try {
                     getProduct(product);
                 } catch (ProductNotFoundException e) {
-                    throw new ProductNotFoundException(e.getMessage());
+                    throw new ProductNotFoundException(product);
                 }
             }
             List<Pair<Pair<String, String>, Double>> similarities = similarityTable.second();
@@ -359,7 +363,8 @@ public class ControllerDomini {
     /**
      * Exporta els productes a un fitxer
      * @param path Ruta on es guardarà el fitxer amb els productes
-     * @throws IncorrectPathException Si la ruta no és correcta
+     *
+     * @throws IncorrectPathException Si la ruta no és correcte
      */
     public void exportProducts(String path) throws IncorrectPathException {
         List<JsonObject> products = new ArrayList<>();
@@ -379,7 +384,8 @@ public class ControllerDomini {
     /**
      * Exporta les taules de similituds a un fitxer
      * @param path Ruta on es guardarà el fitxer amb les taules de similituds
-     * @throws IncorrectPathException Si la ruta no és correcta
+     *
+     * @throws IncorrectPathException Si la ruta no és correcte
      */
     public void exportSimilarityTables(String path) throws IncorrectPathException {
         List<JsonObject> similarityTables = new ArrayList<>();
@@ -387,14 +393,12 @@ public class ControllerDomini {
             JsonObject STObject = new JsonObject();
             STObject.addProperty("id", similarityTable.getId());
 
-            // Afegir productes
             JsonArray productsArray = new JsonArray();
             for(String product : similarityTable.getFastIndexes().keySet()) {
                 productsArray.add(product);
             }
             STObject.add("products", productsArray);
 
-            // Afegir similituds
             JsonArray similaritiesArray = new JsonArray();
             for(int i = 0; i < similarityTable.getRelationMatrix().length; i++) {
                 for(int j = i + 1; j < similarityTable.getRelationMatrix().length; j++) {
