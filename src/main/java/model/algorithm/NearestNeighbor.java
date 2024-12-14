@@ -84,7 +84,7 @@ public class NearestNeighbor extends Algorithm {
             cost += super.costs[path[indexPath]][initial];
             return new Solution(path, cost);
         } else {
-            throw new AlgorithmException("Wrong parameter list");
+            throw new AlgorithmException("Lista de parametros incorrecta");
         }
     }
 }

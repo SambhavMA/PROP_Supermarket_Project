@@ -2,6 +2,7 @@ package controller.presentation;
 
 
 import controller.ControllerDomini;
+import model.exceptions.AlgorithmException;
 import model.exceptions.ProductNotFoundException;
 import presentation.views.ViewPrimary;
 import presentation.views.ViewSecundary;
@@ -178,7 +179,7 @@ public class CtrlPresentation {
 
     // DISTRIBUTION FUNCTIONS
     public String[] getDistributionsCols() {
-        return new String[] {"Id", "Tabla de similitud", "Algoritmo generador", "Coste"};
+        return new String[] {"Id", "Tabla de similitud", "Algoritmo generador", "Coste", "Temps (ms)"};
     }
 
     public String[][] getDistributions() {

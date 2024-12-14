@@ -2,6 +2,7 @@ package controller.old;
 
 import controller.ControllerDomini;
 import model.algorithm.AlgorithmController;
+import model.algorithm.AlgorithmControllerSolution;
 import model.distribution.Distribution;
 import model.exceptions.DistributionNotFoundException;
 import model.exceptions.NoTypeWithName;
@@ -334,10 +335,11 @@ public class ControllerPresentacio {
             cIO.writeLine("Choose an algorithm to generate the distribution");
             String chosenAlgorithm = cIO.readLine();
 
-            Object[] result = cAlg.executeAlgorithm(chosenAlgorithm);
+            AlgorithmControllerSolution result = cAlg.executeAlgorithm(chosenAlgorithm);
 
-            int[] path = (int[]) result[0];
-            double cost = (double) result[1];
+            int[] path = result.getOrder();
+            double cost = result.getCost();
+            double temps = result.getTemps();
 
             Vector<Pair<String, Integer>> fastIndexes = similarityTable.first();
             Vector<String> names = new Vector<>(path.length);
@@ -356,7 +358,7 @@ public class ControllerPresentacio {
                 cIO.writeLine(String.valueOf(p));
             }
 
-            int distributionId = cDom.createDistribution(id, cost, names, chosenAlgorithm);
+            int distributionId = cDom.createDistribution(id, cost, temps, names, chosenAlgorithm);
             cIO.writeLine("Distribution generated with id: " + distributionId);
         } catch (SimilarityTableNotFoundException e) {
             cIO.writeLine("ERROR: " + e.getMessage());

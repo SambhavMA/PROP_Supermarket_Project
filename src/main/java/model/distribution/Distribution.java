@@ -32,6 +32,7 @@ public class Distribution {
         this.order = order;
         this.sections = sections;
         this.usedAlgorithm = usedAlgorithm;
+        this.temps = temps;
     }
 
     /**

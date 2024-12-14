@@ -68,35 +68,29 @@ public class AlgorithmController {
      * @see HillClimbing
      * @see Solution
     */
-    public Object[] executeAlgorithm(String alg) throws Exception {
+    public AlgorithmControllerSolution executeAlgorithm(String alg) throws Exception {
         try {
             Algorithm.costs = costs;
             AlgorithmsNames algorithm = AlgorithmsNames.valueOf(alg);
             Solution solution = null;
 
-            //double durationInSeconds;
-            //long startTime, endTime;
+            double durationInSeconds = 0;
+            long startTime = 0, endTime = 0;
             switch(algorithm) {
                 case NearestNeighbor:
-                    //Algorithm nearestNeighbor = new NearestNeighbor();
-                    //startTime = System.nanoTime();
                     ArrayList<Parameter> parametersNN = NearestNeighbor.getParameters();
                     NearestNeighbor nn = new NearestNeighbor(parametersNN, costs);
+                    startTime = System.nanoTime();
                     solution = nn.execute();
-                    //endTime = System.nanoTime();
+                    endTime = System.nanoTime();
                     break;
                 case HillClimbing:
+
                     ArrayList<Parameter> parametersHC = HillClimbing.getParameters();
                     HillClimbing hc = new HillClimbing(parametersHC, costs);
+                    startTime = System.nanoTime();
                     solution = hc.execute();
-                /*
-                //Algorithm startingAlgorithmNN = new NearestNeighbor();
-
-                //Algorithm hillClimbing = new HillClimbing();
-                solution = hillClimbing.execute(initialSolutions);
-                //endTime = System.nanoTime();
-
-                 */
+                    endTime = System.nanoTime();
                     break;
                 case Kruskal:
                     break;
@@ -111,8 +105,8 @@ public class AlgorithmController {
 
             double finalCost = ((-1)*solution.getCost()) + solution.getSize();
 
-            //durationInSeconds = (endTime - startTime) / 1_000_000_000.0;
-            return new Object[]{solution.getPath(), finalCost, algorithm.toString()/* , durationInSeconds*/};
+            durationInSeconds = (endTime - startTime) / 1_000_000.0; // in ms.
+            return new AlgorithmControllerSolution(solution.getPath(), finalCost, durationInSeconds, algorithm.toString());
         } catch (Exception e) {
             throw new AlgorithmException(e.getMessage());
         }

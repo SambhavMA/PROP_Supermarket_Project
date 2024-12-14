@@ -107,7 +107,7 @@ public class HillClimbing extends Algorithm {
 
             return new Solution(bestSolution.getPath(), bestSolutionCost); //construimos una nueva solución con getpath para facilitar el testing
         } else {
-            throw new AlgorithmException("Wrong parameters list");
+            throw new AlgorithmException("Lista de parametros incorrecta");
         }
     }
 }

@@ -1,6 +1,7 @@
 package controller;
 
 import model.algorithm.AlgorithmController;
+import model.algorithm.AlgorithmControllerSolution;
 import model.algorithm.AlgorithmsNames;
 import model.distribution.Distribution;
 import model.exceptions.*;
@@ -330,28 +331,27 @@ public class ControllerDomini {
      * @param usedAlgorithm     Nom de l'algoritme utilitzat per generar la distribució
      * @return Identificador de la distribució creada
      */
-    public int createDistribution(int similarityTableId, double cost, Vector<String> order,
+    public int createDistribution(int similarityTableId, double cost, double temps, Vector<String> order,
             String usedAlgorithm) {
         int id = distributionContainer.newId();
-        Distribution distribution = new Distribution(id, similarityTableId, cost, order, usedAlgorithm, 0);
+        Distribution distribution = new Distribution(id, similarityTableId, cost, order, usedAlgorithm, temps);
         distributionContainer.addDistribution(id, distribution);
 
         return distribution.getId();
     }
 
-    public void generateDistribution(int stId, String algorithm) throws SimilarityTableNotFoundException, DistributionCreationErrorException{
-        double[][] costs = null;
-
+    public void generateDistribution(int stId, String algorithm) throws SimilarityTableNotFoundException, DistributionCreationErrorException {
         Pair<Vector<Pair<String, Integer>>, double[][]> similarityTable = getSimilarityTable(stId);
         double[][] relationMatrix = similarityTable.second();
 
         try {
             AlgorithmController cAlg = new AlgorithmController(relationMatrix);
 
-            Object[] result = cAlg.executeAlgorithm(algorithm);
+            AlgorithmControllerSolution result = cAlg.executeAlgorithm(algorithm);
 
-            int[] path = (int[]) result[0];
-            double cost = (double) result[1];
+            int[] path = result.getOrder();
+            double cost = result.getCost();
+            double temps = result.getTemps();
 
             Vector<Pair<String, Integer>> fastIndexes = similarityTable.first();
             Vector<String> names = new Vector<>(path.length);
@@ -365,7 +365,7 @@ public class ControllerDomini {
                 }
             }
 
-            createDistribution(stId, cost, names, algorithm);
+            createDistribution(stId, cost, temps, names, algorithm);
         } catch (Exception e) {
             throw new DistributionCreationErrorException();
         }
@@ -431,7 +431,7 @@ public class ControllerDomini {
         return new String[][]{new String[]{""+distribution.getId()},
                 new String[]{""+distribution.getSimilarityTableId()},
                 new String[]{df.format(distribution.getCost())},
-                new String[]{df.format(distribution.getTemps())},
+                new String[]{""+distribution.getTemps()},
                 distribution.getOrder().toArray(new String[0]),
                 new String[]{distribution.getUsedAlgorithm()}
         };
@@ -449,7 +449,7 @@ public class ControllerDomini {
             for (Distribution distribution : distributions.values()) {
                 parametersList.add(new String[]{""+distribution.getId(),
                         ""+distribution.getSimilarityTableId(), distribution.getUsedAlgorithm(),
-                        df.format(distribution.getCost())});
+                        df.format(distribution.getCost()), ""+distribution.getTemps()});
             }
 
             parameters = parametersList.toArray(new String[0][0]);
