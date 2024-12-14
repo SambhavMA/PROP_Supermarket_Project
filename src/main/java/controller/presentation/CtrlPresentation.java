@@ -261,4 +261,30 @@ public class CtrlPresentation {
             );
         }
     }
+
+    public void saveSimilarityTables() {
+        try {
+            controllerDomini.exportSimilarityTables();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(
+                    new JFrame(),
+                    e.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+            );
+        }
+    }
+
+    public void importSimilarityTables() {
+        try {
+            controllerDomini.importSimilarityTables();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(
+                    new JFrame(),
+                    e.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+            );
+        }
+    }
 }

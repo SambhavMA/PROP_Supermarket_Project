@@ -57,16 +57,15 @@ public class ControllerPersistencia {
 
     /**
      * Retorna una lista de Pairs de la lista de productos de cada tabla de similitud importada y las similitudes de estos
-     * @param path ruta donde se obtienen las tabla de similitudes
      * @return lista de Pairs de la lista de productos de cada tabla de similitud importada y las similitudes de estos
      * @throws IncorrectPathException si la ruta no es correcta
      */
-    public List< Pair< List<String>, List< Pair<Pair<String, String>, Double> > > > importSimilarityTables(String path) throws IncorrectPathException {
-        JsonObject jsonData;
+    public List< Pair< List<String>, List< Pair<Pair<String, String>, Double> > > > importSimilarityTables() throws IncorrectPathException {
+        JsonObject jsonData = null;
         try{
             jsonData = fileManager.importFromFile();
         } catch (IncorrectPathException e) {
-            throw new IncorrectPathException(path);
+            // throw new IncorrectPathException();
         }
         List< Pair< List<String>, List< Pair<Pair<String, String>, Double> > > > similarityTables = new ArrayList<>();
         JsonArray STArray = jsonData.getAsJsonArray("SimilarityTables");
@@ -112,11 +111,10 @@ public class ControllerPersistencia {
 
     /**
      * Exporta las tablas de similitudes a un fichero
-     * @param path ruta donde se creara el fichero
      * @param similarityTable lista de tablas de similitudes a exportar
      * @throws IncorrectPathException si la ruta no es correcta
      */
-    public void exportSimilarityTables(String path, List<JsonObject> similarityTable) throws IncorrectPathException {
+    public void exportSimilarityTables(List<JsonObject> similarityTable) throws IncorrectPathException {
         JsonObject result = new JsonObject();
         JsonArray STArray = new JsonArray();
         for (JsonObject ST : similarityTable) {
@@ -126,7 +124,6 @@ public class ControllerPersistencia {
         try {
             fileManager.exportToFile(result);
         } catch (IncorrectPathException e) {
-            throw new IncorrectPathException(path);
         }
     }
 }

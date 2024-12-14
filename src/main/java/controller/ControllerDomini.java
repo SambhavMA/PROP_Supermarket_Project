@@ -529,12 +529,12 @@ public class ControllerDomini {
      * @throws IncorrectPathException Si la ruta no és correcte
      * @throws ProductNotFoundException Si algun dels productes no existeix
      */
-    public void importSimilarityTables(String path) throws IncorrectPathException, ProductNotFoundException {
-        List< Pair< List<String>, List< Pair<Pair<String, String>, Double> > > > similarityTables;
+    public void importSimilarityTables() throws IncorrectPathException, ProductNotFoundException {
+        List< Pair< List<String>, List< Pair<Pair<String, String>, Double> > > > similarityTables = List.of();
         try {
-            similarityTables = cP.importSimilarityTables(path);
+            similarityTables = cP.importSimilarityTables();
         } catch (IncorrectPathException e) {
-            throw new IncorrectPathException(path);
+            // throw new IncorrectPathException();
         }
 
         for (Pair< List<String>, List< Pair<Pair<String, String>, Double> > > similarityTable : similarityTables) {
@@ -576,11 +576,10 @@ public class ControllerDomini {
 
     /**
      * Exporta les taules de similituds a un fitxer
-     * @param path Ruta on es guardarà el fitxer amb les taules de similituds
      *
      * @throws IncorrectPathException Si la ruta no és correcte
      */
-    public void exportSimilarityTables(String path) throws IncorrectPathException {
+    public void exportSimilarityTables() throws IncorrectPathException {
         List<JsonObject> similarityTables = new ArrayList<>();
         for(SimilarityTable similarityTable : similarityTableContainer.getSimilarityTables().values()) {
             JsonObject STObject = new JsonObject();
@@ -607,9 +606,8 @@ public class ControllerDomini {
             similarityTables.add(STObject);
         }
         try {
-            cP.exportSimilarityTables(path, similarityTables);
+            cP.exportSimilarityTables(similarityTables);
         } catch (IncorrectPathException e) {
-            throw new IncorrectPathException(path);
         }
     }
 }

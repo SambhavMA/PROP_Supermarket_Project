@@ -511,7 +511,7 @@ public class ControllerPresentacio {
         String path;
         path = cIO.readLine();
         try {
-            cDom.importSimilarityTables(path);
+            cDom.importSimilarityTables();
         } catch (IncorrectPathException e) {
             cIO.writeLine("ERROR: " + e.getMessage());
         } catch (ProductNotFoundException e) {
@@ -538,7 +538,7 @@ public class ControllerPresentacio {
         String path;
         path = cIO.readLine();
         try {
-            cDom.exportSimilarityTables(path);
+            cDom.exportSimilarityTables();
         } catch (IncorrectPathException e) {
             cIO.writeLine("ERROR: " + e.getMessage());
         }
@@ -557,13 +557,6 @@ public class ControllerPresentacio {
      */
     public void importSimilarityTablesFromMemory() {
         cIO.writeLine("Ha escollit l'opcio Import Similarity Tables From Memory");
-        try {
-            cDom.importSimilarityTables("D:\\Uni\\PROP\\subgrup-prop12.4\\EXE\\memory\\SimilarityTables.json");
-        } catch (IncorrectPathException e) {
-            cIO.writeLine("ERROR: " + e.getMessage());
-        } catch (ProductNotFoundException e) {
-            cIO.writeLine("ERROR: " + e.getMessage());
-        }
         cIO.writeLine("Taules de similituds importades correctament");
     }
 
@@ -580,10 +573,5 @@ public class ControllerPresentacio {
      */
     public void exportSimilarityTablesToMemory() {
         cIO.writeLine("Ha escollit l'opcio Export Similarity Tables To Memory");
-        try {
-            cDom.exportSimilarityTables("D:\\Uni\\PROP\\subgrup-prop12.4\\EXE\\memory\\SimilarityTables.json");
-        } catch (IncorrectPathException e) {
-            cIO.writeLine("ERROR: " + e.getMessage());
-        }
     }
 }
