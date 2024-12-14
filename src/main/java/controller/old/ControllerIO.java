@@ -2,6 +2,14 @@ package controller.old;
 
 import java.util.Scanner;
 
+import com.google.gson.JsonObject;
+import model.exceptions.NoTypeWithName;
+import model.exceptions.ProductAlreadyExistsException;
+import model.exceptions.ProductNotFoundException;
+import model.exceptions.SimilarityTableNotFoundException;
+import utils.Pair;
+import java.util.Vector;
+
 /**
  * @author Joan Gomez Catala (joan.gomez.catala@estudiantat.upc.edu)
  * <p>Clase que se encarga de la entrada y salida de datos del sistema</p>
@@ -65,7 +73,15 @@ public class ControllerIO {
         System.out.println("10 - Modify Distribution");
         System.out.println("11 - Delete Distribution");
         System.out.println("12 - Get Distribution");
-        System.out.println("13 - Exit");
+        System.out.println("13 - Import Products");
+        System.out.println("14 - Import Similarity Table");
+        System.out.println("15 - Export Products");
+        System.out.println("16 - Export Similarity Table");
+        System.out.println("17 - Import Products from Memory");
+        System.out.println("18 - Import Similarity Tables from Memory");
+        System.out.println("19 - Export Products to Memory");
+        System.out.println("20 - Export Similarity Tables to Memory");
+        System.out.println("21 - Exit");
     }
 
     /**
@@ -76,4 +92,7 @@ public class ControllerIO {
         System.exit(0);
     }
 
+    public void writeJson(JsonObject jsonObject){
+        System.out.println(jsonObject.toString());
+    }
 }

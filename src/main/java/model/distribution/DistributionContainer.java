@@ -8,11 +8,21 @@ import java.util.HashMap;
  * <p>Clase que representa un contenedor de distribuciones</p>
  */
 public class DistributionContainer {
+    // Singleton
+    private static DistributionContainer instance;
+
+    public static DistributionContainer getInstance() {
+        if (instance == null) {
+            instance = new DistributionContainer();
+        }
+        return instance;
+    }
+
     private HashMap<Integer, Distribution> distributions = new HashMap<>();
     private int idCounter;
 
     // Constructora
-    public DistributionContainer() {
+    private DistributionContainer() {
         this.distributions = new HashMap<>();
         this.idCounter = 0;
     }

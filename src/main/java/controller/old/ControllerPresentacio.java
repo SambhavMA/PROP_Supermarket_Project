@@ -3,11 +3,7 @@ package controller.old;
 import controller.ControllerDomini;
 import model.algorithm.AlgorithmController;
 import model.distribution.Distribution;
-import model.exceptions.DistributionNotFoundException;
-import model.exceptions.NoTypeWithName;
-import model.exceptions.ProductAlreadyExistsException;
-import model.exceptions.ProductNotFoundException;
-import model.exceptions.SimilarityTableNotFoundException;
+import model.exceptions.*;
 import utils.Pair;
 
 import java.util.*;
@@ -77,6 +73,30 @@ public class ControllerPresentacio {
                 getDistribution();
                 break;
             case "13":
+                importProducts();
+                break;
+            case "14":
+                importSimilarityTable();
+                break;
+            case "15":
+                exportProducts();
+                break;
+            case "16":
+                exportSimilarityTable();
+                break;
+            case "17":
+                importProductsFromMemory();
+                break;
+            case "18":
+                importSimilarityTablesFromMemory();
+                break;
+            case "19":
+                exportProductsToMemory();
+                break;
+            case "20":
+                exportSimilarityTablesToMemory();
+                break;
+            case "21":
                 cIO.exit();
                 break;
             default:
@@ -217,7 +237,7 @@ public class ControllerPresentacio {
         }
 
         try {
-            int similarityTableId = cDom.addSimilarityTable(products, similarities);
+                int similarityTableId = cDom.addSimilarityTable(products, similarities);
             cIO.writeLine("Taula de similitud afegida amb identificador: " + similarityTableId);
         }  catch (Exception e) {
             cIO.writeLine("ERROR: " + e.getMessage());
@@ -463,5 +483,124 @@ public class ControllerPresentacio {
             cIO.writeLine("ERROR: " + e.getMessage());
         }
         */
+    }
+
+    /**
+        * Llama al controlador de IO y de Domini para importar productos des de un fichero
+     */
+    public void importProducts() {
+        cIO.writeLine("Ha escollit l'opcio Import Products");
+        cIO.writeLine("Indiqui la ruta del fitxer a importar:");
+        String path;
+        path = cIO.readLine();
+        try {
+            cDom.importProducts(path);
+        } catch (IncorrectPathException e) {
+            cIO.writeLine("ERROR: " + e.getMessage());
+        } catch (NoTypeWithName e) {
+            cIO.writeLine("ERROR: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Llama al controlador de IO y de Domini para importar tablas de similitudes des de un fichero
+     */
+    public void importSimilarityTable() {
+        cIO.writeLine("Ha escollit l'opcio Import Similarity Table");
+        cIO.writeLine("Indiqui la ruta del fitxer a importar:");
+        String path;
+        path = cIO.readLine();
+        try {
+            cDom.importSimilarityTables(path);
+        } catch (IncorrectPathException e) {
+            cIO.writeLine("ERROR: " + e.getMessage());
+        } catch (ProductNotFoundException e) {
+            cIO.writeLine("ERROR: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Llama al controlador de IO y de Domini para exportar productos
+     */
+    public void exportProducts() {
+        cIO.writeLine("Ha escollit l'opcio Export Products");
+        cIO.writeLine("Indiqui la ruta del fitxer on exportar:");
+        String path;
+        path = cIO.readLine();
+        try {
+            cDom.exportProducts(path);
+        } catch (IncorrectPathException e) {
+            cIO.writeLine("ERROR: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Llama al controlador de IO y de Domini para exportar una tabla de similitud
+     */
+    public void exportSimilarityTable() {
+        cIO.writeLine("Ha escollit l'opcio Export Similarity Table");
+        cIO.writeLine("Indiqui la ruta del fitxer on exportar:");
+        String path;
+        path = cIO.readLine();
+        try {
+            cDom.exportSimilarityTables(path);
+        } catch (IncorrectPathException e) {
+            cIO.writeLine("ERROR: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Llama al controlador de Domini para cargar los productos de memoria
+     */
+    public void importProductsFromMemory() {
+        cIO.writeLine("Ha escollit l'opcio Import Products From Memory");
+        try {
+            cDom.importProducts("D:\\Uni\\PROP\\subgrup-prop12.4\\EXE\\memory\\Products.json");
+        } catch (IncorrectPathException e) {
+            cIO.writeLine("ERROR: " + e.getMessage());
+        } catch (NoTypeWithName e) {
+            cIO.writeLine("ERROR: " + e.getMessage());
+        }
+        cIO.writeLine("Productes importats correctament");
+    }
+
+    /**
+     * Llama al controlador de Domini para cargar las tablas de similitudes de memoria
+     */
+    public void importSimilarityTablesFromMemory() {
+        cIO.writeLine("Ha escollit l'opcio Import Similarity Tables From Memory");
+        try {
+            cDom.importSimilarityTables("D:\\Uni\\PROP\\subgrup-prop12.4\\EXE\\memory\\SimilarityTables.json");
+        } catch (IncorrectPathException e) {
+            cIO.writeLine("ERROR: " + e.getMessage());
+        } catch (ProductNotFoundException e) {
+            cIO.writeLine("ERROR: " + e.getMessage());
+        }
+        cIO.writeLine("Taules de similituds importades correctament");
+    }
+
+    /**
+     * Llama al controlador de Domini para guardar los productos en el fichero memoria
+     */
+    public void exportProductsToMemory() {
+        cIO.writeLine("Ha escollit l'opcio Export Products To Memory");
+        try {
+            cDom.exportProducts("D:\\Uni\\PROP\\subgrup-prop12.4\\EXE\\memory\\Products.json");
+        } catch (IncorrectPathException e) {
+            cIO.writeLine("ERROR: " + e.getMessage());
+        }
+        cIO.writeLine("Productes exportats correctament");
+    }
+
+    /**
+     * Llama al controlador de Domini para guardar las tablas de similitudes en el fichero memoria
+     */
+    public void exportSimilarityTablesToMemory() {
+        cIO.writeLine("Ha escollit l'opcio Export Similarity Tables To Memory");
+        try {
+            cDom.exportSimilarityTables("D:\\Uni\\PROP\\subgrup-prop12.4\\EXE\\memory\\SimilarityTables.json");
+        } catch (IncorrectPathException e) {
+            cIO.writeLine("ERROR: " + e.getMessage());
+        }
     }
 }
