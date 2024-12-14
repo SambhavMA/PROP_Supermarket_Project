@@ -14,7 +14,7 @@ public class ProductTest {
 
     @Before
     public void setUp() {
-        sampleType = EnumType.FRUITA;
+        sampleType = EnumType.FRUTA;
         product = new Product("Test Product");
         productWithType = new Product("Test Product with Type", sampleType);
     }
