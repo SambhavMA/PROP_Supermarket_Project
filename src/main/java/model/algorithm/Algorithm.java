@@ -1,5 +1,10 @@
 package model.algorithm;
 
+import model.exceptions.AlgorithmException;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author Sergio Polo (sergio.polo@estudiantat.upc.edu)\n
  * 
@@ -19,9 +24,12 @@ public abstract class Algorithm {
      */
     protected String description;
 
-    public Algorithm(String name, String description) {
-        this.name = name;
-        this.description = description;
+    protected List<Parameter> parameters;
+    protected static double[][] costs;
+
+    protected Algorithm(List<Parameter> p, double[][] costs) {
+        this.parameters = p;
+        this.costs = costs;
     }
 
     public String getName() {
@@ -32,15 +40,23 @@ public abstract class Algorithm {
         return description;
     }
 
+    public abstract Solution execute() throws AlgorithmException;
+
+    public static List<Parameter> getParameters() {
+        return null;
+    }
+
+    /*
     /**
      * Ejecuta un algoritmo, esta función es usada en el algoritmo Nearest Neighbor
      * @see NearestNeighbor
-     */
+     *
     public Solution execute(int initial, int nProductes) { return null; };
 
     /**
      * Ejecuta un algoritmo, esta función es usada en el algoritmo Hill CLimbing
      * @see HillClimbing
-     */
+     *
     public Solution execute(Solution solutions[]) { return null; };
+     */
 }

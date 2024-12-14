@@ -2,8 +2,6 @@ package model.algorithm;
 
 import java.util.Arrays;
 
-import static model.algorithm.AlgorithmController.costs;
-
 
 /**
  * @author Sergio Polo y Sambhav Mayani Harlani (sergio.polo@estudiantat.upc.edu i sambhav.mayani@estudiantat.upc.edu)\n
@@ -33,7 +31,7 @@ public class Solution {
      * <p>Inicializa los atributos de solution, <code>path</code> lo llena de '-1' y <code>cost</code> lo inicializa a 0</p>
      */
     public Solution() {
-        this.path = new int[costs[0].length];
+        this.path = new int[Algorithm.costs.length];
         Arrays.fill(path, -1);
         this.cost = 0;
     }
@@ -79,7 +77,7 @@ public class Solution {
     }
     
     private double costBetweenNodes(int x, int y) {
-        return costs[x][y];
+        return Algorithm.costs[x][y];
     }
     
     /**
@@ -90,7 +88,7 @@ public class Solution {
      * @return Retorna el coste entre x e y
     */
     public double costBetweenPathNodes(int x, int y) {
-        return costs[path[x]][path[y]];
+        return Algorithm.costs[path[x]][path[y]];
     }
 
     /*path esta llena*/
