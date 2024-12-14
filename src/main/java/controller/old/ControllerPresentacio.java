@@ -494,7 +494,7 @@ public class ControllerPresentacio {
         String path;
         path = cIO.readLine();
         try {
-            cDom.importProducts(path);
+            cDom.importProducts();
         } catch (IncorrectPathException e) {
             cIO.writeLine("ERROR: " + e.getMessage());
         } catch (NoTypeWithName e) {
@@ -527,11 +527,6 @@ public class ControllerPresentacio {
         cIO.writeLine("Indiqui la ruta del fitxer on exportar:");
         String path;
         path = cIO.readLine();
-        try {
-            cDom.exportProducts(path);
-        } catch (IncorrectPathException e) {
-            cIO.writeLine("ERROR: " + e.getMessage());
-        }
     }
 
     /**
@@ -554,13 +549,6 @@ public class ControllerPresentacio {
      */
     public void importProductsFromMemory() {
         cIO.writeLine("Ha escollit l'opcio Import Products From Memory");
-        try {
-            cDom.importProducts("D:\\Uni\\PROP\\subgrup-prop12.4\\EXE\\memory\\Products.json");
-        } catch (IncorrectPathException e) {
-            cIO.writeLine("ERROR: " + e.getMessage());
-        } catch (NoTypeWithName e) {
-            cIO.writeLine("ERROR: " + e.getMessage());
-        }
         cIO.writeLine("Productes importats correctament");
     }
 
@@ -584,11 +572,6 @@ public class ControllerPresentacio {
      */
     public void exportProductsToMemory() {
         cIO.writeLine("Ha escollit l'opcio Export Products To Memory");
-        try {
-            cDom.exportProducts("D:\\Uni\\PROP\\subgrup-prop12.4\\EXE\\memory\\Products.json");
-        } catch (IncorrectPathException e) {
-            cIO.writeLine("ERROR: " + e.getMessage());
-        }
         cIO.writeLine("Productes exportats correctament");
     }
 

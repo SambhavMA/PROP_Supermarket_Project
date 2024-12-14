@@ -2,6 +2,7 @@ package controller.presentation;
 
 
 import controller.ControllerDomini;
+import controller.ControllerPersistencia;
 import model.exceptions.ProductNotFoundException;
 import presentation.views.ViewPrimary;
 import presentation.views.ViewSecundary;
@@ -13,6 +14,7 @@ import java.util.Vector;
 
 public class CtrlPresentation {
     private ControllerDomini controllerDomini;
+    private ControllerPersistencia controllerPersistencia;
     private ViewPrimary viewPrimary;
     private ViewSecundary viewSecundary;
 
@@ -29,6 +31,7 @@ public class CtrlPresentation {
 
     public void startPresentation() {
         controllerDomini = ControllerDomini.getInstance();
+        controllerPersistencia = ControllerPersistencia.getInstance();
         viewPrimary = new ViewPrimary();
         viewPrimary.display();
     }
@@ -231,5 +234,31 @@ public class CtrlPresentation {
             return false;
         }
 
+    }
+
+    public void importProducts() {
+        try {
+            controllerDomini.importProducts();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(
+                    new JFrame(),
+                    e.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+            );
+        }
+    }
+
+    public void saveProducts() {
+        try {
+            controllerDomini.exportProducts();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(
+                    new JFrame(),
+                    e.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+            );
+        }
     }
 }

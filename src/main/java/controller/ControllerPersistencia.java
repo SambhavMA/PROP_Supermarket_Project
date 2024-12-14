@@ -22,24 +22,30 @@ import model.exceptions.IncorrectPathException;
  */
 
 public class ControllerPersistencia {
-
+    private static ControllerPersistencia instance;
     private FileManager fileManager;
     public ControllerPersistencia() {
         fileManager = new JsonManager();
     }
 
+    public static ControllerPersistencia getInstance() {
+        if (instance == null) {
+            instance = new ControllerPersistencia();
+        }
+        return instance;
+    }
+
     /**
      * Retorna una lista con los productos importados
-     * @param path ruta donde se obtienen los productos
      * @return lista de productos
      * @throws IncorrectPathException si la ruta no es correcta
      */
-    public List<JsonObject> importProducts(String path) throws IncorrectPathException {
-        JsonObject jsonData;
+    public List<JsonObject> importProducts() throws IncorrectPathException {
+        JsonObject jsonData = null;
         try{
-            jsonData = fileManager.importFromFile(path);
+            jsonData = fileManager.importFromFile();
         } catch (IncorrectPathException e) {
-            throw new IncorrectPathException(path);
+            // throw new IncorrectPathException();
         }
         JsonArray productsArray = jsonData.getAsJsonArray("Products");
         List<JsonObject> products = new ArrayList<>();
@@ -58,7 +64,7 @@ public class ControllerPersistencia {
     public List< Pair< List<String>, List< Pair<Pair<String, String>, Double> > > > importSimilarityTables(String path) throws IncorrectPathException {
         JsonObject jsonData;
         try{
-            jsonData = fileManager.importFromFile(path);
+            jsonData = fileManager.importFromFile();
         } catch (IncorrectPathException e) {
             throw new IncorrectPathException(path);
         }
@@ -87,12 +93,11 @@ public class ControllerPersistencia {
 
     /**
      * Exporta los productos a un fichero
-     * @param path ruta donde se creara el fichero
      * @param products lista de productos a exportar
      *
      * @throws IncorrectPathException si la ruta no es correcta
      */
-    public void exportProducts(String path, List<JsonObject> products) throws IncorrectPathException {
+    public void exportProducts(List<JsonObject> products) throws IncorrectPathException {
         JsonObject result = new JsonObject();
         JsonArray productsArray = new JsonArray();
         for (JsonObject product : products) {
@@ -100,9 +105,8 @@ public class ControllerPersistencia {
         }
         result.add("Products", productsArray);
         try {
-            fileManager.exportToFile(path, result);
+            fileManager.exportToFile(result);
         } catch (IncorrectPathException e) {
-            throw new IncorrectPathException(path);
         }
     }
 
@@ -120,7 +124,7 @@ public class ControllerPersistencia {
         }
         result.add("SimilarityTables", STArray);
         try {
-            fileManager.exportToFile(path, result);
+            fileManager.exportToFile(result);
         } catch (IncorrectPathException e) {
             throw new IncorrectPathException(path);
         }

@@ -327,26 +327,26 @@ public class ControllerDomini {
         similarityTableContainer.deleteSimilarityTableById(id);
     }
 
-    /**
-     * Retorna una taula de similitud si existeix
-     *
-     * @param id Identificador de la taula de similitud a buscar
-     * @return Pair amb els productes de la taula i la matriu de similituds
-     * @throws SimilarityTableNotFoundException Si la taula de similitud a buscar no existeix
-     */
-    public Pair<Vector<Pair<String, Integer>>, double[][]> getSimilarityTable(int id)
-            throws SimilarityTableNotFoundException {
-        SimilarityTable similarityTable = similarityTableContainer.getSimilarityTableById(id);
-
-        Vector<Pair<String, Integer>> productos = new Vector<>();
-        for (String key : similarityTable.getFastIndexes().keySet()) {
-            productos.add(new Pair<>(key, similarityTable.getFastIndexes().get(key)));
-        }
-
-        double[][] relationMatrix = similarityTable.getRelationMatrix();
-
-        return new Pair<>(productos, relationMatrix);
-    }
+//    /**
+//     * Retorna una taula de similitud si existeix
+//     *
+//     * @param id Identificador de la taula de similitud a buscar
+//     * @return Pair amb els productes de la taula i la matriu de similituds
+//     * @throws SimilarityTableNotFoundException Si la taula de similitud a buscar no existeix
+//     */
+//    public Pair<Vector<Pair<String, Integer>>, double[][]> getSimilarityTable(int id)
+//            throws SimilarityTableNotFoundException {
+//        SimilarityTable similarityTable = similarityTableContainer.getSimilarityTableById(id);
+//
+//        Vector<Pair<String, Integer>> productos = new Vector<>();
+//        for (String key : similarityTable.getFastIndexes().keySet()) {
+//            productos.add(new Pair<>(key, similarityTable.getFastIndexes().get(key)));
+//        }
+//
+//        double[][] relationMatrix = similarityTable.getRelationMatrix();
+//
+//        return new Pair<>(productos, relationMatrix);
+//    }
 
     /**
      * Crea i afegeix una nova distribució al container de distribucions
@@ -498,17 +498,15 @@ public class ControllerDomini {
 
     /**
      * Afegeix al programa els productes importats
-     * @param path Ruta on es troba el fitxer amb els productes
      *
      * @throws IncorrectPathException Si la ruta no és correcte
      * @throws NoTypeWithName         Si el tipus no existeix
      */
-    public void importProducts(String path) throws IncorrectPathException, NoTypeWithName {
-        List<JsonObject> products;
+    public void importProducts() throws IncorrectPathException, NoTypeWithName {
+        List<JsonObject> products = List.of();
         try {
-            products = cP.importProducts(path);
+            products = cP.importProducts();
         } catch (IncorrectPathException e) {
-            throw new IncorrectPathException(path);
         }
 
         for (JsonObject product : products) {
@@ -559,11 +557,10 @@ public class ControllerDomini {
 
     /**
      * Exporta els productes a un fitxer
-     * @param path Ruta on es guardarà el fitxer amb els productes
      *
      * @throws IncorrectPathException Si la ruta no és correcte
      */
-    public void exportProducts(String path) throws IncorrectPathException {
+    public void exportProducts() throws IncorrectPathException {
         List<JsonObject> products = new ArrayList<>();
         for (Product product : productContainer.getProducts().values()) {
             JsonObject productJson = new JsonObject();
@@ -572,9 +569,8 @@ public class ControllerDomini {
             products.add(productJson);
         }
         try {
-            cP.exportProducts(path, products);
+            cP.exportProducts(products);
         } catch (IncorrectPathException e) {
-            throw new IncorrectPathException(path);
         }
     }
 

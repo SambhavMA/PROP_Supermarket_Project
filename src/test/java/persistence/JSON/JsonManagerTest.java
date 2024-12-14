@@ -69,7 +69,7 @@ public class JsonManagerTest {
 
     @Test
     public void testImportFromFileValidPath() throws IncorrectPathException, IOErrorException, FileCanNotReadException {
-        JsonObject json = jsonManager.importFromFile(validPath);
+        JsonObject json = jsonManager.importFromFile();
         assertNotNull(json);
         assertTrue(json.has("Products"));
         assertEquals("Poma", json.getAsJsonArray("Products").get(0).getAsJsonObject().get("name").getAsString());
@@ -78,14 +78,14 @@ public class JsonManagerTest {
 
     @Test(expected = IncorrectPathException.class)
     public void testImportFileNonExistentPath() throws IncorrectPathException, IOErrorException, FileCanNotReadException {
-        jsonManager.importFromFile(invalidPath);
+        jsonManager.importFromFile();
     }
 
     @Test
     public void testExportToFileValidPath() throws IncorrectPathException, IOErrorException, FileCanNotWriteException {
         JsonObject jsonObject = JsonParser.parseString("{\"Products\":[{\"name\":\"Platan\",\"type\":\"FRUITA\"}]}").getAsJsonObject();
 
-        jsonManager.exportToFile(validPath, jsonObject);
+        jsonManager.exportToFile(jsonObject);
 
         File exportedFile = new File(validPath);
         assertTrue(exportedFile.exists());
@@ -107,7 +107,7 @@ public class JsonManagerTest {
     public void testExportToDirectory() throws IncorrectPathException, IOErrorException, FileCanNotWriteException {
         JsonObject jsonObject = JsonParser.parseString("{\"Products\":[{\"name\":\"Platan\",\"type\":\"FRUITA\"}]}").getAsJsonObject();
 
-        jsonManager.exportToFile(validDir, jsonObject);
+        jsonManager.exportToFile(jsonObject);
 
         File exportedFile = new File(validDir + "output.json");
         assertTrue(exportedFile.exists());
@@ -128,12 +128,12 @@ public class JsonManagerTest {
     @Test(expected = IncorrectPathException.class)
     public void testExportFileNonExistentPath() throws IncorrectPathException, IOErrorException, FileCanNotWriteException {
         JsonObject jsonObject = new JsonObject();
-        jsonManager.exportToFile(invalidPath, jsonObject);
+        jsonManager.exportToFile(jsonObject);
     }
 
     @Test(expected = FileCanNotWriteException.class)
     public void testExportFileRestrictedPath() throws IncorrectPathException, IOErrorException, FileCanNotWriteException {
         JsonObject jsonObject = new JsonObject();
-        jsonManager.exportToFile(restrictedPath, jsonObject);
+        jsonManager.exportToFile(jsonObject);
     }
 }
