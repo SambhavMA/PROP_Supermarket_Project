@@ -44,9 +44,7 @@ public class ControllerPersistencia {
         JsonObject jsonData = null;
         try{
             jsonData = fileManager.importFromFile();
-        } catch (IncorrectPathException e) {
-            // throw new IncorrectPathException();
-        }
+        } catch (IncorrectPathException e) {}
         JsonArray productsArray = jsonData.getAsJsonArray("Products");
         List<JsonObject> products = new ArrayList<>();
         for (JsonElement productElement : productsArray) {
@@ -64,9 +62,7 @@ public class ControllerPersistencia {
         JsonObject jsonData = null;
         try{
             jsonData = fileManager.importFromFile();
-        } catch (IncorrectPathException e) {
-            // throw new IncorrectPathException();
-        }
+        } catch (IncorrectPathException e) {}
         List< Pair< List<String>, List< Pair<Pair<String, String>, Double> > > > similarityTables = new ArrayList<>();
         JsonArray STArray = jsonData.getAsJsonArray("SimilarityTables");
         for(JsonElement ST : STArray){

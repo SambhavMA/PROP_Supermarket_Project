@@ -8,7 +8,11 @@ public class Product {
     private String name;
     private EnumType type;
 
-    // CONSTRUCTORS
+    /**
+     * Constructor de la clase Product
+     * @param name Nombre del producto
+     * @param type Tipo del producto
+     */
     public Product(String name, EnumType type) {
         this.name = name;
         this.type = type;
@@ -19,7 +23,6 @@ public class Product {
         this.type = null;
     }
 
-    // GETTERS
     public String getName() {
         return name;
     }
@@ -28,11 +31,9 @@ public class Product {
         return type;
     }
 
-    // SETTERS
 
     public void setType(EnumType type) {
         this.type = type;
     }
 
-    // METHODS
 }

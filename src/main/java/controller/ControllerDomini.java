@@ -169,8 +169,11 @@ public class ControllerDomini {
 //        productContainer.addProduct(new Product("P12", EnumType.FRUITA));
     }
 
-    // SIMILARITY TABLE FUNCTIONS
-
+    /**
+     * Retorna les taules de similituds del sistema
+     *
+     * @return Array de Strings amb els identificadors de les taules de similituds
+     */
     public String[] getSimilarityTables() {
         HashMap<Integer, SimilarityTable> similarityTableHashMap = similarityTableContainer.getSimilarityTables();
 
@@ -452,7 +455,6 @@ public class ControllerDomini {
      * @throws DistributionNotFoundException Si la distribució a retornar no existeix
      */
     public String[][] getDistribution(int id) throws DistributionNotFoundException {
-        // De moment no es passen les seccions
         DecimalFormat df = new DecimalFormat("#.###");
 
         Distribution distribution = distributionContainer.getDistributionById(id);
@@ -465,6 +467,11 @@ public class ControllerDomini {
         };
     }
 
+    /**
+     * Retorna les distribucions del sistema
+     *
+     * @return Array de Strings amb els identificadors de les distribucions, la taula de similitud que s'ha utilitzat, l'algoritme utilitzat i el cost de la distribució
+     */
     public String[][] getDistributions() {
         DecimalFormat df = new DecimalFormat("#.###");
 
@@ -486,12 +493,22 @@ public class ControllerDomini {
         return parameters;
     }
 
+    /**
+     * Retorna els algoritmes disponibles
+     *
+     * @return Array de Strings amb els noms dels algoritmes disponibles
+     */
     public String[] getAlgorithms() {
         return Arrays.stream(AlgorithmsNames.values())
                 .map(Enum::name)
                 .toArray(String[]::new);
     }
 
+    /**
+     * Retorna el següent identificador de distribució
+     *
+     * @return Següent identificador de distribució
+     */
     public int getDistributionNextId() {
         return distributionContainer.nextId();
     }
@@ -524,7 +541,6 @@ public class ControllerDomini {
 
     /**
      * Afegeix al programa les taules de similituds importades
-     * @param path Ruta on es troba el fitxer amb les taules de similituds
      *
      * @throws IncorrectPathException Si la ruta no és correcte
      * @throws ProductNotFoundException Si algun dels productes no existeix
@@ -571,6 +587,7 @@ public class ControllerDomini {
         try {
             cP.exportProducts(products);
         } catch (IncorrectPathException e) {
+            //throw new IncorrectPathException();
         }
     }
 
