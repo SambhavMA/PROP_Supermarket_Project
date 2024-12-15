@@ -1,5 +1,9 @@
 package model.algorithm;
 
+/**
+ * Clase parámetro, contiene los parámetros de entrada para ejecutar cada algoritmo
+ * @param <T>
+ */
 public class Parameter<T> {
     private String name;
     private String description;

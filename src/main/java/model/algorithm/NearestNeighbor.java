@@ -15,7 +15,11 @@ import java.util.*;
  * 
  */
 public class NearestNeighbor extends Algorithm {
-
+    /**
+     * Constructora de NN
+     * @param p
+     * @param costs
+     */
     public NearestNeighbor(List<Parameter> p, double[][] costs) {
         super(p, costs);
         super.description = "Algoritmo Nearest Neighbor:\nConsiste en escoger la arista de menor coste desde un nodo.\nEmpezando en un nodo determinado hasta construyir un camino que los visite todos y vuelva a el.";
