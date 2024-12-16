@@ -6,9 +6,10 @@ import model.exceptions.AlgorithmException;
 import java.util.*;
 
 /**
- * @author Sergio Polo (sergio.polo@estudiantat.upc.edu)\n
  *
  * Clase del Algoritmo Nearest Neighbor
+ *
+ * @author Sergio Polo (sergio.polo@estudiantat.upc.edu)
  * 
  * <p>El algoritmo Nearest Neighbor, a partir de un nodo inicial, busca el nodo conexo a este con menor coste, 
  * o sea, "su vecino mas cercano", así iterativamente hasta formar un ciclo hamiltoniano</p>

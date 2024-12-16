@@ -8,15 +8,22 @@ import java.util.Random;
 
 
 /**
- * @author Sergio Polo (sergio.polo@estudiantat.upc.edu)\n
  *
  * Controlador de las clases relacionadas con el algoritmo
+ *
+ * @author Sergio Polo (sergio.polo@estudiantat.upc.edu)
+ *
  * 
  * <p> Sirve para aislar la lógica del package de algoritmo del resto del programa.
  * Recibe la tabla de similitudes, invierte las relaciones de esta (que pasan a ser costes en una matriz de costes).
  * para que así ejecutar los algoritmos pertinentes que devuelven un ciclo hamiltoniano con los costes
  * entre nodos más pequeño posible a partir del grafo que representa la matriz de costes. Este ciclo representa
  * la distribución de productos que queremos generar en el programa principal.</p>
+ *
+ *  <p>Atributos internos:</p>
+ *  <ul>
+ *    <li><b>costs</b>: Matriz de costes.</li>
+ *  </ul>
 */
 public class AlgorithmController {
 
@@ -55,7 +62,7 @@ public class AlgorithmController {
      * El algoritmo de Hill Climbing se ejecuta a partir de 3 soluciones iniciales generadas por Nearest Neighbor
      * con nodo inicial aleatorio</p>
      * 
-     * @param alg String con el tipo algoritmo seleccionado, {@link NearestNeighbor} o {@link HillClimbing}
+     * @param alg String con el tipo algoritmo seleccionado, {@link NearestNeighbor}, {@link HillClimbing}, {@link MST} o {@link Backtracking}
      * @return Un AlgorithmControllerSolution con cuatro elementos:
      *    <ol>
      *         <li>El camino de la solución, es un array de enteros, donde cada entero representa a un producto.</li>

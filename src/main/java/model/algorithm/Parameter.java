@@ -1,8 +1,18 @@
 package model.algorithm;
 
 /**
- * Clase parámetro, contiene los parámetros de entrada para ejecutar cada algoritmo
+ * Clase parámetro, contiene un parametro generico para un algoritmo
+ *
+ * @author Sergio Polo (sergio.polo@estudiantat.upc.edu)
+ *
  * @param <T>
+ *
+ *  <p>Atributos internos:</p>
+ *  <ul>
+ *    <li><b>name</b>: Matriz de costes.</li>
+ *    <li><b>description</b>: Matriz de costes.</li>
+ *    <li><b>value</b>: Valor del paraemtro generico.</li>
+ *  </ul>
  */
 public class Parameter<T> {
     private String name;
