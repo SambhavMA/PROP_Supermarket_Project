@@ -10,7 +10,6 @@ import java.util.HashMap;
  * <p>Clase que representa un contenedor de productos</p>
  */
 public class ProductContainer {
-    // Singleton
     private static ProductContainer instance;
 
     public static ProductContainer getInstance() {
@@ -22,6 +21,11 @@ public class ProductContainer {
 
     private HashMap<String, Product> products = new HashMap<>();
 
+    /**
+     * Metodo que añade un producto al contenedor
+     * @param product producto a añadir
+     * @throws ProductAlreadyExistsException si el producto ya existe
+     */
     public void addProduct(Product product)  throws ProductAlreadyExistsException {
         String name = product.getName();
         if (products.containsKey(name)) {
@@ -42,7 +46,11 @@ public class ProductContainer {
         throw new ProductNotFoundException(name);
     }
 
-    // TODO aixo s'ha de fer amb excepcions, tambe hem de borrar de la classe Producte
+    /**
+     * Metodo que elimina un producto del contenedor
+     * @param name nombre del producto a eliminar
+     * @throws ProductNotFoundException si el producto no existe
+     */
     public void deleteProductByName(String name) throws ProductNotFoundException {
         if (!products.containsKey(name)) {
             throw new ProductNotFoundException(name);

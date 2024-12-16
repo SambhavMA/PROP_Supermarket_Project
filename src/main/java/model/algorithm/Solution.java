@@ -94,6 +94,9 @@ public class Solution {
     }
 
     /*path esta llena*/
+    /**
+     * Calcula el coste total de la solución
+     */
     private void calculateCost() {
         this.cost = 0;
         for(int i = 0; i < path.length; i++) {
@@ -103,6 +106,12 @@ public class Solution {
     
     //metodo necesario para swapAndUpdate
     //PRE: y > x+1 (cíclicamente, o sea si x = n, x+1 = 0), por lo tanto path.size > 4
+
+    /**
+     * Intercambia 2 aristas de <code>path</code>
+     * @param x arista 1
+     * @param y arista 2
+     */
     private void swap(int x, int y) { //swap de las aristas que tienen como "primer" (en el orden del path) vértice a i y a j 
         int n1, n2; //defino quien va primero, si x o y
         if (y > x) { n1 = x; n2 = y; }
@@ -117,6 +126,14 @@ public class Solution {
     }
     
     //metodo necesario para swapAndUpdate
+
+    /**
+     * Elimina el coste de 2 aristas de <code>path</code>
+     * @param x1 primer nodo de la arista 1
+     * @param x2 segundo nodo de la arista 1
+     * @param y1 primer nodo de la arista 2
+     * @param y2 segundo nodo de la arista 2
+     */
     private void removeCost(int x1, int x2, int y1, int y2) { // x1-x2 es una arista y y1-y2 es otra
         
         cost -= costBetweenNodes(path[x1], path[x2]); 
@@ -125,6 +142,14 @@ public class Solution {
     }
     
     //metodo necesario para swapAndUpdate
+
+    /**
+     * Añade el coste de 2 aristas de <code>path</code>
+     * @param x1 primer nodo de la arista 1
+     * @param x2 segundo nodo de la arista 1
+     * @param y1 primer nodo de la arista 2
+     * @param y2 segundo nodo de la arista 2
+     */
     private void addCost(int x1, int x2, int y1, int y2) {
         
         cost += costBetweenNodes(path[x1], path[x2]); 
