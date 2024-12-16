@@ -1,1 +1,1 @@
-{"SimilarityTables":[{"id":1,"products":["Pera","Manzana","Platanoo"],"similarities":[{"product1":"Pera","product2":"Manzana","similarity":0.5},{"product1":"Pera","product2":"Platano","similarity":0.3},{"product1":"Manzana","product2":"Platano","similarity":0.4}]}]}
+{"SimilarityTables":[{"id":1,"products":["Pera","Manzana","Platano"],"similarities":[{"product1":"Pera","product2":"Manzana","similarity":0.5},{"product1":"Pera","product2":"Platano","similarity":0.3},{"product1":"Manzana","product2":"Platano","similarity":0.4}]}]}
