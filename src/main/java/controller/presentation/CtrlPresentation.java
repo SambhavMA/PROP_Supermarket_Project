@@ -12,6 +12,14 @@ import javax.swing.*;
 import java.util.List;
 import java.util.Vector;
 
+/**
+ * @author Joan Gomez Catala (joan.gomez.catala@estudiantat.upc.edu) i Sergio Polo (sergio.polo@estudiantat.upc.edu)
+ * <p>Es el controlador principal de la capad de dominio.
+ * Se encarga de gestionar las llamadas a las vistas y dialogs del sistema.
+ * Se comunica con el controlador de dominio mediante datos sencillos.
+ * Gestiona errores y los muestra mediante dialogs.
+ *  </p>
+ */
 public class CtrlPresentation {
     private ControllerDomini controllerDomini;
     private ViewPrimary viewPrimary;
