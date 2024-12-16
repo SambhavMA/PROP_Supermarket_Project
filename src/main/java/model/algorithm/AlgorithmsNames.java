@@ -2,5 +2,7 @@ package model.algorithm;
 
 public enum AlgorithmsNames {
     NearestNeighbor,
-    HillClimbing
+    HillClimbing,
+    Kruskal,
+    Backtracking
 }

@@ -2,16 +2,26 @@ package model.algorithm;
 
 import java.util.Arrays;
 
-import static model.algorithm.AlgorithmController.costs;
-
 
 /**
- * @author Sergio Polo y Sambhav Mayani Harlani (sergio.polo@estudiantat.upc.edu i sambhav.mayani@estudiantat.upc.edu)\n
  *
- * Clase solución
+ *
+ * Clase solución, representa la solucion de un algoritmo
+ *
+ * @author Sergio Polo y Sambhav Mayani Harlani (sergio.polo@estudiantat.upc.edu y sambhav.mayani@estudiantat.upc.edu)
  * 
  * <p>Representa una solución al problema de ciclo hamiltoniano respecto al grafo representado
- * por la matriz de costes, la clase tiene acceso a está matriz (que está en <code>AlgorithmController</code>)</p>
+ * por la matriz de costes, la clase tiene acceso a está matriz (que está en <code>AlgorithmController</code>)
+ * </p>
+ *
+ *  <p>Atributos internos:</p>
+ *  <ul>
+ *    <li><b>path</b>: Array de enteros con el camino resultante.
+ *         <p><i>NOTA: Hay una arista entre los nodos representados por el primer y último elemento del array, o sea,
+ *         en {0,2,1,3}, 3 y 0 son conexos</i></p>
+ *     </li>
+ *    <li><b>cost</b>: Coste total de la solución (suma de los costes de las aristas del "ciclo hamiltoniano").</li>
+ *  </ul>
  * 
 */
 public class Solution {
@@ -33,7 +43,7 @@ public class Solution {
      * <p>Inicializa los atributos de solution, <code>path</code> lo llena de '-1' y <code>cost</code> lo inicializa a 0</p>
      */
     public Solution() {
-        this.path = new int[costs[0].length];
+        this.path = new int[Algorithm.costs.length];
         Arrays.fill(path, -1);
         this.cost = 0;
     }
@@ -79,7 +89,7 @@ public class Solution {
     }
     
     private double costBetweenNodes(int x, int y) {
-        return costs[x][y];
+        return Algorithm.costs[x][y];
     }
     
     /**
@@ -90,13 +100,10 @@ public class Solution {
      * @return Retorna el coste entre x e y
     */
     public double costBetweenPathNodes(int x, int y) {
-        return costs[path[x]][path[y]];
+        return Algorithm.costs[path[x]][path[y]];
     }
 
     /*path esta llena*/
-    /**
-     * Calcula el coste total de la solución
-     */
     private void calculateCost() {
         this.cost = 0;
         for(int i = 0; i < path.length; i++) {
@@ -106,12 +113,6 @@ public class Solution {
     
     //metodo necesario para swapAndUpdate
     //PRE: y > x+1 (cíclicamente, o sea si x = n, x+1 = 0), por lo tanto path.size > 4
-
-    /**
-     * Intercambia 2 aristas de <code>path</code>
-     * @param x arista 1
-     * @param y arista 2
-     */
     private void swap(int x, int y) { //swap de las aristas que tienen como "primer" (en el orden del path) vértice a i y a j 
         int n1, n2; //defino quien va primero, si x o y
         if (y > x) { n1 = x; n2 = y; }
@@ -126,14 +127,6 @@ public class Solution {
     }
     
     //metodo necesario para swapAndUpdate
-
-    /**
-     * Elimina el coste de 2 aristas de <code>path</code>
-     * @param x1 primer nodo de la arista 1
-     * @param x2 segundo nodo de la arista 1
-     * @param y1 primer nodo de la arista 2
-     * @param y2 segundo nodo de la arista 2
-     */
     private void removeCost(int x1, int x2, int y1, int y2) { // x1-x2 es una arista y y1-y2 es otra
         
         cost -= costBetweenNodes(path[x1], path[x2]); 
@@ -142,14 +135,6 @@ public class Solution {
     }
     
     //metodo necesario para swapAndUpdate
-
-    /**
-     * Añade el coste de 2 aristas de <code>path</code>
-     * @param x1 primer nodo de la arista 1
-     * @param x2 segundo nodo de la arista 1
-     * @param y1 primer nodo de la arista 2
-     * @param y2 segundo nodo de la arista 2
-     */
     private void addCost(int x1, int x2, int y1, int y2) {
         
         cost += costBetweenNodes(path[x1], path[x2]); 
