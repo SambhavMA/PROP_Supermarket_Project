@@ -1,9 +1,21 @@
 package presentation.views;
 
+import model.algorithm.Solution;
 import presentation.panels.*;
 
 import javax.swing.*;
 import java.awt.*;
+/**
+ *
+ * Vista principal del sistema
+ *
+ * @author Joan Gomez Catala (joan.gomez.catala@estudiantat.upc.edu) i Sergio Polo (sergio.polo@estudiantat.upc.edu)
+ *
+ * <p>Contiene el menu y un panel de contenido que cambia segun la opcion seleccionada del menu.
+ * El panel contenido muestra los paneles relacionados con la gestion de productos, la gestion de tablas de similitud o la gestion de distribuciones.
+ * </p>
+ *
+ */
 
 public class ViewPrimary {
 

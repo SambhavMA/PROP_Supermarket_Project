@@ -19,11 +19,11 @@ public class Distribution {
 
     /**
      * Constructora de la clase Distribution con secciones (actualmente no se usa)
-     * @param id
-     * @param similarityTableId
-     * @param order
-     * @param sections
-     * @param usedAlgorithm
+     * @param id Identificador de la distribución
+     * @param similarityTableId Identificador de la tabla de similitud
+     * @param order Orden de los productos
+     * @param sections Secciones de los productos
+     * @param usedAlgorithm Algoritmo usado para la distribución
      */
     public Distribution(int id, int similarityTableId, Vector<String> order, ArrayList<EnumTypeSections> sections,
                         String usedAlgorithm) {
@@ -37,12 +37,12 @@ public class Distribution {
 
     /**
      * Constructora de la clase Distribution sin secciones
-     * @param id
-     * @param similarityTableId
-     * @param cost
-     * @param order
-     * @param usedAlgorithm
-     * @param temps
+     * @param id Identificador de la distribución
+     * @param similarityTableId Identificador de la tabla de similitud
+     * @param cost Coste de la distribución
+     * @param order Orden de los productos
+     * @param usedAlgorithm Algoritmo usado para la distribución
+     * @param temps Tiempo de ejecución del algoritmo
      */
     public Distribution(int id, int similarityTableId, double cost, Vector<String> order,
                         String usedAlgorithm, double temps) {

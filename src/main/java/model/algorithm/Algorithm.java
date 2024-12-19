@@ -6,13 +6,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author Sergio Polo (sergio.polo@estudiantat.upc.edu)\n
  * 
  * Clase Algoritmo, es una clase abstracta que representa a un algoritmo
+ *
+ * @author Sergio Polo (sergio.polo@estudiantat.upc.edu)\n
  * 
  * <p>Las implementaciones de los distintos tipos de algoritmos estan en sus respectivas clases</p>
+ *
+ *  <p>Atributos internos:</p>
+ *  <ul>
+ *    <li><b>name</b>: Nombre del algoritmo.</li>
+ *    <li><b>description</b>: Descripcion del algoritmo.</li>
+ *    <li><b>parameters</b>: Parametros de entrada del algoritmo.</li>
+ *    <li><b>costs</b>: La matriz de costes entre los productos.</li>
+ *  </ul>
+ *
  * @see NearestNeighbor
  * @see HillClimbing
+ * @see MST
+ * @see Backtracking
  */
 public abstract class Algorithm {
     /**

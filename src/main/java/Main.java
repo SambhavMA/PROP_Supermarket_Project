@@ -1,4 +1,3 @@
-import controller.old.ControllerPresentacio;
 import controller.presentation.CtrlPresentation;
 
 public class Main {

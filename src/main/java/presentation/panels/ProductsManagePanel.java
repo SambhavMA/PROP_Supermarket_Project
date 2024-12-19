@@ -45,8 +45,16 @@ public class ProductsManagePanel extends JPanel {
 
         importProductsButton.addActionListener(e -> {
             try {
-                CtrlPresentation.getInstance().testProducts();
+                CtrlPresentation.getInstance().importProducts();
                 updateList();
+            } catch (Exception productNotFoundException) {
+                productNotFoundException.printStackTrace();
+            }
+        });
+
+        saveChangesButton.addActionListener(e -> {
+            try {
+                CtrlPresentation.getInstance().saveProducts();
             } catch (Exception productNotFoundException) {
                 productNotFoundException.printStackTrace();
             }

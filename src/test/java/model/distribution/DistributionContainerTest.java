@@ -22,7 +22,7 @@ public class DistributionContainerTest {
     @Before
     public void setUp() {
         MockitoAnnotations.openMocks(this);
-        distributionContainer = new DistributionContainer();
+        distributionContainer = distributionContainer.getInstance();
 
         ArrayList<EnumTypeSections>  sampleSections = new ArrayList<>();
         sampleSections.add(EnumTypeSections.Fruita);

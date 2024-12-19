@@ -22,7 +22,7 @@ public class ProductContainerTest {
     @Before
     public void setUp() {
         MockitoAnnotations.openMocks(this);
-        productContainer = new ProductContainer();
+        productContainer = productContainer.getInstance();
         mockproduct = mock(Product.class);
         when(mockproduct.getName()).thenReturn("Test Product");
     }
