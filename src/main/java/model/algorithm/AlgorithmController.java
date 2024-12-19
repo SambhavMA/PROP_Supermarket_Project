@@ -93,14 +93,17 @@ public class AlgorithmController {
                     endTime = System.nanoTime();
                     break;
                 case HillClimbing:
-
                     ArrayList<Parameter> parametersHC = HillClimbing.getParameters();
                     HillClimbing hc = new HillClimbing(parametersHC, costs);
                     startTime = System.nanoTime();
                     solution = hc.execute();
                     endTime = System.nanoTime();
                     break;
-                case Kruskal:
+                case MST:
+                    MST mst = new MST(null, costs);
+                    startTime = System.nanoTime();
+                    solution = mst.execute();
+                    endTime = System.nanoTime();
                     break;
 
                 case Backtracking:

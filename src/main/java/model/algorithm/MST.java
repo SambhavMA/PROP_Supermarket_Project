@@ -4,12 +4,9 @@ import model.algorithm.datastructures.Edge;
 import model.algorithm.datastructures.Graph;
 import model.algorithm.datastructures.UnionFind;
 
-import utils.Pair;
+import model.exceptions.AlgorithmException;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 
 /**
@@ -20,16 +17,19 @@ import java.util.Stack;
  * @author Sambhav Mayani Harlani (sambhav.mayani@estudiantat.upc.edu)
  *
  */
-public class MST {
+public class MST extends Algorithm {
     //private double[][] costs;
 
-    MST(double[][] costs) {
-        this.costs = costs;
+    public MST(List<Parameter> p, double[][] costs) {
+        super(p, costs);
+        super.description = "Algoritmo de 2-opt para encontrar una solución aproximada a partir del MST.";
+        super.name = AlgorithmsNames.MST.toString();
     }
 
-    public MST() {
-        super(AlgorithmsNames.MST.toString(), "Algoritmo Minimum Spanning ");
-    }
+    //Como no tengo parametros, no implemento la función getParameters
+    //me quedo con la implementación por defecto
+
+
 
     /**
      * Función execute: Ejecuta el algoritmo
@@ -39,16 +39,16 @@ public class MST {
      * @return Retorna una instancia de Solution, que representa un ciclo hamiltoniano
      */
     @Override
-    public Solution execute() {
+    public Solution execute() throws AlgorithmException {
 
         //KRUSKAL
-        int n = costs.length;
+        int n = super.costs.length;
         Edge[] edgesArray = new Edge[n*(n-1)/2];
 
         int edgeIndex = 0;
         for (int i = 0; i < n; i++) {
             for (int j = i + 1; j < n; j++) {
-                double cost = costs[i][j];
+                double cost = super.costs[i][j];
                 edgesArray[edgeIndex++] = new Edge(i, j, cost);
             }
         }
@@ -72,82 +72,38 @@ public class MST {
 
         //HACEMOS CICLO HAMILTONIANO, eliminando los nodos repetidos del circuito euleriano
 
-        int[] lastInstancePos = new int[n]; //para cada vertice (producto) me guardo la "posicion en el circuito" de
-        //la ultima instancia que hemos visto del vertice en el circuito
+        List<Integer> minHamiltonianCycle = null; // ciclo hamiltoniano con coste minimo
+        double minCost = Double.MAX_VALUE; // inicializamos el costo minimo con el valor maximo
+        for (int k = 0; k < 3; ++k) {
+            Random rand = new Random();
 
-        //inicializamos el array de enteros a -1
-        Arrays.fill(lastInstancePos, -1);
+            boolean[] visited = new boolean[n];
+            List<Integer> hamiltonianCycle = new ArrayList<>();
+            int currentPos = rand.nextInt(circuit.size()); // Posición inicial aleatoria
 
+            for (int i = 0; i < circuit.size(); i++) {
+                int currentNode = circuit.get(currentPos);
 
-
-
-        circuit.remove(circuit.size()-1); //quitamos el ultimo elemento, que por construccion del circuito es igual al primero
-
-        //recorremos el circuito eliminando los duplicados de la manera en que tengamos menor coste total posible en el ciclo hamiltoniano resultante
-        for (int pos = 0; pos < circuit.size(); pos++) {
-            int act = circuit.get(pos);
-            int lastInstPos = lastInstancePos[act]; //Posición de la última instancia recorrida de pos
-
-            if (lastInstPos == -1) { //si es la primera vez que visitamos la instancia (si es el penúltimo o último elemnto no hace falta hacer nada, porque sabemos que act que ya no se va a repetir en lo que queda de circuito)
-                if (pos < circuit.size()-2) {
-
-                    lastInstancePos[act] = pos;
+                if (!visited[currentNode]) {
+                    hamiltonianCycle.add(currentNode);
+                    visited[currentNode] = true;
                 }
+
+                currentPos = (currentPos + 1)%circuit.size(); //avanzamos de forma  cíclica
             }
 
-            else {
-                int prevActPos, nextActPos;
-                boolean prevNextActEq = false;
-                //evidentemente supongo que el circuito es de tamaño mayor a 1
-                int prevLastInstPos, nextLastInstPos;
-                boolean prevNextLastEq = false;
-
-                if (lastInstPos == 0) { //evaluamos los casos base, se podria hacer que el prev fuese (n - i + n)%n y que el next fuese (i+1)%n, pero veo esto mas legible y es un poco mas eficiente
-                    prevLastInstPos = circuit.size() - 1;
-                    nextLastInstPos = lastInstPos + 1;
-                } else {
-                    prevLastInstPos = lastInstPos - 1;
-                    nextLastInstPos = lastInstPos + 1;
-                }
-                if (prevLastInstPos == nextLastInstPos) { // A-X-A, si elimino X me queda A-A (lo cual no queremos contar)
-                    --prevLastInstPos; ++nextLastInstPos;
-                    prevNextLastEq = true;
-                }
-
-                if (pos == circuit.size()-1) {
-                    prevActPos = pos-1;
-                    nextActPos = 0;
-                }
-                else {
-                    prevActPos = pos-1;
-                    nextActPos = pos+1;
-                }
-                if (prevActPos == nextActPos) { // A-X-A, si elimino X me queda A-A (lo cual no queremos contar)
-                    --prevActPos; ++nextActPos;
-                    prevNextActEq = true;
-                }
-
-                double costIfDeleteLastInstance = costIfDeleteInCircuit(circuit.get(prevLastInstPos), circuit.get(lastInstPos), circuit.get(nextLastInstPos));;
-                double costIfDeleteAct = costIfDeleteInCircuit(circuit.get(prevActPos), act, circuit.get(nextActPos));
-
-                //si merece mas la pena eliminar la ultima instancia recorrida en vez de la instancia actual, eliminamos la ultima intancia recorrida
-                if (costIfDeleteAct < costIfDeleteLastInstance) {
-                    lastInstancePos[act] = pos; //actualizamos la ultima instancia
-                    circuit.remove(lastInstPos);
-
-                    if (prevNextLastEq) circuit.remove(prevLastInstPos);
-                } // si no eliminamos el actual
-                else {
-                    circuit.remove(pos);
-
-                    if (prevNextActEq) circuit.remove(prevActPos);
-                }
-
-                if (!prevNextLastEq && !prevNextActEq) --pos;
-
+            //costo total del ciclo hamiltoniano
+            double actCost = 0.0;
+            for (int i = 0; i < hamiltonianCycle.size()-1; i++) {
+                actCost += super.costs[hamiltonianCycle.get(i)][hamiltonianCycle.get(i+1)];
             }
+            actCost += super.costs[hamiltonianCycle.get(hamiltonianCycle.size()-1)][hamiltonianCycle.get(0)];
 
-
+            //nos quedamos con el mínimo de los 3 aleatorios
+            if (actCost < minCost) {
+                minCost = actCost;
+                minHamiltonianCycle = new ArrayList<>(hamiltonianCycle);
+            }
         }
 
         int[] hamiltonianPath = new int[circuit.size()];
@@ -157,9 +113,10 @@ public class MST {
             hamiltonianPath[i] = circuit.get(i);
         }
 
-
         return new Solution(hamiltonianPath);
 
     }
+
+
 
 }
