@@ -106,11 +106,11 @@ public class MST extends Algorithm {
             }
         }
 
-        int[] hamiltonianPath = new int[circuit.size()];
+        int[] hamiltonianPath = new int[minHamiltonianCycle.size()];
 
 
-        for (int i = 0; i < circuit.size(); i++) {
-            hamiltonianPath[i] = circuit.get(i);
+        for (int i = 0; i < minHamiltonianCycle.size(); i++) {
+            hamiltonianPath[i] = minHamiltonianCycle.get(i);
         }
 
         return new Solution(hamiltonianPath);
