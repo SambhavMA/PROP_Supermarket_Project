@@ -56,10 +56,11 @@ public class AlgorithmController {
      * con nodo inicial aleatorio</p>
      * 
      * @param alg String con el tipo algoritmo seleccionado, {@link NearestNeighbor} o {@link HillClimbing}
-     * @return Un Objeto con tres elementos:
+     * @return Un AlgorithmControllerSolution con cuatro elementos:
      *    <ol>
      *         <li>El camino de la solución, es un array de enteros, donde cada entero representa a un producto.</li>
      *         <li>El costo total del camino.</li>
+     *         <li>Tiempo de ejecución.</li>
      *         <li>El nombre del algoritmo ejecutado.</li>
      *     </ol>
      * @throws Exception si ocurre un error al procesar el algoritmo seleccionado.

@@ -1,4 +1,4 @@
-package model.algorithm;
+package model.algorithm.datastructures;
 
 /**
  * Clase backtracking, retorna una solucion optima al problema de TSP
