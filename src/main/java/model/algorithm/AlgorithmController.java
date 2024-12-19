@@ -93,7 +93,11 @@ public class AlgorithmController {
                     solution = hc.execute();
                     endTime = System.nanoTime();
                     break;
-                case Kruskal:
+                case MST:
+                    MST mst = new MST(null, costs);
+                    startTime = System.nanoTime();
+                    solution = mst.execute();
+                    endTime = System.nanoTime();
                     break;
 
                 case Backtracking:

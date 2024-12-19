@@ -3,6 +3,6 @@ package model.algorithm;
 public enum AlgorithmsNames {
     NearestNeighbor,
     HillClimbing,
-    Kruskal,
+    MST,
     Backtracking
 }
