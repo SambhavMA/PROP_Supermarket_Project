@@ -2,7 +2,7 @@ package controller.presentation;
 
 
 import controller.ControllerDomini;
-import model.exceptions.AlgorithmException;
+import controller.ControllerPersistencia;
 import model.exceptions.ProductNotFoundException;
 import presentation.views.ViewPrimary;
 import presentation.views.ViewSecundary;
@@ -28,12 +28,18 @@ public class CtrlPresentation {
         return CtrlPresentationHolder.INSTANCE;
     }
 
+    /**
+     * Inicia la presentacion del programa
+     */
     public void startPresentation() {
         controllerDomini = ControllerDomini.getInstance();
         viewPrimary = new ViewPrimary();
         viewPrimary.display();
     }
 
+    /**
+     * Finaliza la presentacion del programa
+     */
     public void endPresentation() {
         System.exit(0);
     }
@@ -86,6 +92,11 @@ public class CtrlPresentation {
         return controllerDomini.getProductsTypes();
     }
 
+    /**
+     * Elimina un producto por su id
+     * @param name nombre del producto a eliminar
+     *
+     */
     public void deleteProductById(String name) {
         try {
             controllerDomini.deleteProduct(name);
@@ -99,6 +110,12 @@ public class CtrlPresentation {
         }
     }
 
+    /**
+     * Añade un producto a la base de datos
+     * @param name nombre del producto
+     * @param type tipo del producto
+     * @return null si se ha añadido correctamente, mensaje de error en caso contrario
+     */
     public String addProduct(String name, String type) {
         try {
             controllerDomini.addProduct(name, type);
@@ -108,6 +125,12 @@ public class CtrlPresentation {
         }
     }
 
+    /**
+     * Modifica un producto de la base de datos
+     * @param name nombre del producto
+     * @param type tipo del producto
+     * @return null si se ha modificado correctamente, mensaje de error en caso contrario
+     */
     public String modifyProduct(String name, String type) {
         try {
             controllerDomini.modifyProduct(name, type);
@@ -117,20 +140,16 @@ public class CtrlPresentation {
         }
     }
 
-    public void testProducts() {
-        try {
-            controllerDomini.testingAddingProducts();
-        } catch (Exception e) {
-
-        }
-
-    }
-
-    // SIMILARITY TABLE FUNCTIONS
     public int getSimilarityTableNextId() {
         return controllerDomini.getSimilarityTableNextId();
     }
 
+    /**
+     * Añade una tabla de similitud a la base de datos
+     * @param products productos de la tabla
+     * @param relations relaciones de la tabla
+     * @return null si se ha añadido correctamente, mensaje de error en caso contrario
+     */
     public String addSimilarityTable(String[] products, String[] relations) {
         try {
             controllerDomini.addSimilarityTable(products, relations);
@@ -148,6 +167,11 @@ public class CtrlPresentation {
         }
     }
 
+    /**
+     * Modifica una tabla de similitud de la base de datos
+     * @param id id de la tabla a modificar
+     * @param nuevasSimilitudes nuevas similitudes de la tabla
+     */
     public void modifySimilarityTable(int id, List<Pair<Pair<String, String>, Double>> nuevasSimilitudes) {
         try {
             controllerDomini.modifySimilarityTable(id, nuevasSimilitudes);
@@ -156,6 +180,11 @@ public class CtrlPresentation {
         }
     }
 
+    /**
+     * Elimina una tabla de similitud de la base de datos
+     * @param id id de la tabla a eliminar
+     * @return null si se ha eliminado correctamente, mensaje de error en caso contrario
+     */
     public String deleteSimilarityTable(int id) {
         try {
             controllerDomini.deleteSimilarityTable(id);
@@ -163,10 +192,6 @@ public class CtrlPresentation {
         } catch (Exception e) {
             return e.getMessage();
         }
-    }
-
-    public void testSimilarityTables() {
-
     }
 
     public String[] getSimilarityTablesCols() {
@@ -177,7 +202,6 @@ public class CtrlPresentation {
         return controllerDomini.getSimilarityTables();
     }
 
-    // DISTRIBUTION FUNCTIONS
     public String[] getDistributionsCols() {
         return new String[] {"Id", "Tabla de similitud", "Algoritmo generador", "Coste", "Temps (ms)"};
     }
@@ -186,6 +210,11 @@ public class CtrlPresentation {
         return controllerDomini.getDistributions();
     }
 
+    /**
+     * Elimina una distribucion de la base de datos
+     * @param id id de la distribucion a eliminar
+     * @return null si se ha eliminado correctamente, mensaje de error en caso contrario
+     */
     public String deleteDistribution(int id) {
         try {
             controllerDomini.deleteDistribution(id);
@@ -218,6 +247,12 @@ public class CtrlPresentation {
         return controllerDomini.getDistributionNextId();
     }
 
+    /**
+     * Añade una distribucion a la base de datos
+     * @param stId id de la tabla de similitud
+     * @param usedAlgorithm algoritmo usado para generar la distribucion
+     * @return true si se ha generado correctamente, mensaje de error en caso contrario
+     */
     public boolean generateDistribution(int stId, String usedAlgorithm) {
         try {
             controllerDomini.generateDistribution(stId, usedAlgorithm);
@@ -232,5 +267,69 @@ public class CtrlPresentation {
             return false;
         }
 
+    }
+
+    /**
+     * Importa productos de un fichero
+     */
+    public void importProducts() {
+        try {
+            controllerDomini.importProducts();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(
+                    new JFrame(),
+                    e.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+            );
+        }
+    }
+
+    /**
+     * Guarda los productos en un fichero
+     */
+    public void saveProducts() {
+        try {
+            controllerDomini.exportProducts();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(
+                    new JFrame(),
+                    e.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+            );
+        }
+    }
+
+    /**
+     * Guarda las tablas de similitud en un fichero
+     */
+    public void saveSimilarityTables() {
+        try {
+            controllerDomini.exportSimilarityTables();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(
+                    new JFrame(),
+                    e.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+            );
+        }
+    }
+
+    /**
+     * Importa tablas de similitud de un fichero
+     */
+    public void importSimilarityTables() {
+        try {
+            controllerDomini.importSimilarityTables();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(
+                    new JFrame(),
+                    e.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+            );
+        }
     }
 }
