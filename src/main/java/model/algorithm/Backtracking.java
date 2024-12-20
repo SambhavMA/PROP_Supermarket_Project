@@ -17,6 +17,12 @@ public class Backtracking extends Algorithm {
     private double minCost;
     private ArrayList<Integer> minPath;
 
+    /**
+     * Constructora de la clase, crea una instancia de backtracking con el nombre, la tabla de costes y la descripción correspondientes.
+     * Tambien inicializamos los atributos privados usados en el algoritmo.
+     * @param p
+     * @param costs
+     */
     public Backtracking(List<Parameter> p, double[][] costs) {
         super(p, costs);
         super.description = "Algoritmo Backtracking para encontrar resultado óptimo.";
@@ -29,6 +35,7 @@ public class Backtracking extends Algorithm {
     public static ArrayList<Parameter> getParameters() {
         return null;
     }
+
     private void backtracking(int actVertex, ArrayList<Integer> actPath, double actCost) {
         if (actPath.size() == super.costs.length) {
             double newTotalCost = actCost + super.costs[actPath.get(actPath.size()-1)][actPath.get(0)];
