@@ -34,7 +34,7 @@ public class Backtracking extends Algorithm {
 
             if (newTotalCost < minCost) {
                 minCost = newTotalCost;
-                minPath = actPath;
+                minPath = new ArrayList<>(actPath);
             }
         }
 
@@ -64,6 +64,6 @@ public class Backtracking extends Algorithm {
             hamiltonianPath[i] = minPath.get(i);
         }
 
-        return new Solution(hamiltonianPath);
+        return new Solution(hamiltonianPath, minCost);
     }
 }
