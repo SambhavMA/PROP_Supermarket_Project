@@ -32,9 +32,8 @@ public class Backtracking extends Algorithm {
         this.minPath = new ArrayList<>();
     }
 
-    public static ArrayList<Parameter> getParameters() {
-        return null;
-    }
+    //Como no tengo parametros, no implemento la función getParameters
+    //me quedo con la implementación por defecto
 
     private void backtracking(int actVertex, ArrayList<Integer> actPath, double actCost) {
         if (actPath.size() == super.costs.length) {
@@ -60,6 +59,14 @@ public class Backtracking extends Algorithm {
         }
     }
 
+    /**
+     * Funcion execute del algoritmo, ejecuta el backtracking para la tabla de costes que se le ha sido asignada
+     * al inicializarlo. Retorna una solucion optima al problema, pero su coste temporal es exponencial.
+     *
+     * Hace un backtracking con poda de manera muy simple (y costoso) para resolver el problema del TSP.
+     * @return
+     * @throws AlgorithmException
+     */
     public Solution execute() throws AlgorithmException {
         ArrayList<Integer> initialPath = new ArrayList<>();
         initialPath.add(0);

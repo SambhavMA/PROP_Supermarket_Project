@@ -18,7 +18,6 @@ import java.util.*;
  *
  */
 public class MST extends Algorithm {
-    //private double[][] costs;
 
     public MST(List<Parameter> p, double[][] costs) {
         super(p, costs);
@@ -32,7 +31,11 @@ public class MST extends Algorithm {
 
 
     /**
-     * Función execute: Ejecuta el algoritmo
+     * Funcion execute, ejecuta el algoritmo y retorna una aproximacion al problema.
+     *
+     * Consiste en generar el MST del grafo que representa la matriz de costes,
+     * a partir de ese MST se encuentra un ciclo euleriano,
+     * y finalmente transformar aleatoriamente el ciclo euleriano en hamiltoniano aleatoriamente.
      *
      * nota: la implementacion no es correcta, falta aplicar una correccion,
      * (lo digo para que no se evalue el codigo del JavaDoc de la segunda entrega, ya que en la segunda entrega no se entrega codigo)

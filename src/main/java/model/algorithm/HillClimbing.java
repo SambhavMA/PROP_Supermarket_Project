@@ -28,6 +28,10 @@ public class HillClimbing extends Algorithm {
         super.name = AlgorithmsNames.HillClimbing.toString();
     }
 
+    /**
+     * Funcion getParameters, retorna una lista con los parametros que necesita el algoritmo.
+     * @return Lista de parametros
+     */
     public static ArrayList<Parameter> getParameters() {
         ArrayList<Parameter> parameters = new ArrayList<>();
 

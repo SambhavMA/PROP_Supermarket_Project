@@ -52,8 +52,18 @@ public abstract class Algorithm {
         return description;
     }
 
+    /**
+     * Funcion execute, ejecuta el algoritmo.
+     * @return Una solucion
+     * @throws AlgorithmException
+     */
     public abstract Solution execute() throws AlgorithmException;
 
+    /**
+     * Funcione estatica abstracta par obtener los parametros que necesita un algoritmo para ejecutarse.
+     * Por defecto no retorna nada
+     * @return Parametros del algoritmo
+     */
     public static List<Parameter> getParameters() {
         return null;
     }

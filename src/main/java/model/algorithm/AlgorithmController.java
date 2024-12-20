@@ -40,6 +40,10 @@ public class AlgorithmController {
         }
     }
 
+    /**
+     * Funcion para obtener los nombres de los algoritmos
+     * @return Una lista con los nombres de los algoritmos disponibles
+     */
     public String[] getAlgorithms() {
         String[] algorithms = new String[AlgorithmsNames.values().length];
         for (int i = 0; i < algorithms.length; i++) {
@@ -49,7 +53,7 @@ public class AlgorithmController {
     }
 
     /**
-     * Método para ejecutar un algoritmo
+     * Metodo para ejecutar un algoritmo
      * 
      * <p>El algoritmo Nearest Neighbor se ejecuta a partir de un nodo inicial alaeatorio.
      * El algoritmo de Hill Climbing se ejecuta a partir de 3 soluciones iniciales generadas por Nearest Neighbor
