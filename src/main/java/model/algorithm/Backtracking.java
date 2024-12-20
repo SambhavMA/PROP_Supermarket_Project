@@ -8,7 +8,8 @@ import java.util.List;
 /**
  * Clase backtracking, retorna una solucion optima al problema de TSP
  *
- * <p> Nota: Solo es viable usar este algoritmo para instancias pequenas del problema</p>
+ * <p> Nota: Solo es viable usar este algoritmo para instancias pequenas del problema,
+ * no se recomienda generar una distribucion de mas de 15 productos</p>
  */
 
 public class Backtracking extends Algorithm {
