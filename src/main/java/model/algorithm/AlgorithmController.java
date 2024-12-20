@@ -101,6 +101,10 @@ public class AlgorithmController {
                     break;
 
                 case Backtracking:
+                    Backtracking backtracking = new Backtracking(null, costs);
+                    startTime = System.nanoTime();
+                    solution = backtracking.execute();
+                    endTime = System.nanoTime();
                     break;
 
                 default:
