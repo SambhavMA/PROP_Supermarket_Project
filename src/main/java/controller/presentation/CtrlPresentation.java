@@ -2,10 +2,7 @@ package controller.presentation;
 
 
 import controller.ControllerDomini;
-import controller.ControllerPersistencia;
-import model.exceptions.ProductNotFoundException;
 import presentation.views.ViewPrimary;
-import presentation.views.ViewSecundary;
 import utils.Pair;
 
 import javax.swing.*;
@@ -15,7 +12,6 @@ import java.util.Vector;
 public class CtrlPresentation {
     private ControllerDomini controllerDomini;
     private ViewPrimary viewPrimary;
-    private ViewSecundary viewSecundary;
 
     private CtrlPresentation() {
     }
@@ -42,28 +38,6 @@ public class CtrlPresentation {
      */
     public void endPresentation() {
         System.exit(0);
-    }
-
-    /**
-     * Transiciona de la vista principal a la vista secundaria.
-     * Deshabilita la principal que se seguira mostrando, mientras la secundaria se ejecuta en primer plano
-     */
-    public void transitionPrimary_to_Secundary() {
-        viewPrimary.disable();
-        viewSecundary = new ViewSecundary();
-        viewSecundary.enable();
-        viewSecundary.display();
-    }
-
-    /**
-     * Transiciona de la vista secundaria a la vista primaria.
-     * Borra la vista secundaria, y habilita y muestra la vista principal en primer plano
-     */
-    public void transitionSecundary_to_Primary(){
-        viewSecundary.stop();
-        viewSecundary = null;
-        viewPrimary.enable();
-        viewPrimary.display();
     }
 
     public ViewPrimary getViewPrimary() {
