@@ -24,11 +24,17 @@ public class SimilarityTableContainerTest {
         similarityTableContainer = SimilarityTableContainer.getInstance();
 
         when(mocksimilarityTable.getId()).thenReturn(1);
-        when(mocksimilarityTable.getFastIndexes()).thenReturn(new HashMap<String, Integer>());
-        when(mocksimilarityTable.getRelationMatrix()).thenReturn(new double[0][0]);
 
         similarityTableContainer.addSimilarityTable(1, mocksimilarityTable);
 
+    }
+
+    @Test
+    public void testConstructor() {
+        HashMap<Integer, SimilarityTable> similarityTables = similarityTableContainer.getSimilarityTables();
+        assertEquals(1, similarityTables.size());
+        assertTrue(similarityTables.containsKey(1));
+        assertEquals(mocksimilarityTable, similarityTables.get(1));
     }
 
     @Test
@@ -66,7 +72,29 @@ public class SimilarityTableContainerTest {
             similarityTableContainer.modifySimilarityTable(2, mocksimilarityTable);
             fail("Expected SimilarityTableNotFoundException");
         } catch (SimilarityTableNotFoundException e) {
-            assertEquals("The similarity table with id 2 was not found in the system.", e.getMessage());
+            assertEquals("La tabla de similitud con id: 2 no se ha encontrado en el sistema.", e.getMessage());
+        }
+    }
+
+    @Test
+    public void testModifySimilarityTableWithST() {
+        similarityTableContainer.addSimilarityTable(2, mocksimilarityTable);
+        try {
+            similarityTableContainer.modifySimilarityTable(2, mocksimilarityTable);
+            SimilarityTable st = similarityTableContainer.getSimilarityTableById(2);
+            assertEquals(mocksimilarityTable, st);
+        } catch (SimilarityTableNotFoundException e) {
+            fail("Unexpected SimilarityTableNotFoundException");
+        }
+    }
+
+    @Test
+    public void testDeleteSimilarityTableByIdWithoutST() {
+        try {
+            similarityTableContainer.deleteSimilarityTableById(3);
+            fail("Expected SimilarityTableNotFoundException");
+        } catch (SimilarityTableNotFoundException e) {
+            assertEquals("La tabla de similitud con id: 3 no se ha encontrado en el sistema.", e.getMessage());
         }
     }
 
@@ -78,18 +106,18 @@ public class SimilarityTableContainerTest {
             similarityTableContainer.getSimilarityTableById(2);
             fail("Expected SimilarityTableNotFoundException");
         } catch (SimilarityTableNotFoundException e) {
-            assertEquals("The similarity table with id 2 was not found in the system.", e.getMessage());
+            assertEquals("La tabla de similitud con id: 2 no se ha encontrado en el sistema.", e.getMessage());
         }
     }
 
     @Test
-    public void testDeleteSimilarityTableByIdWithoutST() {
-        try {
-            similarityTableContainer.deleteSimilarityTableById(2);
-            fail("Expected SimilarityTableNotFoundException");
-        } catch (SimilarityTableNotFoundException e) {
-            assertEquals("The similarity table with id 2 was not found in the system.", e.getMessage());
-        }
+    public void testNewId() {
+        assertEquals(1, similarityTableContainer.newId());
+    }
+
+    @Test
+    public void testNextId() {
+        assertEquals(2, similarityTableContainer.nextId());
     }
 
 }

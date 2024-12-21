@@ -41,8 +41,15 @@ public class DistributionContainerTest {
     @Test
     public void testConstructor() {
         assertNotNull(distributionContainer.getDistributions());
-        assertEquals(0, distributionContainer.getDistributions().size());
+        assertEquals(1, distributionContainer.getDistributions().size());
         assertEquals(0, distributionContainer.getIdCounter());
+        assertEquals(1, distributionContainer.nextId());
+        assertEquals(1, distributionContainer.newId());
+        try {
+            assertEquals(1, distributionContainer.getDistributionById(1).getId());
+        } catch (DistributionNotFoundException e) {
+            fail("DistributionNotFoundException thrown");
+        }
     }
 
     @Test
@@ -58,9 +65,4 @@ public class DistributionContainerTest {
         assertNull(distributionContainer.getDistributions().get(1));
     }
 
-    @Test
-    public void testNewId() {
-        assertEquals(1, distributionContainer.newId());
-        assertEquals(2, distributionContainer.newId());
-    }
 }
