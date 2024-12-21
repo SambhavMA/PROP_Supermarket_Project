@@ -12,23 +12,38 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
+/**
+ * Controlador de la capa de presentación
+ * Comunica la interfaz gráfica con la capa de dominio. Convierte los datos de la capa de dominio en datos que la
+ * interfaz gráfica pueda mostrar y gestiona las excpeciones que puedan surgir.
+ */
 public class CtrlPresentation {
     private ControllerDomini controllerDomini;
     private ViewPrimary viewPrimary;
 
+    /**
+     * Constructora privada de la clase
+     */
     private CtrlPresentation() {
     }
 
+    /**
+     * Clase interna que implementa el patrón Singleton
+     */
     private static class CtrlPresentationHolder {
         private static final CtrlPresentation INSTANCE = new CtrlPresentation();
     }
 
+    /**
+     * Devuelve la instancia de la clase
+     * @return instancia de la clase
+     */
     public static CtrlPresentation getInstance() {
         return CtrlPresentationHolder.INSTANCE;
     }
 
     /**
-     * Inicia la presentacion del programa
+     * Inicia la presentacion del programa. Creando el dominio y la vista principal, mostrando esta última
      */
     public void startPresentation() {
         controllerDomini = ControllerDomini.getInstance();
@@ -37,16 +52,17 @@ public class CtrlPresentation {
     }
 
     /**
-     * Finaliza la presentacion del programa
+     * Devuelve la vista principal
+     * @return vista principal
      */
-    public void endPresentation() {
-        System.exit(0);
-    }
-
     public ViewPrimary getViewPrimary() {
         return viewPrimary;
     }
 
+    /**
+     * Devuelve los productos que pide al controlador de dominio
+     * @return productos de cargados en memoria
+     */
     public Pair<String, String>[] getProducts() {
         try {
             return controllerDomini.getProducts();
@@ -61,18 +77,26 @@ public class CtrlPresentation {
         }
     }
 
+    /**
+     * Devuelve las columnas de los productos. Implementado de esta forma para facilitar la modificación de las columnas
+     * en un futuro si se añaden más atributos a los productos
+     * @return columnas de los productos
+     */
     public String[] getProductsCols() {
         return new String[] {"Nombre", "Tipo"};
     }
 
+    /**
+     * Devuelve los tipos de productos que hay en memoria
+     * @return lista de tipos de productos
+     */
     public String[] getProductTypes() {
         return controllerDomini.getProductsTypes();
     }
 
     /**
-     * Elimina un producto por su id
+     * Elimina un producto por su id y gestiona las excepciones que puedan surgir
      * @param name nombre del producto a eliminar
-     *
      */
     public void deleteProductById(String name) {
         try {
@@ -88,7 +112,7 @@ public class CtrlPresentation {
     }
 
     /**
-     * Añade un producto a la base de datos
+     * Añade un producto al conjunto de productos
      * @param name nombre del producto
      * @param type tipo del producto
      * @return null si se ha añadido correctamente, mensaje de error en caso contrario
@@ -103,9 +127,9 @@ public class CtrlPresentation {
     }
 
     /**
-     * Modifica un producto de la base de datos
+     * Modifica un producto del conjunto de productos
      * @param name nombre del producto
-     * @param type tipo del producto
+     * @param type nuevo tipo del producto
      * @return null si se ha modificado correctamente, mensaje de error en caso contrario
      */
     public String modifyProduct(String name, String type) {
@@ -117,14 +141,18 @@ public class CtrlPresentation {
         }
     }
 
+    /**
+     * Devuelve el siguiente id de tabla de similitud disponible
+     * @return siguiente id de tabla de similitud disponible
+     */
     public int getSimilarityTableNextId() {
         return controllerDomini.getSimilarityTableNextId();
     }
 
     /**
-     * Añade una tabla de similitud a la base de datos
-     * @param products productos de la tabla
-     * @param relations relaciones de la tabla
+     * Añade una tabla de similitud al conjunto de tablas de similitud
+     * @param products productos de la tabla a añadir
+     * @param relations relaciones de la tabla a añadir
      * @return null si se ha añadido correctamente, mensaje de error en caso contrario
      */
     public String addSimilarityTable(String[] products, String[] relations) {
@@ -136,6 +164,11 @@ public class CtrlPresentation {
         }
     }
 
+    /**
+     * Devuelve una tabla de similitud del conjunto de tablas de similitud
+     * @param id id de la tabla a devolver
+     * @return tabla de similitud
+     */
     public Pair<Vector<Pair<String, Integer>>, double[][]> getSimilarityTable(int id) {
         try {
             return controllerDomini.getSimilarityTable(id);
@@ -259,7 +292,7 @@ public class CtrlPresentation {
         changes.add(new Pair<>(product1, product2));
 
         controllerDomini.modifyDistribution(distributionId, changes);
-        
+
     }
 
     /**

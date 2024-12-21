@@ -134,7 +134,7 @@ public class ViewPrimary {
     }
 
     public DistributionPanel getDistributionPanel(int id) {
-        if (distributionPanel == null) distributionPanel = new DistributionPanel(this, id);
+        distributionPanel = new DistributionPanel(this, id);
         return distributionPanel;
     }
 
