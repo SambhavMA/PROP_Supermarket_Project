@@ -46,10 +46,18 @@ public class SimilarityTablesManagePanel extends JPanel {
 
         importSimilarityTablesButton.addActionListener(e -> {
             try {
-                CtrlPresentation.getInstance().testSimilarityTables();
+                CtrlPresentation.getInstance().importSimilarityTables();
                 updateList();
             } catch (Exception SimilarityTableNotFoundException) {
                 SimilarityTableNotFoundException.printStackTrace();
+            }
+        });
+
+        saveChangesButton.addActionListener(e -> {
+            try {
+                CtrlPresentation.getInstance().saveSimilarityTables();
+            } catch (Exception e1) {
+                e1.printStackTrace();
             }
         });
 

@@ -21,7 +21,7 @@ public class SimilarityTableContainerTest {
     @Before
     public void setUp() {
         MockitoAnnotations.openMocks(this);
-        similarityTableContainer = new SimilarityTableContainer();
+        similarityTableContainer = SimilarityTableContainer.getInstance();
 
         when(mocksimilarityTable.getId()).thenReturn(1);
         when(mocksimilarityTable.getFastIndexes()).thenReturn(new HashMap<String, Integer>());

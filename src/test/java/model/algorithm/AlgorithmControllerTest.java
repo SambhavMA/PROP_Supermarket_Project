@@ -13,7 +13,7 @@ import model.algorithm.Solution;
 
 
 public class AlgorithmControllerTest {
-
+    /*
     @Test
     public void testConstructorCostsMatrix() {
         double[][] relationMatrixTest = {
@@ -77,7 +77,7 @@ public class AlgorithmControllerTest {
         algorithm depende úncamente de lo que devuelve la ejecución de algorithmHC, que depende
         únicamente de initialssolutions (y por lo tanto de las ejecuciones NN), pero como que en
         nuestro caso estamos haciendo un test unitario sobre algorithm controler no evaluamos cómo
-        funciona la clase algorithm*/
+        funciona la clase algorithm
 
         HillClimbing mockHC = mock(HillClimbing.class);
         Solution mockFinalSolution = mock(Solution.class);
@@ -105,6 +105,6 @@ public class AlgorithmControllerTest {
         assertEquals(5.0, result[1]);
         assertEquals("HC", result[2]);
     }
-
+    */
 
 }

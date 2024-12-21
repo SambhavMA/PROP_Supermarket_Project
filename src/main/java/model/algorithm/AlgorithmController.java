@@ -1,5 +1,8 @@
 package model.algorithm;
 
+import model.exceptions.AlgorithmException;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -16,49 +19,26 @@ import java.util.Random;
  * la distribución de productos que queremos generar en el programa principal.</p>
 */
 public class AlgorithmController {
-    /**
-     * Matriz con los costos entre productos, cuanto menor es el coste entre dos productos, mayor es la relación
-     * entre estos productos
-     */
-    protected static double[][] costs;
 
-    private Algorithm nearestNeighbor;
-    private Algorithm hillClimbing;
+    private double[][] costs;
 
     /**
-     * Primera constructora de AlgorithmController 
-     * 
-     * @param relationMatrix con las relaciones entre productos
-    */
-    public AlgorithmController(double[][] relationMatrix) {
-        this(relationMatrix, new NearestNeighbor(), new HillClimbing());
-    }
-
-    /**
-     * Segunda constructora de AlgorithmController
+     * Constructora de AlgorithmController
      * 
      * <p>Esta constructora, con dos parámetros extra con las instancias de los distintos tipos de algoritmo,
      * usada para hacer "mocks" de algoritmos en el testing </p>
      * 
      * @param relationMatrix Matriz con las relaciones entre productos
-     * @param nearestNeighbor Instancia del algoritmo Nearest Neighbor
-     * @param hillClimbing Instancia del algoritmo Hill Climbing
     */
     // Constructor donde "inyectamos" la clase Algorithm
-    public AlgorithmController(double[][] relationMatrix, Algorithm nearestNeighbor, Algorithm hillClimbing) {
+    public AlgorithmController(double[][] relationMatrix) {
         costs = new double[relationMatrix.length][relationMatrix[0].length];
         for (int i = 0; i < relationMatrix.length; i++) {
             for (int j = 0; j < relationMatrix[0].length; j++) {
                 costs[i][j] = 1 - relationMatrix[i][j];
             }
         }
-        this.nearestNeighbor = nearestNeighbor;
-        this.hillClimbing = hillClimbing;
     }
-
-    public static double[][] getCosts() { //usada en el testing
-        return costs;
-    } //usada en el testing
 
     public String[] getAlgorithms() {
         String[] algorithms = new String[AlgorithmsNames.values().length];
@@ -68,7 +48,6 @@ public class AlgorithmController {
         return algorithms;
     }
 
-
     /**
      * Método para ejecutar un algoritmo
      * 
@@ -76,11 +55,12 @@ public class AlgorithmController {
      * El algoritmo de Hill Climbing se ejecuta a partir de 3 soluciones iniciales generadas por Nearest Neighbor
      * con nodo inicial aleatorio</p>
      * 
-     * @param a String con el tipo algoritmo seleccionado, {@link NearestNeighbor} o {@link HillClimbing}
-     * @return Un Objeto con tres elementos:
+     * @param alg String con el tipo algoritmo seleccionado, {@link NearestNeighbor} o {@link HillClimbing}
+     * @return Un AlgorithmControllerSolution con cuatro elementos:
      *    <ol>
      *         <li>El camino de la solución, es un array de enteros, donde cada entero representa a un producto.</li>
      *         <li>El costo total del camino.</li>
+     *         <li>Tiempo de ejecución.</li>
      *         <li>El nombre del algoritmo ejecutado.</li>
      *     </ol>
      * @throws Exception si ocurre un error al procesar el algoritmo seleccionado.
@@ -89,41 +69,52 @@ public class AlgorithmController {
      * @see HillClimbing
      * @see Solution
     */
-    public Object[] executeAlgorithm(String a) throws Exception {
-        AlgorithmsNames algorithm = AlgorithmsNames.valueOf(a);
+    public AlgorithmControllerSolution executeAlgorithm(String alg) throws Exception {
+        try {
+            Algorithm.costs = costs;
+            AlgorithmsNames algorithm = AlgorithmsNames.valueOf(alg);
+            Solution solution = null;
 
-        Solution solution;
+            double durationInSeconds = 0;
+            long startTime = 0, endTime = 0;
+            switch(algorithm) {
+                case NearestNeighbor:
+                    ArrayList<Parameter> parametersNN = NearestNeighbor.getParameters();
+                    NearestNeighbor nn = new NearestNeighbor(parametersNN, costs);
+                    startTime = System.nanoTime();
+                    solution = nn.execute();
+                    endTime = System.nanoTime();
+                    break;
+                case HillClimbing:
 
-        //double durationInSeconds;
-        //long startTime, endTime;
-        switch(algorithm) {
-            case NearestNeighbor:
-                //Algorithm nearestNeighbor = new NearestNeighbor();
-                //startTime = System.nanoTime();
-                Random rand = new Random();
-                solution = nearestNeighbor.execute(rand.nextInt(costs.length), costs.length);
-                //endTime = System.nanoTime();
-                break;
-            case HillClimbing:
-                //Algorithm startingAlgorithmNN = new NearestNeighbor();
-                Solution[] initialSolutions = new Solution[3];
-                //startTime = System.nanoTime();
-                for (int i = 0; i < 3; i++) {
-                    Random rand2 = new Random();
-                    initialSolutions[i] = nearestNeighbor.execute(rand2.nextInt(costs.length), costs.length);
-                }
-                //Algorithm hillClimbing = new HillClimbing();
-                solution = hillClimbing.execute(initialSolutions);
-                //endTime = System.nanoTime();
-                break;
-            default:
-                solution = null;
-                break;
+                    ArrayList<Parameter> parametersHC = HillClimbing.getParameters();
+                    HillClimbing hc = new HillClimbing(parametersHC, costs);
+                    startTime = System.nanoTime();
+                    solution = hc.execute();
+                    endTime = System.nanoTime();
+                    break;
+                case MST:
+                    MST mst = new MST(null, costs);
+                    startTime = System.nanoTime();
+                    solution = mst.execute();
+                    endTime = System.nanoTime();
+                    break;
+
+                case Backtracking:
+                    break;
+
+                default:
+                    solution = null;
+                    break;
+            }
+
+            double finalCost = ((-1)*solution.getCost()) + solution.getSize();
+
+            durationInSeconds = (endTime - startTime) / 1_000_000.0; // in ms.
+            return new AlgorithmControllerSolution(solution.getPath(), finalCost, durationInSeconds, algorithm.toString());
+        } catch (Exception e) {
+            throw new AlgorithmException(e.getMessage());
         }
-        
-        double finalCost = ((-1)*solution.getCost()) + solution.getSize();
-        //durationInSeconds = (endTime - startTime) / 1_000_000_000.0;
-        return new Object[]{solution.getPath(), finalCost, algorithm.toString()/* , durationInSeconds*/};
     }
 
 }

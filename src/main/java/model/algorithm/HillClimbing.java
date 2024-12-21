@@ -1,7 +1,10 @@
 package model.algorithm;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
+import model.exceptions.AlgorithmException;
 import model.similarity.SimilarityTable;
 
 
@@ -19,58 +22,92 @@ import model.similarity.SimilarityTable;
  */
 public class HillClimbing extends Algorithm {
 
-    public HillClimbing() {
-        super(AlgorithmsNames.HillClimbing.toString(), "Algoritmo Hill Climbing para optimización.");
+    public HillClimbing(List<Parameter> p, double[][] costs) {
+        super(p, costs);
+        super.description = "Algoritmo Hill Climbing para optimización.";
+        super.name = AlgorithmsNames.HillClimbing.toString();
+    }
+
+    public static ArrayList<Parameter> getParameters() {
+        ArrayList<Parameter> parameters = new ArrayList<>();
+
+        int n = costs.length/2;
+        if (n > 3) n = 3;
+        Solution[] initialSolutions = new Solution[n];
+        //startTime = System.nanoTime();
+        for (int i = 0; i < n; i++) {
+            ArrayList<Parameter> parametersNN = NearestNeighbor.getParameters();
+            NearestNeighbor nn = new NearestNeighbor(parametersNN, costs);
+            initialSolutions[i] = nn.execute();
+        }
+
+        Parameter<Solution[]> p1 = new Parameter<>("Soluciones iniciales", "Array de soluciones", initialSolutions);
+        parameters.add(p1);
+
+        return parameters;
     }
 
     /**
      * Funcion execute del HillClimbing a partir de un conjunto de soluciones inicial
-     * 
-     * @param solutions Conjunto de soluciones iniciales
+     *
      * @return Solucion final de devolvemos
      */
     @Override
-    public Solution execute(Solution[] solutions) {
-        Solution bestSolution = solutions[0];
-        double bestSolutionCost = solutions[0].getCost();
-        int size = solutions[0].getSize();
+    public Solution execute() throws AlgorithmException {
+        Solution[] solutions = null;
 
-        for (Solution actSolution : solutions) {
-            
-            double best_cost = actSolution.getCost();
-            boolean improvement = true;
-            int ite = 0;
-            while (improvement && (ite < 5)) {
-                ite++;
-                improvement = false;
-                for (int i = 0; i < size - 3; i++) {
-                    for (int j = i + 2; j < size - 1; j++) {
-
-                        double act_cost = best_cost
-                                - actSolution.costBetweenPathNodes(i, i + 1) // podría directamente declarar nuevo
-                                                                             // actsolution y hacer swap y el coste es
-                                                                             // esto
-                                - actSolution.costBetweenPathNodes(j, j + 1)
-                                + actSolution.costBetweenPathNodes(i, j)
-                                + actSolution.costBetweenPathNodes(j + 1, i + 1);
-
-                        if (act_cost < best_cost) {
-                            actSolution.swapAndUpdate(i, j);
-                            //double coste = actSolution.getCost();
-                            best_cost = act_cost;
-                            improvement = true;
-                        }
-
-                    }
-                }
-            }
-
-            if (best_cost < bestSolutionCost) {
-                bestSolution = actSolution;
-                bestSolutionCost = best_cost;
+        for (Parameter p : parameters) {
+            if (p.getName().equals("Soluciones iniciales")) {
+                solutions = (Solution[]) p.getValue();
             }
         }
 
-        return new Solution(bestSolution.getPath(), bestSolutionCost); //construimos una nueva solución con getpath para facilitar el testing
+
+        if (solutions != null) {
+            Solution bestSolution = solutions[0];
+            double bestSolutionCost = solutions[0].getCost();
+            int size = solutions[0].getSize();
+
+            for (Solution actSolution : solutions) {
+
+                double best_cost = actSolution.getCost();
+                boolean improvement = true;
+                int ite = 0;
+                while (improvement && (ite < 5)) {
+                    ite++;
+                    improvement = false;
+                    for (int i = 0; i < size - 3; i++) {
+                        for (int j = i + 2; j < size - 1; j++) {
+
+                            double act_cost = best_cost
+                                    - actSolution.costBetweenPathNodes(i, i + 1) // podría directamente declarar nuevo
+                                    // actsolution y hacer swap y el coste es
+                                    // esto
+                                    - actSolution.costBetweenPathNodes(j, j + 1)
+                                    + actSolution.costBetweenPathNodes(i, j)
+                                    + actSolution.costBetweenPathNodes(j + 1, i + 1);
+
+
+                            if (act_cost < best_cost) {
+                                actSolution.swapAndUpdate(i, j);
+                                //double coste = actSolution.getCost();
+                                best_cost = act_cost;
+                                improvement = true;
+                            }
+
+                        }
+                    }
+                }
+
+                if (best_cost < bestSolutionCost) {
+                    bestSolution = actSolution;
+                    bestSolutionCost = best_cost;
+                }
+            }
+
+            return new Solution(bestSolution.getPath(), bestSolutionCost); //construimos una nueva solución con getpath para facilitar el testing
+        } else {
+            throw new AlgorithmException("Lista de parametros incorrecta");
+        }
     }
 }

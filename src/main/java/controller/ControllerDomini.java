@@ -1,7 +1,10 @@
 package controller;
 
 import model.algorithm.AlgorithmController;
+import model.algorithm.AlgorithmControllerSolution;
 import model.algorithm.AlgorithmsNames;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import model.distribution.Distribution;
 import model.exceptions.*;
 import model.product.ProductContainer;
@@ -14,36 +17,40 @@ import utils.Pair;
 
 import java.text.DecimalFormat;
 import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Vector;
 
 /**
  * @author Joan Gomez Catala (joan.gomez.catala@estudiantat.upc.edu)
  * <p>S'encarrega de gestionar les operacions de domini.
  * Aquestes operacions poden ser crear, modificar o eliminar productes, taules de similitud i distribucions.
  * A més, també pot retornar informació sobre productes, taules de similitud i distribucions.
- * Té els containers de productes, taules de similitud i distribucions com a atributs.</p>
+ * Té el controller peristencia i els containers de productes, taules de similitud i distribucions com a atributs.</p>
  */
 public class ControllerDomini {
-    private ProductContainer productContainer = new ProductContainer();
-    private DistributionContainer distributionContainer = new DistributionContainer();
-    private SimilarityTableContainer similarityTableContainer = new SimilarityTableContainer();
+    private static ControllerDomini instance;
 
-    private static ControllerDomini singletonObject;
-
-    /**
-     * Crea una instancia de domini
-     */
-    public ControllerDomini() {
-        init();
-    }
-
+    private ProductContainer productContainer = ProductContainer.getInstance();
+    private DistributionContainer distributionContainer = DistributionContainer.getInstance();
+    private SimilarityTableContainer similarityTableContainer = SimilarityTableContainer.getInstance();
+    private ControllerPersistencia cP = new ControllerPersistencia();
     /**
      * Retorna la intancia de ControllerDomini. Si no existeix, es crea
      */
     public static ControllerDomini getInstance() {
-        if (singletonObject == null) {
-            singletonObject = new ControllerDomini();
+        if (instance == null) {
+            instance = new ControllerDomini();
         }
-        return singletonObject;
+        return instance;
+    }
+
+    /**
+     * Constructora de la classe
+     */
+    public ControllerDomini() {
+        init();
     }
 
     /**
@@ -163,8 +170,11 @@ public class ControllerDomini {
 //        productContainer.addProduct(new Product("P12", EnumType.FRUITA));
     }
 
-    // SIMILARITY TABLE FUNCTIONS
-
+    /**
+     * Retorna les taules de similituds del sistema
+     *
+     * @return Array de Strings amb els identificadors de les taules de similituds
+     */
     public String[] getSimilarityTables() {
         HashMap<Integer, SimilarityTable> similarityTableHashMap = similarityTableContainer.getSimilarityTables();
 
@@ -321,6 +331,27 @@ public class ControllerDomini {
         similarityTableContainer.deleteSimilarityTableById(id);
     }
 
+//    /**
+//     * Retorna una taula de similitud si existeix
+//     *
+//     * @param id Identificador de la taula de similitud a buscar
+//     * @return Pair amb els productes de la taula i la matriu de similituds
+//     * @throws SimilarityTableNotFoundException Si la taula de similitud a buscar no existeix
+//     */
+//    public Pair<Vector<Pair<String, Integer>>, double[][]> getSimilarityTable(int id)
+//            throws SimilarityTableNotFoundException {
+//        SimilarityTable similarityTable = similarityTableContainer.getSimilarityTableById(id);
+//
+//        Vector<Pair<String, Integer>> productos = new Vector<>();
+//        for (String key : similarityTable.getFastIndexes().keySet()) {
+//            productos.add(new Pair<>(key, similarityTable.getFastIndexes().get(key)));
+//        }
+//
+//        double[][] relationMatrix = similarityTable.getRelationMatrix();
+//
+//        return new Pair<>(productos, relationMatrix);
+//    }
+
     /**
      * Crea i afegeix una nova distribució al container de distribucions
      *
@@ -330,28 +361,27 @@ public class ControllerDomini {
      * @param usedAlgorithm     Nom de l'algoritme utilitzat per generar la distribució
      * @return Identificador de la distribució creada
      */
-    public int createDistribution(int similarityTableId, double cost, Vector<String> order,
+    public int createDistribution(int similarityTableId, double cost, double temps, Vector<String> order,
             String usedAlgorithm) {
         int id = distributionContainer.newId();
-        Distribution distribution = new Distribution(id, similarityTableId, cost, order, usedAlgorithm, 0);
+        Distribution distribution = new Distribution(id, similarityTableId, cost, order, usedAlgorithm, temps);
         distributionContainer.addDistribution(id, distribution);
 
         return distribution.getId();
     }
 
-    public void generateDistribution(int stId, String algorithm) throws SimilarityTableNotFoundException, DistributionCreationErrorException{
-        double[][] costs = null;
-
+    public void generateDistribution(int stId, String algorithm) throws SimilarityTableNotFoundException, DistributionCreationErrorException {
         Pair<Vector<Pair<String, Integer>>, double[][]> similarityTable = getSimilarityTable(stId);
         double[][] relationMatrix = similarityTable.second();
 
         try {
             AlgorithmController cAlg = new AlgorithmController(relationMatrix);
 
-            Object[] result = cAlg.executeAlgorithm(algorithm);
+            AlgorithmControllerSolution result = cAlg.executeAlgorithm(algorithm);
 
-            int[] path = (int[]) result[0];
-            double cost = (double) result[1];
+            int[] path = result.getOrder();
+            double cost = result.getCost();
+            double temps = result.getTemps();
 
             Vector<Pair<String, Integer>> fastIndexes = similarityTable.first();
             Vector<String> names = new Vector<>(path.length);
@@ -365,7 +395,7 @@ public class ControllerDomini {
                 }
             }
 
-            createDistribution(stId, cost, names, algorithm);
+            createDistribution(stId, cost, temps, names, algorithm);
         } catch (Exception e) {
             throw new DistributionCreationErrorException();
         }
@@ -416,6 +446,7 @@ public class ControllerDomini {
         distributionContainer.deleteDistributionById(id);
     }
 
+    // TODO cambiar el return per un objecte, no es compleix la estructura de capes
     /**
      * Retorna una distribucio si existeix
      *
@@ -424,19 +455,23 @@ public class ControllerDomini {
      * @throws DistributionNotFoundException Si la distribució a retornar no existeix
      */
     public String[][] getDistribution(int id) throws DistributionNotFoundException {
-        // De moment no es passen les seccions
         DecimalFormat df = new DecimalFormat("#.###");
 
         Distribution distribution = distributionContainer.getDistributionById(id);
         return new String[][]{new String[]{""+distribution.getId()},
                 new String[]{""+distribution.getSimilarityTableId()},
                 new String[]{df.format(distribution.getCost())},
-                new String[]{df.format(distribution.getTemps())},
+                new String[]{""+distribution.getTemps()},
                 distribution.getOrder().toArray(new String[0]),
                 new String[]{distribution.getUsedAlgorithm()}
         };
     }
 
+    /**
+     * Retorna les distribucions del sistema
+     *
+     * @return Array de Strings amb els identificadors de les distribucions, la taula de similitud que s'ha utilitzat, l'algoritme utilitzat i el cost de la distribució
+     */
     public String[][] getDistributions() {
         DecimalFormat df = new DecimalFormat("#.###");
 
@@ -449,7 +484,7 @@ public class ControllerDomini {
             for (Distribution distribution : distributions.values()) {
                 parametersList.add(new String[]{""+distribution.getId(),
                         ""+distribution.getSimilarityTableId(), distribution.getUsedAlgorithm(),
-                        df.format(distribution.getCost())});
+                        df.format(distribution.getCost()), ""+distribution.getTemps()});
             }
 
             parameters = parametersList.toArray(new String[0][0]);
@@ -458,13 +493,138 @@ public class ControllerDomini {
         return parameters;
     }
 
+    /**
+     * Retorna els algoritmes disponibles
+     *
+     * @return Array de Strings amb els noms dels algoritmes disponibles
+     */
     public String[] getAlgorithms() {
         return Arrays.stream(AlgorithmsNames.values())
                 .map(Enum::name)
                 .toArray(String[]::new);
     }
 
+    /**
+     * Retorna el següent identificador de distribució
+     *
+     * @return Següent identificador de distribució
+     */
     public int getDistributionNextId() {
         return distributionContainer.nextId();
+    }
+
+    /**
+     * Afegeix al programa els productes importats
+     *
+     * @throws IncorrectPathException Si la ruta no és correcte
+     * @throws NoTypeWithName         Si el tipus no existeix
+     */
+    public void importProducts() throws IncorrectPathException, NoTypeWithName {
+        List<JsonObject> products = List.of();
+        try {
+            products = cP.importProducts();
+        } catch (IncorrectPathException e) {
+        }
+
+        for (JsonObject product : products) {
+            String name = product.get("name").getAsString();
+            String type = product.get("type").getAsString();
+            try {
+                addProduct(name, type);
+            } catch (ProductAlreadyExistsException e) {
+                continue;
+            } catch (NoTypeWithName e) {
+                throw new NoTypeWithName(type);
+            }
+        }
+    }
+
+    /**
+     * Afegeix al programa les taules de similituds importades
+     *
+     * @throws IncorrectPathException Si la ruta no és correcte
+     * @throws ProductNotFoundException Si algun dels productes no existeix
+     */
+    public void importSimilarityTables() throws IncorrectPathException, ProductNotFoundException {
+        List< Pair< List<String>, List< Pair<Pair<String, String>, Double> > > > similarityTables = List.of();
+        try {
+            similarityTables = cP.importSimilarityTables();
+        } catch (IncorrectPathException e) {
+            // throw new IncorrectPathException();
+        }
+
+        for (Pair< List<String>, List< Pair<Pair<String, String>, Double> > > similarityTable : similarityTables) {
+            List<String> products = similarityTable.first();
+            for(String product : products) {
+                try {
+                    getProduct(product);
+                } catch (ProductNotFoundException e) {
+                    throw new ProductNotFoundException(product);
+                }
+            }
+            List<Pair<Pair<String, String>, Double>> similarities = similarityTable.second();
+            try {
+                addSimilarityTable(products, similarities);
+            } catch (ProductNotFoundException e) {
+                throw new ProductNotFoundException(e.getMessage());
+            }
+        }
+    }
+
+    /**
+     * Exporta els productes a un fitxer
+     *
+     * @throws IncorrectPathException Si la ruta no és correcte
+     */
+    public void exportProducts() throws IncorrectPathException {
+        List<JsonObject> products = new ArrayList<>();
+        for (Product product : productContainer.getProducts().values()) {
+            JsonObject productJson = new JsonObject();
+            productJson.addProperty("name", product.getName());
+            productJson.addProperty("type", product.getType().toString());
+            products.add(productJson);
+        }
+        try {
+            cP.exportProducts(products);
+        } catch (IncorrectPathException e) {
+            //throw new IncorrectPathException();
+        }
+    }
+
+    /**
+     * Exporta les taules de similituds a un fitxer
+     *
+     * @throws IncorrectPathException Si la ruta no és correcte
+     */
+    public void exportSimilarityTables() throws IncorrectPathException {
+        List<JsonObject> similarityTables = new ArrayList<>();
+        for(SimilarityTable similarityTable : similarityTableContainer.getSimilarityTables().values()) {
+            JsonObject STObject = new JsonObject();
+            STObject.addProperty("id", similarityTable.getId());
+
+            JsonArray productsArray = new JsonArray();
+            for(String product : similarityTable.getFastIndexes().keySet()) {
+                productsArray.add(product);
+            }
+            STObject.add("products", productsArray);
+
+            JsonArray similaritiesArray = new JsonArray();
+            for(int i = 0; i < similarityTable.getRelationMatrix().length; i++) {
+                for(int j = i + 1; j < similarityTable.getRelationMatrix().length; j++) {
+                    JsonObject similarityObject = new JsonObject();
+                    similarityObject.addProperty("product1", similarityTable.getFastIndexes().keySet().toArray()[i].toString());
+                    similarityObject.addProperty("product2", similarityTable.getFastIndexes().keySet().toArray()[j].toString());
+                    similarityObject.addProperty("similarity", similarityTable.getRelationMatrix()[i][j]);
+                    similaritiesArray.add(similarityObject);
+                }
+            }
+
+            STObject.add("similarities", similaritiesArray);
+            similarityTables.add(STObject);
+        }
+        try {
+            cP.exportSimilarityTables(similarityTables);
+        } catch (IncorrectPathException e) {
+        }
     }
 }
