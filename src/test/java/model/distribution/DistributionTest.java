@@ -27,29 +27,9 @@ public class DistributionTest {
         sampleSections.add(EnumTypeSections.Fruita);
         sampleSections.add(EnumTypeSections.Verdura);
 
-        // emptyDistribution = new Distribution(1);
-        // distribution = new Distribution(1, sampleOrder);
         distributionWithSections = new Distribution(2, 2, sampleOrder, sampleSections, "Greedy");
         distributionWithAlgorithm = new Distribution(3, 3, 10, sampleOrder, "Dijkstra", 100.05);
     }
-
-
-//    @Test
-//    public void testConstructorWithId() {
-//        assertEquals(1, emptyDistribution.getId());
-//        assertNull(emptyDistribution.getOrder());
-//        assertNull(emptyDistribution.getSections());
-//        assertNull(emptyDistribution.getUsedAlgorithm());
-//    }
-//
-
-//    @Test
-//    public void testConstructorWithIdAndOrder() {
-//        assertEquals(1, distribution.getId());
-//        assertEquals(sampleOrder, distribution.getOrder());
-//        assertNull(distribution.getSections());
-//        assertNull(distribution.getUsedAlgorithm());
-//    }
 
     @Test
     public void testConstructorWithIdOrderAndAlgorithm() {
@@ -57,6 +37,9 @@ public class DistributionTest {
         assertEquals(sampleOrder, distributionWithAlgorithm.getOrder());
         assertNull(distributionWithAlgorithm.getSections());
         assertEquals("Dijkstra", distributionWithAlgorithm.getUsedAlgorithm());
+        assertEquals(100.05, distributionWithAlgorithm.getTemps(), 0.01);
+        assertEquals(10, distributionWithAlgorithm.getCost(), 0.01);
+        assertEquals(3, distributionWithAlgorithm.getSimilarityTableId());
     }
 
     @Test
@@ -65,48 +48,35 @@ public class DistributionTest {
         assertEquals(sampleOrder, distributionWithSections.getOrder());
         assertEquals(sampleSections, distributionWithSections.getSections());
         assertEquals("Greedy", distributionWithSections.getUsedAlgorithm());
+        assertEquals(2, distributionWithSections.getSimilarityTableId());
     }
+
 
     @Test
-    public void testGetId() {
-        assertEquals(3, distributionWithAlgorithm.getId());
+    public void testChangeOrder() {
+        distributionWithSections.changeOrder("Product1", "Product2");
+        Vector<String> newOrder = new Vector<>();
+        newOrder.add("Product2");
+        newOrder.add("Product1");
+        assertEquals(newOrder, distributionWithSections.getOrder());
     }
-
-    @Test
-    public void testGetOrder() {
-        assertEquals(sampleOrder, distributionWithAlgorithm.getOrder());
-    }
-
-    @Test
-    public void testGetSections() {
-        assertNull(distributionWithAlgorithm.getSections());
-        assertEquals(sampleSections, distributionWithSections.getSections());
-    }
-
-    @Test
-    public void testGetUsedAlgorithm() {
-        assertEquals("Dijkstra", distributionWithAlgorithm.getUsedAlgorithm());
-    }
-
-    // @Test
-    // public void testSetOrder() {
-    // Vector<String> newOrder = new Vector<>();
-    // newOrder.add("Product3");
-    // distribution.setOrder(newOrder);
-    // assertEquals(newOrder, distribution.getOrder());
-    // }
 
     @Test
     public void testSetSections() {
-        ArrayList<EnumTypeSections> newSections = new ArrayList<>();
-        newSections.add(EnumTypeSections.Carn);
-        distributionWithSections.setSections(newSections);
-        assertEquals(newSections, distributionWithSections.getSections());
+        distributionWithAlgorithm.setSections(sampleSections);
+        assertEquals(sampleSections, distributionWithAlgorithm.getSections());
     }
 
     @Test
     public void testSetUsedAlgorithm() {
-        distributionWithAlgorithm.setUsedAlgorithm("Prim");
-        assertEquals("Prim", distributionWithAlgorithm.getUsedAlgorithm());
+        distributionWithAlgorithm.setUsedAlgorithm("Greedy");
+        assertEquals("Greedy", distributionWithAlgorithm.getUsedAlgorithm());
     }
+
+    @Test
+    public void testSetCost() {
+        distributionWithAlgorithm.setCost(20);
+        assertEquals(20, distributionWithAlgorithm.getCost(), 0.01);
+    }
+
 }

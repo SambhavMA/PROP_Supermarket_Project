@@ -1,6 +1,5 @@
 package model.product;
 
-import com.sun.jdi.event.MonitorContendedEnteredEvent;
 import model.exceptions.ProductAlreadyExistsException;
 import model.exceptions.ProductNotFoundException;
 import org.junit.Before;
@@ -10,7 +9,6 @@ import org.mockito.MockitoAnnotations;
 
 import static org.mockito.Mockito.*;
 import static org.junit.Assert.*;
-import java.util.HashMap;
 
 public class ProductContainerTest {
 
@@ -45,7 +43,7 @@ public class ProductContainerTest {
             productContainer.addProduct(mockproduct);
             fail("Should throw ProductAlreadyExistsException");
         } catch (ProductAlreadyExistsException e) {
-            assertEquals("The product Test Product already exists in the system.", e.getMessage());
+            assertEquals("El producto: Test Product ya existe en el sistema.", e.getMessage());
         } catch (Exception e) {
             fail("Should throw ProductAlreadyExistsException");
         }
@@ -68,7 +66,7 @@ public class ProductContainerTest {
             productContainer.deleteProductByName("Nonexistent Product");
             fail("Should throw ProductNotFoundException");
         } catch (ProductNotFoundException e) {
-            assertEquals("The product Nonexistent Product was not found in the system.", e.getMessage());
+            assertEquals("El producto Nonexistent Product no existe en el sistema.", e.getMessage());
         } catch (Exception e) {
             fail("Should throw ProductNotFoundException");
         }

@@ -33,7 +33,7 @@ public class SimilarityTableTest {
         emptySimilarityTable = new SimilarityTable(3);
     }
 
-    // Test del constructor con id, fastIndexes y relationMatrix
+
     @Test
     public void testConstructorWithFastIndexes() {
         assertEquals(1, similarityTableWithFI.getId());
@@ -41,7 +41,7 @@ public class SimilarityTableTest {
         assertTrue(Arrays.deepEquals(relationMatrix, similarityTableWithFI.getRelationMatrix()));
     }
 
-    // Test del constructor con id y relationMatrix sin fastIndexes
+
     @Test
     public void testConstructorWithoutFastIndexes() {
         assertEquals(2, similarityTableWithoutFI.getId());
@@ -49,12 +49,30 @@ public class SimilarityTableTest {
         assertTrue(Arrays.deepEquals(relationMatrix, similarityTableWithoutFI.getRelationMatrix()));
     }
 
-    // Test del constructor con solo id
+
     @Test
     public void testConstructorWithIdOnly() {
         assertEquals(3, emptySimilarityTable.getId());
         assertNull(emptySimilarityTable.getFastIndexes());
         double[][] emptyMatrix = emptySimilarityTable.getRelationMatrix();
         assertTrue(emptyMatrix == null || emptyMatrix.length == 0);
+    }
+
+    @Test
+    public void testSetRelationMatrix() {
+        double[][] newRelationMatrix = new double[2][2];
+        newRelationMatrix[0][0] = 0.0;
+        newRelationMatrix[0][1] = 0.0;
+        newRelationMatrix[1][0] = 0.0;
+        newRelationMatrix[1][1] = 0.0;
+
+        similarityTableWithFI.setRelationMatrix(newRelationMatrix);
+        assertTrue(Arrays.deepEquals(newRelationMatrix, similarityTableWithFI.getRelationMatrix()));
+    }
+
+    @Test
+    public void testModifyRelationMatrix() {
+        similarityTableWithFI.modifyRelationMatrix("A", "B", 0.5);
+        assertEquals(0.5, similarityTableWithFI.getRelationMatrix()[0][1], 0.0);
     }
 }

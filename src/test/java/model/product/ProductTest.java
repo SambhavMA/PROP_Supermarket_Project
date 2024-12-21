@@ -30,4 +30,11 @@ public class ProductTest {
         assertEquals("Test Product with Type", productWithType.getName());
         assertEquals(sampleType, productWithType.getType());
     }
+
+    @Test
+    public void testSetName() {
+        EnumType type = EnumType.CARNE;
+        product.setType(type);
+        assertEquals(type, product.getType());
+    }
 }
