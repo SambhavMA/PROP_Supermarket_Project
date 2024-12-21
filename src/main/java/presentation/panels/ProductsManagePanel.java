@@ -47,16 +47,26 @@ public class ProductsManagePanel extends JPanel {
             try {
                 CtrlPresentation.getInstance().importProducts();
                 updateList();
-            } catch (Exception productNotFoundException) {
-                productNotFoundException.printStackTrace();
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(
+                        new JFrame(),
+                        ex.getMessage(),
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE
+                );
             }
         });
 
         saveChangesButton.addActionListener(e -> {
             try {
                 CtrlPresentation.getInstance().saveProducts();
-            } catch (Exception productNotFoundException) {
-                productNotFoundException.printStackTrace();
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(
+                        new JFrame(),
+                        ex.getMessage(),
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE
+                );
             }
         });
 

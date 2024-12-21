@@ -48,16 +48,26 @@ public class SimilarityTablesManagePanel extends JPanel {
             try {
                 CtrlPresentation.getInstance().importSimilarityTables();
                 updateList();
-            } catch (Exception SimilarityTableNotFoundException) {
-                SimilarityTableNotFoundException.printStackTrace();
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(
+                        new JFrame(),
+                        ex.getMessage(),
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE
+                );
             }
         });
 
         saveChangesButton.addActionListener(e -> {
             try {
                 CtrlPresentation.getInstance().saveSimilarityTables();
-            } catch (Exception e1) {
-                e1.printStackTrace();
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(
+                        new JFrame(),
+                        ex.getMessage(),
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE
+                );
             }
         });
 

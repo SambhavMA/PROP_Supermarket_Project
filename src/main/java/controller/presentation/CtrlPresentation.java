@@ -256,64 +256,28 @@ public class CtrlPresentation {
     /**
      * Importa productos de un fichero
      */
-    public void importProducts() {
-        try {
-            controllerDomini.importProducts();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(
-                    new JFrame(),
-                    e.getMessage(),
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE
-            );
-        }
+    public void importProducts() throws Exception{
+        controllerDomini.importProducts();
     }
 
     /**
      * Guarda los productos en un fichero
      */
-    public void saveProducts() {
-        try {
-            controllerDomini.exportProducts();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(
-                    new JFrame(),
-                    e.getMessage(),
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE
-            );
-        }
+    public void saveProducts() throws Exception{
+        controllerDomini.exportProducts();
     }
 
     /**
      * Guarda las tablas de similitud en un fichero
      */
-    public void saveSimilarityTables() {
-        try {
-            controllerDomini.exportSimilarityTables();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(
-                    new JFrame(),
-                    e.getMessage(),
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE
-            );
-        }
+    public void saveSimilarityTables() throws Exception{
+        controllerDomini.exportSimilarityTables();
     }
 
     /**
      * Importa tablas de similitud de un fichero
      */
-    public void importSimilarityTables() {
-        try {
-            controllerDomini.importSimilarityTables();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(
-                    new JFrame(),
-                    e.getMessage(),
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE
-            );
-        }
+    public void importSimilarityTables() throws Exception{
+        controllerDomini.importSimilarityTables();
     }
 }

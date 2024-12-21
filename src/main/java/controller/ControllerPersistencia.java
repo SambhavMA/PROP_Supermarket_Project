@@ -40,11 +40,13 @@ public class ControllerPersistencia {
      * @return lista de productos
      * @throws IncorrectPathException si la ruta no es correcta
      */
-    public List<JsonObject> importProducts() throws IncorrectPathException {
+    public List<JsonObject> importProducts() throws Exception {
         JsonObject jsonData = null;
         try{
             jsonData = fileManager.importFromFile();
-        } catch (IncorrectPathException e) {}
+        } catch (Exception e) {
+            throw new Exception("Error al importar productos");
+        }
         JsonArray productsArray = jsonData.getAsJsonArray("Products");
         List<JsonObject> products = new ArrayList<>();
         for (JsonElement productElement : productsArray) {
@@ -58,11 +60,13 @@ public class ControllerPersistencia {
      * @return lista de Pairs de la lista de productos de cada tabla de similitud importada y las similitudes de estos
      * @throws IncorrectPathException si la ruta no es correcta
      */
-    public List< Pair< List<String>, List< Pair<Pair<String, String>, Double> > > > importSimilarityTables() throws IncorrectPathException {
+    public List< Pair< List<String>, List< Pair<Pair<String, String>, Double> > > > importSimilarityTables() throws Exception {
         JsonObject jsonData = null;
         try{
             jsonData = fileManager.importFromFile();
-        } catch (IncorrectPathException e) {}
+        } catch (Exception e) {
+            throw new Exception("Error al importar Tabla de Similitudes");
+        }
         List< Pair< List<String>, List< Pair<Pair<String, String>, Double> > > > similarityTables = new ArrayList<>();
         JsonArray STArray = jsonData.getAsJsonArray("SimilarityTables");
         for(JsonElement ST : STArray){

@@ -416,7 +416,7 @@ public class ControllerDomini {
                 }
             }
 
-            if (!isTriangleInequality) throw new MSTTriangleInequalityException();
+            if (isTriangleInequality) throw new MSTTriangleInequalityException();
         }
 
     }
@@ -539,12 +539,9 @@ public class ControllerDomini {
      * @throws IncorrectPathException Si la ruta no és correcte
      * @throws NoTypeWithName         Si el tipus no existeix
      */
-    public void importProducts() throws IncorrectPathException, NoTypeWithName {
+    public void importProducts() throws Exception {
         List<JsonObject> products = List.of();
-        try {
-            products = cP.importProducts();
-        } catch (IncorrectPathException e) {
-        }
+        products = cP.importProducts();
 
         for (JsonObject product : products) {
             String name = product.get("name").getAsString();
@@ -565,13 +562,9 @@ public class ControllerDomini {
      * @throws IncorrectPathException Si la ruta no és correcte
      * @throws ProductNotFoundException Si algun dels productes no existeix
      */
-    public void importSimilarityTables() throws IncorrectPathException, ProductNotFoundException {
+    public void importSimilarityTables() throws Exception {
         List< Pair< List<String>, List< Pair<Pair<String, String>, Double> > > > similarityTables = List.of();
-        try {
-            similarityTables = cP.importSimilarityTables();
-        } catch (IncorrectPathException e) {
-            // throw new IncorrectPathException();
-        }
+        similarityTables = cP.importSimilarityTables();
 
         for (Pair< List<String>, List< Pair<Pair<String, String>, Double> > > similarityTable : similarityTables) {
             List<String> products = similarityTable.first();
