@@ -370,7 +370,7 @@ public class ControllerDomini {
         return distribution.getId();
     }
 
-    public void generateDistribution(int stId, String algorithm) throws SimilarityTableNotFoundException, DistributionCreationErrorException, AlgorithmException {
+    public void generateDistribution(int stId, String algorithm) throws SimilarityTableNotFoundException, DistributionCreationErrorException, AlgorithmException, MSTTriangleInequalityException {
         Pair<Vector<Pair<String, Integer>>, double[][]> similarityTable = getSimilarityTable(stId);
         double[][] relationMatrix = similarityTable.second();
 
@@ -400,6 +400,23 @@ public class ControllerDomini {
             createDistribution(stId, cost, temps, names, algorithm);
         } catch (Exception e) {
             throw new DistributionCreationErrorException();
+        }
+
+        if (algorithm.equals(AlgorithmsNames.MST.toString())) {
+            boolean isTriangleInequality = true;
+
+            int quadraticLength = relationMatrix.length;
+            for (int i = 0; i < quadraticLength; i++) {
+                for (int j = 0; j < quadraticLength; j++) {
+                    for (int k = 0; k < quadraticLength; k++) {
+                        if (relationMatrix[i][j] >= relationMatrix[i][k] + relationMatrix[j][k]) {
+                            isTriangleInequality = false;
+                        }
+                    }
+                }
+            }
+
+            if (!isTriangleInequality) throw new MSTTriangleInequalityException();
         }
 
     }
