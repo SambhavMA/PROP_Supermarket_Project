@@ -2,6 +2,8 @@ package controller.presentation;
 
 
 import controller.ControllerDomini;
+import model.exceptions.AlgorithmException;
+import model.exceptions.MSTTriangleInequalityException;
 import presentation.views.ViewPrimary;
 import utils.Pair;
 
@@ -230,6 +232,14 @@ public class CtrlPresentation {
     public boolean generateDistribution(int stId, String usedAlgorithm) {
         try {
             controllerDomini.generateDistribution(stId, usedAlgorithm);
+            return true;
+        } catch (MSTTriangleInequalityException e) {
+            JOptionPane.showMessageDialog(
+                    new JFrame(),
+                    e.getMessage(),
+                    "Error",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
             return true;
         } catch (Exception e) {
             JOptionPane.showMessageDialog(
