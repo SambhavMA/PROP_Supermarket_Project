@@ -32,8 +32,10 @@ public class Backtracking extends Algorithm {
         this.minPath = new ArrayList<>();
     }
 
-    //Como no tengo parametros, no implemento la función getParameters
-    //me quedo con la implementación por defecto
+    public static ArrayList<Parameter> getParameters() {
+        ArrayList<Parameter> parameters = new ArrayList<>();
+        return parameters;
+    }
 
     private void backtracking(int actVertex, ArrayList<Integer> actPath, double actCost) {
         if (actPath.size() == super.costs.length) {
@@ -68,17 +70,21 @@ public class Backtracking extends Algorithm {
      * @throws AlgorithmException
      */
     public Solution execute() throws AlgorithmException {
-        ArrayList<Integer> initialPath = new ArrayList<>();
-        initialPath.add(0);
-        backtracking(0, initialPath , 0.0);
+        try {
+            ArrayList<Integer> initialPath = new ArrayList<>();
+            initialPath.add(0);
+            backtracking(0, initialPath , 0.0);
 
-        int[] hamiltonianPath = new int[minPath.size()];
+            int[] hamiltonianPath = new int[minPath.size()];
 
 
-        for (int i = 0; i < minPath.size(); i++) {
-            hamiltonianPath[i] = minPath.get(i);
+            for (int i = 0; i < minPath.size(); i++) {
+                hamiltonianPath[i] = minPath.get(i);
+            }
+
+            return new Solution(hamiltonianPath, minCost);
+        } catch (Exception e) {
+            throw new AlgorithmException("Error en la ejecucion del algoritmo");
         }
-
-        return new Solution(hamiltonianPath, minCost);
     }
 }

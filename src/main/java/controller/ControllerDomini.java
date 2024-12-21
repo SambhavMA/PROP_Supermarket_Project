@@ -370,15 +370,16 @@ public class ControllerDomini {
         return distribution.getId();
     }
 
-    public void generateDistribution(int stId, String algorithm) throws SimilarityTableNotFoundException, DistributionCreationErrorException {
+    public void generateDistribution(int stId, String algorithm) throws SimilarityTableNotFoundException, DistributionCreationErrorException, AlgorithmException {
         Pair<Vector<Pair<String, Integer>>, double[][]> similarityTable = getSimilarityTable(stId);
         double[][] relationMatrix = similarityTable.second();
 
+        if (relationMatrix.length < 4) throw new AlgorithmException("La cantidad de productos es demasiado pequeña para utilizar un algoritmo. Como minimo se aceptan 4.");
+
+        AlgorithmController cAlg = new AlgorithmController(relationMatrix);
+        AlgorithmControllerSolution result = cAlg.executeAlgorithm(algorithm);
+
         try {
-            AlgorithmController cAlg = new AlgorithmController(relationMatrix);
-
-            AlgorithmControllerSolution result = cAlg.executeAlgorithm(algorithm);
-
             int[] path = result.getOrder();
             double cost = result.getCost();
             double temps = result.getTemps();
@@ -395,10 +396,12 @@ public class ControllerDomini {
                 }
             }
 
+
             createDistribution(stId, cost, temps, names, algorithm);
         } catch (Exception e) {
             throw new DistributionCreationErrorException();
         }
+
     }
 
     /**

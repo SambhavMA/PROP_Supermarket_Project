@@ -60,7 +60,7 @@ public abstract class Algorithm {
     public abstract Solution execute() throws AlgorithmException;
 
     /**
-     * Funcione estatica abstracta par obtener los parametros que necesita un algoritmo para ejecutarse.
+     * Funcion estatica abstracta par obtener los parametros que necesita un algoritmo para ejecutarse.
      * Por defecto no retorna nada
      * @return Parametros del algoritmo
      */
