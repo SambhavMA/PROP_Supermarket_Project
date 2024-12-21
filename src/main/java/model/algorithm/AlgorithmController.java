@@ -73,56 +73,53 @@ public class AlgorithmController {
      * @see HillClimbing
      * @see Solution
     */
-    public AlgorithmControllerSolution executeAlgorithm(String alg) throws Exception {
-        try {
-            Algorithm.costs = costs;
-            AlgorithmsNames algorithm = AlgorithmsNames.valueOf(alg);
-            Solution solution = null;
+    public AlgorithmControllerSolution executeAlgorithm(String alg) throws AlgorithmException {
+        Algorithm.costs = costs;
+        AlgorithmsNames algorithm = AlgorithmsNames.valueOf(alg);
+        Solution solution = null;
 
-            double durationInSeconds = 0;
-            long startTime = 0, endTime = 0;
-            switch(algorithm) {
-                case NearestNeighbor:
-                    ArrayList<Parameter> parametersNN = NearestNeighbor.getParameters();
-                    NearestNeighbor nn = new NearestNeighbor(parametersNN, costs);
-                    startTime = System.nanoTime();
-                    solution = nn.execute();
-                    endTime = System.nanoTime();
-                    break;
-                case HillClimbing:
+        double durationInSeconds = 0;
+        long startTime = 0, endTime = 0;
+        switch(algorithm) {
+            case NearestNeighbor:
+                ArrayList<Parameter> parametersNN = NearestNeighbor.getParameters();
+                NearestNeighbor nn = new NearestNeighbor(parametersNN, costs);
+                startTime = System.nanoTime();
+                solution = nn.execute();
+                endTime = System.nanoTime();
+                break;
+            case HillClimbing:
+                ArrayList<Parameter> parametersHC = HillClimbing.getParameters();
+                HillClimbing hc = new HillClimbing(parametersHC, costs);
+                startTime = System.nanoTime();
+                solution = hc.execute();
+                endTime = System.nanoTime();
+                break;
+            case MST:
+                MST mst = new MST(null, costs);
+                startTime = System.nanoTime();
+                solution = mst.execute();
+                endTime = System.nanoTime();
+                break;
 
-                    ArrayList<Parameter> parametersHC = HillClimbing.getParameters();
-                    HillClimbing hc = new HillClimbing(parametersHC, costs);
-                    startTime = System.nanoTime();
-                    solution = hc.execute();
-                    endTime = System.nanoTime();
-                    break;
-                case MST:
-                    MST mst = new MST(null, costs);
-                    startTime = System.nanoTime();
-                    solution = mst.execute();
-                    endTime = System.nanoTime();
-                    break;
+            case Backtracking:
+                if (costs.length > 15) throw new AlgorithmException("La cantidad de productos es demasiado grande para un backtracking. Como maximo se aceptan 15.");
 
-                case Backtracking:
-                    Backtracking backtracking = new Backtracking(null, costs);
-                    startTime = System.nanoTime();
-                    solution = backtracking.execute();
-                    endTime = System.nanoTime();
-                    break;
+                Backtracking backtracking = new Backtracking(null, costs);
+                startTime = System.nanoTime();
+                solution = backtracking.execute();
+                endTime = System.nanoTime();
+                break;
 
-                default:
-                    solution = null;
-                    break;
-            }
-
-            double finalCost = ((-1)*solution.getCost()) + solution.getSize();
-
-            durationInSeconds = (endTime - startTime) / 1_000_000.0; // in ms.
-            return new AlgorithmControllerSolution(solution.getPath(), finalCost, durationInSeconds, algorithm.toString());
-        } catch (Exception e) {
-            throw new AlgorithmException(e.getMessage());
+            default:
+                solution = null;
+                break;
         }
+
+        double finalCost = ((-1)*solution.getCost()) + solution.getSize();
+
+        durationInSeconds = (endTime - startTime) / 1_000_000.0; // in ms.
+        return new AlgorithmControllerSolution(solution.getPath(), finalCost, durationInSeconds, algorithm.toString());
     }
 
 }

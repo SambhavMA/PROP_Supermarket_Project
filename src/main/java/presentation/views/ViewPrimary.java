@@ -33,12 +33,10 @@ public class ViewPrimary {
     private GenerateDistributionPanel generateDistributionPanel;
     private JPanel contentPanel = new JPanel();
     private MenuPanel menuPanel;
-    private JPanel infoPanel = new JPanel();
 
     public ViewPrimary() {
         initializeFrame();
-        initializeComponents();
-        transitionInfoPanel(getWelcomePanel());
+        initializeContentPanel();
     }
 
     public void stop() {
@@ -61,9 +59,11 @@ public class ViewPrimary {
         frame.setEnabled(false);
     }
 
-    private void initializeComponents() {
-        initializeInfoPanel();
-        initializeMenu();
+    private void initializeContentPanel() {
+        contentPanel.setLayout(new BorderLayout());
+        menuPanel = new MenuPanel(this);
+        contentPanel.add(menuPanel, BorderLayout.NORTH);
+        contentPanel.add(getWelcomePanel(), BorderLayout.CENTER);
     }
 
     private void initializeFrame() {
@@ -71,24 +71,6 @@ public class ViewPrimary {
         frame.setPreferredSize(frame.getMinimumSize());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().add(contentPanel);
-    }
-
-    private void initializeInfoPanel() {
-        contentPanel.setLayout(new BorderLayout());
-        contentPanel.add(infoPanel, BorderLayout.CENTER);
-    }
-
-    private void initializeMenu() {
-        menuPanel = new MenuPanel(this);
-        contentPanel.add(menuPanel, BorderLayout.NORTH);
-    }
-
-    public void transitionInfoPanel(JPanel changeToPanel) {
-        contentPanel.remove(infoPanel);
-        infoPanel = changeToPanel;
-        contentPanel.add(infoPanel, BorderLayout.CENTER);
-        contentPanel.revalidate();
-        contentPanel.repaint();
     }
 
     public void transitionContentPanel(JPanel changeToPanel) {
