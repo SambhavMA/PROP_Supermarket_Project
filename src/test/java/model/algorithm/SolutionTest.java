@@ -22,7 +22,7 @@ public class SolutionTest {
             {5.0, 4.0, 8.0, 0.0, 0.0},
             {5.0, 3.0, 6.0, 0.0, 0.0}
         };
-        AlgorithmController.costs = costsMock;
+        //AlgorithmController.costs = costsMock;
     }
 
     @Test

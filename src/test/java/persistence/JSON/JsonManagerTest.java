@@ -6,17 +6,12 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-
 import model.exceptions.IncorrectPathException;
 import model.exceptions.IOErrorException;
 import model.exceptions.FileCanNotReadException;
 import model.exceptions.FileCanNotWriteException;
+
+import java.io.*;
 
 import static org.junit.Assert.*;
 
@@ -25,36 +20,26 @@ public class JsonManagerTest {
     private final String testDir = "test_files/";
     private final String validPath = testDir + "valid.json";
     private final String restrictedPath = testDir + "restricted.json";
-    private final String validDir = testDir + "validDir/";
-    private final String invalidPath = "/:/invalid/test.json";
+    private final String nonExistentPath = testDir + "non_existent.json";
 
     @Before
-    public void setUp() {
+    public void setUp() throws IOException {
         jsonManager = new JsonManager();
-
         new File(testDir).mkdirs();
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(validPath))) {
             writer.write("{\"Products\":[{\"name\":\"Poma\",\"type\":\"FRUITA\"}]}");
-        } catch (IOException e) {
-            throw new FileCanNotWriteException(validPath);
         }
 
-        File restrictedJson = new File(restrictedPath);
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(restrictedJson))) {
+        File restrictedFile = new File(restrictedPath);
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(restrictedFile))) {
             writer.write("{\"Products\":[]}");
-        } catch (IOException e) {
-            throw new IOErrorException(restrictedPath, "writing");
         }
-        restrictedJson.setWritable(false, false);
-
-
-        new File(validDir).mkdirs();
+        restrictedFile.setWritable(false, false); // Make it read-only
     }
 
     @After
     public void tearDown() {
-        deleteDirectory(new File(validDir));
         deleteDirectory(new File(testDir));
     }
 
@@ -69,71 +54,85 @@ public class JsonManagerTest {
 
     @Test
     public void testImportFromFileValidPath() throws IncorrectPathException, IOErrorException, FileCanNotReadException {
-        JsonObject json = jsonManager.importFromFile();
+        File validFile = new File(validPath);
+        JsonObject json = jsonManager.importFromFile(validFile);
+
         assertNotNull(json);
         assertTrue(json.has("Products"));
-        assertEquals("Poma", json.getAsJsonArray("Products").get(0).getAsJsonObject().get("name").getAsString());
-        assertEquals("FRUITA", json.getAsJsonArray("Products").get(0).getAsJsonObject().get("type").getAsString());
+        JsonObject product = json.getAsJsonArray("Products").get(0).getAsJsonObject();
+        assertEquals("Poma", product.get("name").getAsString());
+        assertEquals("FRUITA", product.get("type").getAsString());
     }
 
     @Test(expected = IncorrectPathException.class)
-    public void testImportFileNonExistentPath() throws IncorrectPathException, IOErrorException, FileCanNotReadException {
-        jsonManager.importFromFile();
+    public void testImportFromFileNonExistentPath() throws IncorrectPathException, IOErrorException, FileCanNotReadException {
+        File nonExistentFile = new File(nonExistentPath);
+        jsonManager.importFromFile(nonExistentFile);
     }
+
 
     @Test
     public void testExportToFileValidPath() throws IncorrectPathException, IOErrorException, FileCanNotWriteException {
         JsonObject jsonObject = JsonParser.parseString("{\"Products\":[{\"name\":\"Platan\",\"type\":\"FRUITA\"}]}").getAsJsonObject();
+        File outputFile = new File(testDir + "output.json");
 
-        jsonManager.exportToFile(jsonObject);
+        jsonManager.exportToFile(jsonObject, outputFile);
 
-        File exportedFile = new File(validPath);
-        assertTrue(exportedFile.exists());
-
-        try (BufferedReader reader = new BufferedReader(new FileReader(exportedFile))) {
+        assertTrue(outputFile.exists());
+        try (BufferedReader reader = new BufferedReader(new FileReader(outputFile))) {
             JsonObject exported = JsonParser.parseReader(reader).getAsJsonObject();
             assertNotNull(exported);
             assertTrue(exported.has("Products"));
-
             JsonObject product = exported.getAsJsonArray("Products").get(0).getAsJsonObject();
             assertEquals("Platan", product.get("name").getAsString());
             assertEquals("FRUITA", product.get("type").getAsString());
         } catch (IOException e) {
-            throw new IOErrorException(validPath, "reading");
+            fail("Error reading exported file");
         }
-    }
-
-    @Test
-    public void testExportToDirectory() throws IncorrectPathException, IOErrorException, FileCanNotWriteException {
-        JsonObject jsonObject = JsonParser.parseString("{\"Products\":[{\"name\":\"Platan\",\"type\":\"FRUITA\"}]}").getAsJsonObject();
-
-        jsonManager.exportToFile(jsonObject);
-
-        File exportedFile = new File(validDir + "output.json");
-        assertTrue(exportedFile.exists());
-
-        try (BufferedReader reader = new BufferedReader(new FileReader(exportedFile))) {
-            JsonObject exported = JsonParser.parseReader(reader).getAsJsonObject();
-            assertNotNull(exported);
-            assertTrue(exported.has("Products"));
-
-            JsonObject product = exported.getAsJsonArray("Products").get(0).getAsJsonObject();
-            assertEquals("Platan", product.get("name").getAsString());
-            assertEquals("FRUITA", product.get("type").getAsString());
-        } catch (IOException e) {
-            throw new IOErrorException(validDir + "output.json", "reading");
-        }
-    }
-
-    @Test(expected = IncorrectPathException.class)
-    public void testExportFileNonExistentPath() throws IncorrectPathException, IOErrorException, FileCanNotWriteException {
-        JsonObject jsonObject = new JsonObject();
-        jsonManager.exportToFile(jsonObject);
     }
 
     @Test(expected = FileCanNotWriteException.class)
-    public void testExportFileRestrictedPath() throws IncorrectPathException, IOErrorException, FileCanNotWriteException {
+    public void testExportToFileRestrictedPath() throws IncorrectPathException, IOErrorException, FileCanNotWriteException {
         JsonObject jsonObject = new JsonObject();
-        jsonManager.exportToFile(jsonObject);
+        File restrictedFile = new File(restrictedPath);
+
+        jsonManager.exportToFile(jsonObject, restrictedFile);
     }
+
+    @Test
+    public void testExportToFileCreatesFile() throws IncorrectPathException, IOErrorException, FileCanNotWriteException {
+        JsonObject jsonObject = JsonParser.parseString("{\"Products\":[{\"name\":\"Mandarina\",\"type\":\"FRUITA\"}]}").getAsJsonObject();
+        File newFile = new File(testDir + "new_file.json");
+
+        jsonManager.exportToFile(jsonObject, newFile);
+
+        assertTrue(newFile.exists());
+        try (BufferedReader reader = new BufferedReader(new FileReader(newFile))) {
+            JsonObject exported = JsonParser.parseReader(reader).getAsJsonObject();
+            assertNotNull(exported);
+            assertTrue(exported.has("Products"));
+            JsonObject product = exported.getAsJsonArray("Products").get(0).getAsJsonObject();
+            assertEquals("Mandarina", product.get("name").getAsString());
+            assertEquals("FRUITA", product.get("type").getAsString());
+        } catch (IOException e) {
+            fail("Error reading exported file");
+        }
+    }
+
+    @Test(expected = IOErrorException.class)
+    public void testExportToFileIOException() throws IncorrectPathException, IOErrorException, FileCanNotWriteException {
+        JsonObject jsonObject = JsonParser.parseString("{\"Products\":[{\"name\":\"Mandarina\",\"type\":\"FRUITA\"}]}").getAsJsonObject();
+        File invalidFile = new File("/invalid_path/output.json");
+
+        jsonManager.exportToFile(jsonObject, invalidFile);
+    }
+
+    @Test(expected = IOErrorException.class)
+    public void testExportToFileCannotCreateFile() throws IncorrectPathException, IOErrorException, FileCanNotWriteException {
+        File invalidFile = new File("/invalid_path/output.json");
+
+        JsonObject jsonObject = JsonParser.parseString("{\"Products\":[]}").getAsJsonObject();
+        jsonManager.exportToFile(jsonObject, invalidFile);
+    }
+
 }

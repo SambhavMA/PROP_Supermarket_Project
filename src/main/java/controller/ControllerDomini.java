@@ -552,7 +552,7 @@ public class ControllerDomini {
      *
      * @throws IncorrectPathException Si la ruta no és correcte
      */
-    public void exportProducts() throws IncorrectPathException {
+    public void exportProducts() throws Exception {
         List<JsonObject> products = new ArrayList<>();
         for (Product product : productContainer.getProducts().values()) {
             JsonObject productJson = new JsonObject();
@@ -572,7 +572,7 @@ public class ControllerDomini {
      *
      * @throws IncorrectPathException Si la ruta no és correcte
      */
-    public void exportSimilarityTables() throws IncorrectPathException {
+    public void exportSimilarityTables() throws Exception {
         List<JsonObject> similarityTables = new ArrayList<>();
         for(SimilarityTable similarityTable : similarityTableContainer.getSimilarityTables().values()) {
             JsonObject STObject = new JsonObject();
