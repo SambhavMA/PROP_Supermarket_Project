@@ -203,7 +203,7 @@ public class CtrlPresentation {
     }
 
     public String[] getDistributionsCols() {
-        return new String[] {"Id", "Tabla de similitud", "Algoritmo generador", "Coste", "Temps (ms)"};
+        return new String[] {"Id", "Tabla de similitud", "Algoritmo generador", "Semejanza total", "Tiempo (ms)"};
     }
 
     public String[][] getDistributions() {
