@@ -18,14 +18,30 @@ import java.util.*;
  *
  */
 public class MST extends Algorithm {
+    private Graph G; //en un principio no estaba, no es necesario (se podria hacer new Graph dentro
+    //de la funcion execute(), que es lo que habia antes, pero para el testing (poder mockear la clase Graph con nuestra version de Mockito)
+    //es necesario
 
     public MST(List<Parameter> p, double[][] costs) {
         super(p, costs);
         super.description = "Algoritmo de 2-opt para encontrar una solución aproximada a partir del MST.";
         super.name = AlgorithmsNames.MST.toString();
+        G = new Graph(costs.length);
     }
 
-    public static ArrayList<Parameter> getParameters() {
+    /**
+     * Constructora para poder inyectar un "Graph" en MST, usada en el testing
+     * @param p
+     * @param costs
+     */
+    public MST(List<Parameter> p, double[][] costs, Graph myGraph) {
+        super(p, costs);
+        super.description = "Algoritmo de 2-opt para encontrar una solución aproximada a partir del MST.";
+        super.name = AlgorithmsNames.MST.toString();
+        G = myGraph;
+    }
+
+        public static ArrayList<Parameter> getParameters() {
         ArrayList<Parameter> parameters = new ArrayList<>();
         return parameters;
     }
@@ -58,7 +74,6 @@ public class MST extends Algorithm {
             Arrays.sort(edgesArray);
 
             UnionFind UF = new UnionFind(n);
-            Graph G = new Graph(n);
             int m = edgesArray.length;
 
             for (int i = 0; i < m; i++) {

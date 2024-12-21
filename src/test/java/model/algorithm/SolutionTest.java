@@ -11,7 +11,7 @@ import model.algorithm.AlgorithmController;
 
 public class SolutionTest {
 
-    private double[][] costsMock;
+    /*private double[][] costsMock;
 
     @Before
     public void setUp() {
@@ -111,7 +111,6 @@ public class SolutionTest {
 
         assertEquals(expectedCost, testResult, 0.000001);
     }*/
-
 
     @Test 
     public void testSwapAndUpdateNormalCase() {

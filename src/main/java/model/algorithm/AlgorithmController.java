@@ -40,6 +40,11 @@ public class AlgorithmController {
         }
     }
 
+    //usada en testing
+    public double[][] getCosts() {
+        return costs;
+    }
+
     /**
      * Funcion para obtener los nombres de los algoritmos
      * @return Una lista con los nombres de los algoritmos disponibles

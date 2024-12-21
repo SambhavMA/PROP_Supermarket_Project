@@ -1,5 +1,7 @@
 package model.algorithm;
 
+import java.util.Arrays;
+
 import static org.junit.Assert.*;
 import org.junit.Test;
 
@@ -11,9 +13,9 @@ import org.junit.Before;
 import model.algorithm.HillClimbing;
 import model.algorithm.Solution;
 
-
+//se tendria que usar PowerMockito :-(
 public class AlgorithmControllerTest {
-    /*
+/*
     @Test
     public void testConstructorCostsMatrix() {
         double[][] relationMatrixTest = {
@@ -29,8 +31,8 @@ public class AlgorithmControllerTest {
         };
 
         for (int i = 0; i < expectedCosts.length; i++) {
-            assertArrayEquals(expectedCosts[i], AlgorithmController.getCosts()[i], 0.000001); //el 0.000001 es el margen de error, lo pongo ya que los double pueden tener problemas de precisión
-        } 
+            assertArrayEquals(expectedCosts[i], myAlgortithmController.getCosts()[i], 0.000001); //el 0.000001 es el margen de error, lo pongo ya que los double pueden tener problemas de precisión
+        }
     }
 
     @Test
@@ -44,7 +46,7 @@ public class AlgorithmControllerTest {
 
         String[] algorithmNames = controller.getAlgorithms();
 
-        String[] expectedNames = {"NN", "HC"};
+        String[] expectedNames = {"NearestNeighbor", "HillClimbing","MST","Backtracking"};
         assertArrayEquals(expectedNames, algorithmNames);
     }
 
@@ -53,27 +55,31 @@ public class AlgorithmControllerTest {
         NearestNeighbor mockNN = mock(NearestNeighbor.class);
         Solution mockSolution = mock(Solution.class);
 
-        when(mockNN.execute(anyInt(), anyInt())).thenReturn(mockSolution);
+
+        when(mockNN.execute()).thenReturn(mockSolution);
         when(mockSolution.getCost()).thenReturn(10.0);
         when(mockSolution.getSize()).thenReturn(15);
         when(mockSolution.getPath()).thenReturn(new int[]{0, 1});
+
 
         double[][] relationMatrixTest = {
             {0.0, 0.0},
             {0.0, 0.0} //ponemos cualquier valor en relationMatrix porque da igual en la ejecución del test por los mocks
         };
-        AlgorithmController controller = new AlgorithmController(relationMatrixTest, mockNN, null);
+        AlgorithmController controller = new AlgorithmController(relationMatrixTest);
 
-        Object[] result = controller.executeAlgorithm("NN");
+        AlgorithmControllerSolution result = controller.executeAlgorithm("NearestNeighbor");
 
-        assertArrayEquals(new int[]{0, 1}, (int[]) result[0]);
-        assertEquals(5.0, result[1]);
-        assertEquals("NN", result[2]);
+        System.out.println("Result order: " + Arrays.toString(result.getOrder()));
+
+        assertArrayEquals(new int[]{0, 1}, result.getOrder());
+        assertEquals(5.0, result.getCost(), 0.000001);
+        assertEquals("NearestNeighbor", result.getUsedAlgorithm());
     }
 
-    @Test
+   /* @Test
     public void testExecuteAlgorithmHC() throws Exception {
-        /*no hago mock de initialSolutions ni de NN, ya que lo que devuelve la función execute
+        no hago mock de initialSolutions ni de NN, ya que lo que devuelve la función execute
         algorithm depende úncamente de lo que devuelve la ejecución de algorithmHC, que depende
         únicamente de initialssolutions (y por lo tanto de las ejecuciones NN), pero como que en
         nuestro caso estamos haciendo un test unitario sobre algorithm controler no evaluamos cómo
@@ -104,7 +110,7 @@ public class AlgorithmControllerTest {
         assertArrayEquals(new int[]{0, 1}, (int[]) result[0]);
         assertEquals(5.0, result[1]);
         assertEquals("HC", result[2]);
-    }
-    */
+    }*/
+
 
 }

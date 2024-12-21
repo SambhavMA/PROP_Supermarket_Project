@@ -32,6 +32,10 @@ public class Graph {
         }
     }
 
+    public List<List<Pair<Integer, Double>>> getAdjList() {
+        return adjList;
+    }
+
     /**
      * Añade una arista dirigida desde el vértice src hacia el vértice dst
      *
