@@ -8,6 +8,7 @@ import presentation.views.ViewPrimary;
 import utils.Pair;
 
 import javax.swing.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
@@ -251,6 +252,14 @@ public class CtrlPresentation {
             return false;
         }
 
+    }
+
+    public void swapProducts(int distributionId, String product1, String product2) throws Exception{
+        List<Pair<String, String>> changes = new ArrayList<>();
+        changes.add(new Pair<>(product1, product2));
+
+        controllerDomini.modifyDistribution(distributionId, changes);
+        
     }
 
     /**
