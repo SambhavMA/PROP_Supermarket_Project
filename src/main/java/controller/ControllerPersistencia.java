@@ -48,6 +48,9 @@ public class ControllerPersistencia {
             throw new Exception("Error al importar productos");
         }
         JsonArray productsArray = jsonData.getAsJsonArray("Products");
+        if (productsArray == null) {
+            throw new Exception("Error: Formato de productos incorrecto.");
+        }
         List<JsonObject> products = new ArrayList<>();
         for (JsonElement productElement : productsArray) {
             products.add(productElement.getAsJsonObject());
@@ -69,6 +72,9 @@ public class ControllerPersistencia {
         }
         List< Pair< List<String>, List< Pair<Pair<String, String>, Double> > > > similarityTables = new ArrayList<>();
         JsonArray STArray = jsonData.getAsJsonArray("SimilarityTables");
+        if (STArray == null) {
+            throw new Exception("Error: Formato de la Tabla de Similitudes incorrecto.");
+        }
         for(JsonElement ST : STArray){
             List<String> products = new ArrayList<>();
             for(JsonElement product : ST.getAsJsonObject().getAsJsonArray("products")){
