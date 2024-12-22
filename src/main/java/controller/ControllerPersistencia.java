@@ -40,12 +40,17 @@ public class ControllerPersistencia {
      * @return lista de productos
      * @throws IncorrectPathException si la ruta no es correcta
      */
-    public List<JsonObject> importProducts() throws IncorrectPathException {
+    public List<JsonObject> importProducts() throws Exception {
         JsonObject jsonData = null;
         try{
             jsonData = fileManager.importFromFile();
-        } catch (IncorrectPathException e) {}
+        } catch (Exception e) {
+            throw new Exception("Error al importar productos");
+        }
         JsonArray productsArray = jsonData.getAsJsonArray("Products");
+        if (productsArray == null) {
+            throw new Exception("Error: Formato de productos incorrecto.");
+        }
         List<JsonObject> products = new ArrayList<>();
         for (JsonElement productElement : productsArray) {
             products.add(productElement.getAsJsonObject());
@@ -58,13 +63,18 @@ public class ControllerPersistencia {
      * @return lista de Pairs de la lista de productos de cada tabla de similitud importada y las similitudes de estos
      * @throws IncorrectPathException si la ruta no es correcta
      */
-    public List< Pair< List<String>, List< Pair<Pair<String, String>, Double> > > > importSimilarityTables() throws IncorrectPathException {
+    public List< Pair< List<String>, List< Pair<Pair<String, String>, Double> > > > importSimilarityTables() throws Exception {
         JsonObject jsonData = null;
         try{
             jsonData = fileManager.importFromFile();
-        } catch (IncorrectPathException e) {}
+        } catch (Exception e) {
+            throw new Exception("Error al importar Tabla de Similitudes");
+        }
         List< Pair< List<String>, List< Pair<Pair<String, String>, Double> > > > similarityTables = new ArrayList<>();
         JsonArray STArray = jsonData.getAsJsonArray("SimilarityTables");
+        if (STArray == null) {
+            throw new Exception("Error: Formato de la Tabla de Similitudes incorrecto.");
+        }
         for(JsonElement ST : STArray){
             List<String> products = new ArrayList<>();
             for(JsonElement product : ST.getAsJsonObject().getAsJsonArray("products")){

@@ -155,21 +155,6 @@ public class ControllerDomini {
         return pairsArray;
     }
 
-    public void testingAddingProducts() throws ProductAlreadyExistsException {
-        productContainer.addProduct(new Product("Bistec", EnumType.CARNE));
-        productContainer.addProduct(new Product("Salmon", EnumType.PESCADO));
-        productContainer.addProduct(new Product("Lomo", EnumType.CARNE));
-        productContainer.addProduct(new Product("Atun", EnumType.PESCADO));
-        productContainer.addProduct(new Product("Manzana", EnumType.FRUTA));
-        productContainer.addProduct(new Product("Pera", EnumType.FRUTA));
-//        productContainer.addProduct(new Product("P7", EnumType.CARN));
-//        productContainer.addProduct(new Product("P8", EnumType.PEIX));
-//        productContainer.addProduct(new Product("P9", EnumType.CARN));
-//        productContainer.addProduct(new Product("P10", EnumType.PEIX));
-//        productContainer.addProduct(new Product("P11", EnumType.FRUITA));
-//        productContainer.addProduct(new Product("P12", EnumType.FRUITA));
-    }
-
     /**
      * Retorna les taules de similituds del sistema
      *
@@ -331,27 +316,6 @@ public class ControllerDomini {
         similarityTableContainer.deleteSimilarityTableById(id);
     }
 
-//    /**
-//     * Retorna una taula de similitud si existeix
-//     *
-//     * @param id Identificador de la taula de similitud a buscar
-//     * @return Pair amb els productes de la taula i la matriu de similituds
-//     * @throws SimilarityTableNotFoundException Si la taula de similitud a buscar no existeix
-//     */
-//    public Pair<Vector<Pair<String, Integer>>, double[][]> getSimilarityTable(int id)
-//            throws SimilarityTableNotFoundException {
-//        SimilarityTable similarityTable = similarityTableContainer.getSimilarityTableById(id);
-//
-//        Vector<Pair<String, Integer>> productos = new Vector<>();
-//        for (String key : similarityTable.getFastIndexes().keySet()) {
-//            productos.add(new Pair<>(key, similarityTable.getFastIndexes().get(key)));
-//        }
-//
-//        double[][] relationMatrix = similarityTable.getRelationMatrix();
-//
-//        return new Pair<>(productos, relationMatrix);
-//    }
-
     /**
      * Crea i afegeix una nova distribució al container de distribucions
      *
@@ -370,7 +334,7 @@ public class ControllerDomini {
         return distribution.getId();
     }
 
-    public void generateDistribution(int stId, String algorithm) throws SimilarityTableNotFoundException, DistributionCreationErrorException, AlgorithmException {
+    public void generateDistribution(int stId, String algorithm) throws SimilarityTableNotFoundException, DistributionCreationErrorException, AlgorithmException, MSTTriangleInequalityException {
         Pair<Vector<Pair<String, Integer>>, double[][]> similarityTable = getSimilarityTable(stId);
         double[][] relationMatrix = similarityTable.second();
 
@@ -400,6 +364,23 @@ public class ControllerDomini {
             createDistribution(stId, cost, temps, names, algorithm);
         } catch (Exception e) {
             throw new DistributionCreationErrorException();
+        }
+
+        if (algorithm.equals(AlgorithmsNames.MST.toString())) {
+            boolean isTriangleInequality = true;
+
+            int quadraticLength = relationMatrix.length;
+            for (int i = 0; i < quadraticLength; i++) {
+                for (int j = 0; j < quadraticLength; j++) {
+                    for (int k = 0; k < quadraticLength; k++) {
+                        if (relationMatrix[i][j] >= relationMatrix[i][k] + relationMatrix[j][k]) {
+                            isTriangleInequality = false;
+                        }
+                    }
+                }
+            }
+
+            if (isTriangleInequality) throw new MSTTriangleInequalityException();
         }
 
     }
@@ -449,7 +430,6 @@ public class ControllerDomini {
         distributionContainer.deleteDistributionById(id);
     }
 
-    // TODO cambiar el return per un objecte, no es compleix la estructura de capes
     /**
      * Retorna una distribucio si existeix
      *
@@ -522,12 +502,9 @@ public class ControllerDomini {
      * @throws IncorrectPathException Si la ruta no és correcte
      * @throws NoTypeWithName         Si el tipus no existeix
      */
-    public void importProducts() throws IncorrectPathException, NoTypeWithName {
+    public void importProducts() throws Exception {
         List<JsonObject> products = List.of();
-        try {
-            products = cP.importProducts();
-        } catch (IncorrectPathException e) {
-        }
+        products = cP.importProducts();
 
         for (JsonObject product : products) {
             String name = product.get("name").getAsString();
@@ -548,13 +525,9 @@ public class ControllerDomini {
      * @throws IncorrectPathException Si la ruta no és correcte
      * @throws ProductNotFoundException Si algun dels productes no existeix
      */
-    public void importSimilarityTables() throws IncorrectPathException, ProductNotFoundException {
+    public void importSimilarityTables() throws Exception {
         List< Pair< List<String>, List< Pair<Pair<String, String>, Double> > > > similarityTables = List.of();
-        try {
-            similarityTables = cP.importSimilarityTables();
-        } catch (IncorrectPathException e) {
-            // throw new IncorrectPathException();
-        }
+        similarityTables = cP.importSimilarityTables();
 
         for (Pair< List<String>, List< Pair<Pair<String, String>, Double> > > similarityTable : similarityTables) {
             List<String> products = similarityTable.first();
