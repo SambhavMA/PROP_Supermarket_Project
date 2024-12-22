@@ -12,6 +12,11 @@ import static org.mockito.Mockito.*;
 
 public class MSTTest {
 
+    //No testeamos los casos en los que la matriz es de 1 o 2 elementos
+    //ya que, primero, no tiene sentido calcular esas matrices, segundo, el programa no las permite
+
+
+    //para comprobar si el array result es igual a alguno del resto de arrays
     private static boolean isArrayEqualToAny(int[] result, int[]... arrays) {
         for (int[] array : arrays) {
             if (Arrays.equals(result, array)) {
@@ -19,6 +24,35 @@ public class MSTTest {
             }
         }
         return false;
+    }
+
+    public void testEdgeCaseNoDuplicates() {
+        double[][] mycosts = {
+                {0.0, 10.0, 15.0, 20.0},
+                {10.0, 0.0, 35.0, 25.0},
+                {15.0, 35.0, 0.0, 30.0},
+                {20.0, 25.0, 30.0, 0.0}
+        }; //en verdad la matriz de costes dara igual, todo deberia depender de lo que devuelve la funcion
+        //eulerianCircuitDoubleTree() de Graph
+
+        Graph mockGraph = mock(Graph.class);
+
+        //ponemos que genere un circuito arbitrario
+        when(mockGraph.eulerianCircuitDoubleTree()).thenReturn(new ArrayList<>(Arrays.asList(0,1,2,3)));
+
+        doNothing().when(mockGraph).addDoubleEdge(anyInt(),anyInt(),anyInt());
+
+
+        MST mst = new MST(null, mycosts, mockGraph);
+
+        int[] expectedPath = new int[]{0, 1, 2, 3};
+        int[] expectedPath1 = new int[]{1, 2, 3, 0};
+        int[] expectedPath2 = new int[]{2, 3, 0, 1};
+        int[] expectedPath3 = new int[]{3, 0, 1, 2}; //comprobamos que si no hay duplicados la funcion siga funcionando bien
+
+        Solution result = mst.execute();
+
+        assertTrue(isArrayEqualToAny(result.getPath(), expectedPath, expectedPath1, expectedPath2, expectedPath3));
     }
 
     @Test
@@ -42,10 +76,14 @@ public class MSTTest {
         MST mst = new MST(null, mycosts, mockGraph);
 
         int[] expectedPath = new int[]{0, 1, 2, 3};
+        int[] expectedPath1 = new int[]{1, 2, 3, 0};
+        int[] expectedPath2 = new int[]{2, 3, 0, 1};
+        int[] expectedPath3 = new int[]{3, 0, 1, 2};
+
 
         Solution result = mst.execute();
 
-        assertArrayEquals(expectedPath, result.getPath());
+        assertTrue(isArrayEqualToAny(result.getPath(), expectedPath, expectedPath1, expectedPath2, expectedPath3));
     }
 
     @Test

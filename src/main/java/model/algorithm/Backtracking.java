@@ -37,7 +37,7 @@ public class Backtracking extends Algorithm {
         return parameters;
     }
 
-    private void backtracking(int actVertex, ArrayList<Integer> actPath, double actCost) {
+    private void backtracking(ArrayList<Integer> actPath, double actCost) {
         if (actPath.size() == super.costs.length) {
             double newTotalCost = actCost + super.costs[actPath.get(actPath.size()-1)][actPath.get(0)];
 
@@ -53,7 +53,7 @@ public class Backtracking extends Algorithm {
                     double newCost = actCost + super.costs[actPath.get(actPath.size()-1)][i];
                     if (newCost < minCost) {
                         actPath.add(i);
-                        backtracking(i, actPath, newCost);
+                        backtracking(actPath, newCost);
                         actPath.remove(actPath.size() - 1);
                     }
                 }
@@ -73,7 +73,7 @@ public class Backtracking extends Algorithm {
         try {
             ArrayList<Integer> initialPath = new ArrayList<>();
             initialPath.add(0);
-            backtracking(0, initialPath , 0.0);
+            backtracking(initialPath , 0.0);
 
             int[] hamiltonianPath = new int[minPath.size()];
 
