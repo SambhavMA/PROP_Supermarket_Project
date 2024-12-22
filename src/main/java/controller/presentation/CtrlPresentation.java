@@ -204,14 +204,28 @@ public class CtrlPresentation {
         }
     }
 
+    /**
+     * Devuelve las columnas de las tablas de similitud. Implementado de esta forma para facilitar la modificación de las columnas
+     * en un futuro si se añaden más atributos a las tablas de similitud
+     * @return columnas de las tablas de similitud
+     */
     public String[] getSimilarityTablesCols() {
         return new String[] {"Id"};
     }
 
+    /**
+     * Devuelve las tablas de similitud que hay en memoria
+     * @return lista de tablas de similitud
+     */
     public String[] getSimilarityTables() {
         return controllerDomini.getSimilarityTables();
     }
 
+    /**
+     * Devuelve las columnas de las distribuciones. Implementado de esta forma para facilitar la modificación de las columnas
+     * en un futuro si se añaden más atributos a las distribuciones
+     * @return columnas de las distribuciones
+     */
     public String[] getDistributionsCols() {
         return new String[] {"Id", "Tabla de similitud", "Algoritmo generador", "Semejanza total", "Tiempo (ms)"};
     }
@@ -235,10 +249,19 @@ public class CtrlPresentation {
 
     }
 
+    /**
+     * Devuelve los algoritmos que se pueden usar para generar distribuciones
+     * @return algoritmos que se pueden usar para generar distribuciones
+     */
     public String[] getAlgorithms() {
         return controllerDomini.getAlgorithms();
     }
 
+    /**
+     * Devuelve la distribucion de un id dado
+     * @param id id de la distribucion
+     * @return distribucion
+     */
     public String[][] getDistribution(int id) {
         try {
             return controllerDomini.getDistribution(id);
@@ -253,6 +276,10 @@ public class CtrlPresentation {
         }
     }
 
+    /**
+     * Devuelve el siguiente id de distribucion disponible
+     * @return siguiente id de distribucion disponible
+     */
     public int getDistributionNextId() {
         return controllerDomini.getDistributionNextId();
     }
@@ -287,16 +314,23 @@ public class CtrlPresentation {
 
     }
 
+    /**
+     * Intercambia dos productos de una distribucion
+     * @param distributionId id de la distribucion
+     * @param product1 nombre del primer producto
+     * @param product2 nombre del segundo producto
+     * @throws Exception si no se ha podido intercambiar los productos
+     */
     public void swapProducts(int distributionId, String product1, String product2) throws Exception{
         List<Pair<String, String>> changes = new ArrayList<>();
         changes.add(new Pair<>(product1, product2));
 
         controllerDomini.modifyDistribution(distributionId, changes);
-
     }
 
     /**
      * Importa productos de un fichero
+     * @throws Exception si no se ha podido importar los productos
      */
     public void importProducts() throws Exception{
         controllerDomini.importProducts();
@@ -304,6 +338,7 @@ public class CtrlPresentation {
 
     /**
      * Guarda los productos en un fichero
+     * @throws Exception si no se ha podido guardar los productos
      */
     public void saveProducts() throws Exception{
         controllerDomini.exportProducts();
@@ -311,6 +346,7 @@ public class CtrlPresentation {
 
     /**
      * Guarda las tablas de similitud en un fichero
+     * @throws Exception si no se ha podido guardar las tablas de similitud
      */
     public void saveSimilarityTables() throws Exception{
         controllerDomini.exportSimilarityTables();
@@ -318,6 +354,7 @@ public class CtrlPresentation {
 
     /**
      * Importa tablas de similitud de un fichero
+     * @throws Exception si no se ha podido importar las tablas de similitud
      */
     public void importSimilarityTables() throws Exception{
         controllerDomini.importSimilarityTables();
