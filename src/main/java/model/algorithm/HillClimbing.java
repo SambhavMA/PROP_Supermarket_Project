@@ -38,7 +38,6 @@ public class HillClimbing extends Algorithm {
         int n = costs.length/2;
         if (n > 3) n = 3;
         Solution[] initialSolutions = new Solution[n];
-        //startTime = System.nanoTime();
         for (int i = 0; i < n; i++) {
             ArrayList<Parameter> parametersNN = NearestNeighbor.getParameters();
             NearestNeighbor nn = new NearestNeighbor(parametersNN, costs);

@@ -68,17 +68,4 @@ public abstract class Algorithm {
         return null;
     }
 
-    /*
-    /**
-     * Ejecuta un algoritmo, esta función es usada en el algoritmo Nearest Neighbor
-     * @see NearestNeighbor
-     *
-    public Solution execute(int initial, int nProductes) { return null; };
-
-    /**
-     * Ejecuta un algoritmo, esta función es usada en el algoritmo Hill CLimbing
-     * @see HillClimbing
-     *
-    public Solution execute(Solution solutions[]) { return null; };
-     */
 }

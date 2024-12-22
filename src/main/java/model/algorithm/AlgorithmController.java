@@ -40,6 +40,11 @@ public class AlgorithmController {
         }
     }
 
+    //usada en testing
+    public double[][] getCosts() {
+        return costs;
+    }
+
     /**
      * Funcion para obtener los nombres de los algoritmos
      * @return Una lista con los nombres de los algoritmos disponibles
@@ -58,6 +63,8 @@ public class AlgorithmController {
      * <p>El algoritmo Nearest Neighbor se ejecuta a partir de un nodo inicial alaeatorio.
      * El algoritmo de Hill Climbing se ejecuta a partir de 3 soluciones iniciales generadas por Nearest Neighbor
      * con nodo inicial aleatorio</p>
+     *
+     * NOTA: Backtracking solo encuentra la solucion optima para tablas de tamano menor a 15
      * 
      * @param alg String con el tipo algoritmo seleccionado, {@link NearestNeighbor} o {@link HillClimbing}
      * @return Un AlgorithmControllerSolution con cuatro elementos:

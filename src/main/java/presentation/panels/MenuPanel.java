@@ -5,6 +5,9 @@ import presentation.views.ViewPrimary;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Panel del menú superior de la aplicación que sirve para cambiar entre secciones de la aplicación
+ */
 public class MenuPanel extends JPanel {
     private ViewPrimary viewPrimary;
 
@@ -12,12 +15,18 @@ public class MenuPanel extends JPanel {
     private JButton manageTablesButton = new JButton("<html><div style='text-align: center;'>Gestionar<br>Tablas de Similitud</div></html>");
     private JButton manageDistributionsButton = new JButton("<html><div style='text-align: center;'>Gestionar<br>Distribuciones</div></html>");
 
-
+    /**
+     * Constructor de la clase
+     * @param viewPrimary vista principal
+     */
     public MenuPanel(ViewPrimary viewPrimary) {
         this.viewPrimary = viewPrimary;
         initializeComponents();
     }
 
+    /**
+     * Inicializa los componentes del panel
+     */
     private void initializeComponents() {
         setLayout(new FlowLayout(FlowLayout.CENTER, 20, 10));
 
@@ -51,6 +60,10 @@ public class MenuPanel extends JPanel {
 
     }
 
+    /**
+     * Actualiza los colores de los botones del menú para indicar en qué apartado se encuentra el usuario
+     * @param selectedPanel panel seleccionado
+     */
     public void updateButtonColors(JPanel selectedPanel) {
         manageProductsButton.setBackground(null);
         manageTablesButton.setBackground(null);

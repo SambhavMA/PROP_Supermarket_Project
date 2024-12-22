@@ -8,6 +8,9 @@ import utils.Pair;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Panel para añadir una tabla de similitud (fase 1, seleccionar productos que formarán parte de la tabla)
+ */
 public class AddSimilarityTablePanel1 extends JPanel {
     private ProductsListSTLeft itemListProductsLeft;
     private ProductsListSTLeft itemListProductsRight;
@@ -17,20 +20,23 @@ public class AddSimilarityTablePanel1 extends JPanel {
     private int id = CtrlPresentation.getInstance().getSimilarityTableNextId();
 
     private JLabel title = new JLabel("Añadir Tabla de Similitud", SwingConstants.CENTER);
-    private JLabel nameLabel = new JLabel("id de la tabla: " + id);
-
-    private JTextArea productsInput = new JTextArea();
-    private JTextArea relationsInput = new JTextArea();
 
     private JButton submitButton = new JButton("Añadir");
 
     private ViewPrimary viewPrimary;
 
+    /**
+     * Constructor de la clase
+     * @param viewPrimary vista principal
+     */
     public AddSimilarityTablePanel1(ViewPrimary viewPrimary) {
         this.viewPrimary = viewPrimary;
         initializeComponents();
     }
 
+    /**
+     * Inicializa los componentes del panel
+     */
     protected void initializeComponents() {
         setLayout(new BorderLayout(10, 10));
         setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -71,13 +77,18 @@ public class AddSimilarityTablePanel1 extends JPanel {
         submitButton.addActionListener(e -> handleSubmit());
     }
 
-
+    /**
+     * Inicializa la lista de productos de la derecha (seleccionados)
+     */
     private void initializeListRight() {
         String[] cols = CtrlPresentation.getInstance().getProductsCols();
         JComponent[][] data = new JComponent[0][cols.length];
         itemListProductsRight = new ProductsListSTLeft(viewPrimary, this, 0, cols.length, cols, data, "No hay productos seleccionados");
     }
 
+    /**
+     * Maneja el evento de pulsar el botón para pasar a la segunda pantalla
+     */
     private void handleSubmit() {
         String[] selectedProducts = itemListProductsRight.getAllProducts();
 
@@ -95,6 +106,10 @@ public class AddSimilarityTablePanel1 extends JPanel {
 
     }
 
+    /**
+     * Inicializa la lista de productos de la izquierda (disponibles)
+     * @param dataP datos de los productos
+     */
     private void initializeListLeft(Pair<String, String>[] dataP) {
         JComponent[][] data = new JComponent[dataP.length][2];
 
@@ -107,6 +122,9 @@ public class AddSimilarityTablePanel1 extends JPanel {
         itemListProductsLeft = new ProductsListSTLeft(viewPrimary, this, dataP.length, cols.length, cols, data, "No hay productos disponibles");
     }
 
+    /**
+     * Actualiza la lista de productos
+     */
     public void updateList() {
         Pair<String, String>[] updatedData = CtrlPresentation.getInstance().getProducts();
 
@@ -130,8 +148,11 @@ public class AddSimilarityTablePanel1 extends JPanel {
         selectedPanel.repaint();
     }
 
-
-
+    /**
+     * Maneja el evento de hacer click en una fila de la lista de productos, para cambiar de lado el producto pulsado
+     * @param productData datos del producto
+     * @param sourceList lista de productos a la que pertenece el producto originalmente
+     */
     public void handleRowClick(String[] productData, ProductsListSTLeft sourceList) {
         if (productData == null || productData.length == 0) {
             return;

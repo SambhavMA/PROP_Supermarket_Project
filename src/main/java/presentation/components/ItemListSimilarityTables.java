@@ -11,6 +11,9 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+/**
+ * Panel de lista de tablas de similitudes
+ */
 public class ItemListSimilarityTables extends JPanel {
     private ViewPrimary viewPrimary;
     private SimilarityTablesManagePanel parentPanel;
@@ -19,6 +22,15 @@ public class ItemListSimilarityTables extends JPanel {
     String[] columnsTitles;
     JComponent[] data;
 
+    /**
+     * Constructor de la clase
+     * @param viewPrimary vista principal
+     * @param parentPanel panel padre
+     * @param glRow numero de filas
+     * @param glColumn numero de columnas
+     * @param columnsTitles titulos de las columnas
+     * @param data lista de tablas de similitud
+     */
     public ItemListSimilarityTables(ViewPrimary viewPrimary, SimilarityTablesManagePanel parentPanel, int glRow, int glColumn, String[] columnsTitles, JComponent[] data) {
         this.viewPrimary = viewPrimary;
         this.parentPanel = parentPanel;

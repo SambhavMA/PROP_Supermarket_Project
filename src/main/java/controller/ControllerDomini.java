@@ -194,6 +194,11 @@ public class ControllerDomini {
         return new Pair<>(productos, relationMatrix);
     }
 
+    /**
+     * Retorna el següent identificador de taula de similitud
+     *
+     * @return Següent identificador de taula de similitud
+     */
     public int getSimilarityTableNextId() {
         return similarityTableContainer.nextId();
     }
@@ -552,7 +557,7 @@ public class ControllerDomini {
      *
      * @throws IncorrectPathException Si la ruta no és correcte
      */
-    public void exportProducts() throws Exception {
+    public void exportProducts() throws IncorrectPathException {
         List<JsonObject> products = new ArrayList<>();
         for (Product product : productContainer.getProducts().values()) {
             JsonObject productJson = new JsonObject();
@@ -564,6 +569,8 @@ public class ControllerDomini {
             cP.exportProducts(products);
         } catch (IncorrectPathException e) {
             //throw new IncorrectPathException();
+        } catch (Exception e) {
+            //throw new Exception();
         }
     }
 
@@ -572,7 +579,7 @@ public class ControllerDomini {
      *
      * @throws IncorrectPathException Si la ruta no és correcte
      */
-    public void exportSimilarityTables() throws Exception {
+    public void exportSimilarityTables() throws IncorrectPathException {
         List<JsonObject> similarityTables = new ArrayList<>();
         for(SimilarityTable similarityTable : similarityTableContainer.getSimilarityTables().values()) {
             JsonObject STObject = new JsonObject();
@@ -601,6 +608,7 @@ public class ControllerDomini {
         try {
             cP.exportSimilarityTables(similarityTables);
         } catch (IncorrectPathException e) {
+        } catch (Exception e) {
         }
     }
 }

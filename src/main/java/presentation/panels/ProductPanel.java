@@ -8,6 +8,9 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
 
+/**
+ * Panel para ver un producto y modificar su tipo
+ */
 public class ProductPanel extends JPanel {
     private JLabel title = new JLabel("Modificar Producto", SwingConstants.CENTER);
     private JLabel nameLabel = new JLabel("Nombre:");
@@ -20,6 +23,12 @@ public class ProductPanel extends JPanel {
 
     private ViewPrimary viewPrimary;
 
+    /**
+     * Constructor de la clase
+     * @param viewPrimary vista principal
+     * @param name nombre del producto que se muestra
+     * @param type tipo del producto que se muestra
+     */
     public ProductPanel(ViewPrimary viewPrimary, String name, String type) {
         this.viewPrimary = viewPrimary;
         this.name = name;
@@ -27,6 +36,9 @@ public class ProductPanel extends JPanel {
         initializeComponents();
     }
 
+    /**
+     * Inicializa los componentes del panel
+     */
     protected void initializeComponents() {
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -87,6 +99,9 @@ public class ProductPanel extends JPanel {
         submitButton.addActionListener(e -> handleSubmit());
     }
 
+    /**
+     * Maneja el envío del formulario para modificar el producto
+     */
     private void handleSubmit() {
         String type = typeInput.getText().trim();
 

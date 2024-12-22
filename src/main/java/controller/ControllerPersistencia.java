@@ -31,6 +31,10 @@ public class ControllerPersistencia {
         fileManager = new JsonManager();
     }
 
+    /**
+     * Retorna la instancia de ControllerPersistencia
+     * @return instancia de ControllerPersistencia
+     */
     public static ControllerPersistencia getInstance() {
         if (instance == null) {
             instance = new ControllerPersistencia();

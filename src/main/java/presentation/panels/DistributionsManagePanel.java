@@ -3,11 +3,13 @@ package presentation.panels;
 import controller.presentation.CtrlPresentation;
 import presentation.components.ItemListDistributions;
 import presentation.views.ViewPrimary;
-import utils.Pair;
 
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Panel de gestion de distribuciones
+ */
 public class DistributionsManagePanel extends JPanel {
     private ItemListDistributions itemListDistributions;
     private JButton generateDistributionButton = new JButton("<html><div style='text-align: center; color: grey;'>Generar distribucion</div></html>");
@@ -15,11 +17,18 @@ public class DistributionsManagePanel extends JPanel {
 
     private ViewPrimary viewPrimary;
 
+    /**
+     * Constructor de la clase
+     * @param viewPrimary vista principal
+     */
     public DistributionsManagePanel(ViewPrimary viewPrimary) {
         this.viewPrimary = viewPrimary;
         compose();
     }
 
+    /**
+     * Inicializa los componentes del panel
+     */
     private void compose() {
         setLayout(new BorderLayout());
 
@@ -41,6 +50,10 @@ public class DistributionsManagePanel extends JPanel {
         this.add(contentPanel, BorderLayout.CENTER);
     }
 
+    /**
+     * Inicializa la lista de distribuciones
+     * @param dataP datos de las distribuciones
+     */
     private void initializeList(String[][] dataP) {
         String[] cols = CtrlPresentation.getInstance().getDistributionsCols();
 
@@ -55,12 +68,18 @@ public class DistributionsManagePanel extends JPanel {
         itemListDistributions = new ItemListDistributions(viewPrimary, this, dataP.length, cols.length, cols, data);
     }
 
+    /**
+     * Actualiza la lista de distribuciones
+     */
     public void updateList() {
         refreshContent();
         contentPanel.revalidate();
         contentPanel.repaint();
     }
 
+    /**
+     * Refresca el contenido del panel
+     */
     private void refreshContent() {
         contentPanel.removeAll();
 

@@ -3,14 +3,23 @@ package presentation.panels;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Panel de bienvenida
+ */
 public class WelcomePanel extends JPanel {
     private JLabel title = new JLabel("Bienvenido a CompraEfectiva", SwingConstants.CENTER);
     private JLabel subtitle = new JLabel("El sistema que genera distribuciones óptimas para supermercados", SwingConstants.CENTER);
 
+    /**
+     * Constructor de la clase
+     */
     public WelcomePanel() {
         initializeComponents();
     }
 
+    /**
+     * Inicializa los componentes del panel
+     */
     private void initializeComponents() {
         setLayout(new GridBagLayout());
 
