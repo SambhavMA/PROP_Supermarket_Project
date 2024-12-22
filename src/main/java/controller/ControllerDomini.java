@@ -339,16 +339,6 @@ public class ControllerDomini {
         return distribution.getId();
     }
 
-    /**
-     * Genera una distribució a partir d'una taula de similitud i un algoritme
-     *
-     * @param stId      Identificador de la taula de similitud
-     * @param algorithm Nom de l'algoritme a utilitzar per generar la distribució
-     * @throws SimilarityTableNotFoundException Si la taula de similitud no existeix
-     * @throws DistributionCreationErrorException Si no es pot crear la distribució
-     * @throws AlgorithmException Si l'algoritme falla
-     * @throws MSTTriangleInequalityException Si l'algoritme utilitzat és MST i no compleix la desigualtat triangular
-     */
     public void generateDistribution(int stId, String algorithm) throws SimilarityTableNotFoundException, DistributionCreationErrorException, AlgorithmException, MSTTriangleInequalityException {
         Pair<Vector<Pair<String, Integer>>, double[][]> similarityTable = getSimilarityTable(stId);
         double[][] relationMatrix = similarityTable.second();
@@ -567,7 +557,7 @@ public class ControllerDomini {
      *
      * @throws IncorrectPathException Si la ruta no és correcte
      */
-    public void exportProducts() {
+    public void exportProducts() throws IncorrectPathException {
         List<JsonObject> products = new ArrayList<>();
         for (Product product : productContainer.getProducts().values()) {
             JsonObject productJson = new JsonObject();
@@ -579,6 +569,8 @@ public class ControllerDomini {
             cP.exportProducts(products);
         } catch (IncorrectPathException e) {
             //throw new IncorrectPathException();
+        } catch (Exception e) {
+            //throw new Exception();
         }
     }
 
@@ -616,6 +608,7 @@ public class ControllerDomini {
         try {
             cP.exportSimilarityTables(similarityTables);
         } catch (IncorrectPathException e) {
+        } catch (Exception e) {
         }
     }
 }

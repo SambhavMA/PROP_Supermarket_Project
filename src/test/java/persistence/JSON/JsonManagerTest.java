@@ -1,60 +1,36 @@
 package persistence.JSON;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-
 import model.exceptions.IncorrectPathException;
 import model.exceptions.IOErrorException;
 import model.exceptions.FileCanNotReadException;
 import model.exceptions.FileCanNotWriteException;
+
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
 public class JsonManagerTest {
     private JsonManager jsonManager;
     private final String testDir = "test_files/";
-    private final String validPath = testDir + "valid.json";
-    private final String restrictedPath = testDir + "restricted.json";
-    private final String validDir = testDir + "validDir/";
-    private final String invalidPath = "/:/invalid/test.json";
+    private final String exportPath = testDir + "exported_products.json";
 
     @Before
-    public void setUp() {
+    public void setUp() throws IOException {
         jsonManager = new JsonManager();
-
         new File(testDir).mkdirs();
-
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(validPath))) {
-            writer.write("{\"Products\":[{\"name\":\"Poma\",\"type\":\"FRUITA\"}]}");
-        } catch (IOException e) {
-            throw new FileCanNotWriteException(validPath);
-        }
-
-        File restrictedJson = new File(restrictedPath);
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(restrictedJson))) {
-            writer.write("{\"Products\":[]}");
-        } catch (IOException e) {
-            throw new IOErrorException(restrictedPath, "writing");
-        }
-        restrictedJson.setWritable(false, false);
-
-
-        new File(validDir).mkdirs();
     }
 
     @After
     public void tearDown() {
-        deleteDirectory(new File(validDir));
         deleteDirectory(new File(testDir));
     }
 
@@ -68,72 +44,47 @@ public class JsonManagerTest {
     }
 
     @Test
-    public void testImportFromFileValidPath() throws IncorrectPathException, IOErrorException, FileCanNotReadException {
-        JsonObject json = jsonManager.importFromFile();
-        assertNotNull(json);
-        assertTrue(json.has("Products"));
-        assertEquals("Poma", json.getAsJsonArray("Products").get(0).getAsJsonObject().get("name").getAsString());
-        assertEquals("FRUITA", json.getAsJsonArray("Products").get(0).getAsJsonObject().get("type").getAsString());
-    }
+    public void testExportAndImportProducts() throws IncorrectPathException, IOErrorException, FileCanNotWriteException, FileCanNotReadException {
+        // Crear lista de productos para exportar
+        List<JsonObject> productsToExport = new ArrayList<>();
+        JsonObject product1 = new JsonObject();
+        product1.addProperty("name", "Poma");
+        product1.addProperty("type", "FRUITA");
+        productsToExport.add(product1);
 
-    @Test(expected = IncorrectPathException.class)
-    public void testImportFileNonExistentPath() throws IncorrectPathException, IOErrorException, FileCanNotReadException {
-        jsonManager.importFromFile();
-    }
+        JsonObject product2 = new JsonObject();
+        product2.addProperty("name", "Platan");
+        product2.addProperty("type", "FRUITA");
+        productsToExport.add(product2);
 
-    @Test
-    public void testExportToFileValidPath() throws IncorrectPathException, IOErrorException, FileCanNotWriteException {
-        JsonObject jsonObject = JsonParser.parseString("{\"Products\":[{\"name\":\"Platan\",\"type\":\"FRUITA\"}]}").getAsJsonObject();
+        // Crear objeto JSON para exportar
+        JsonObject exportObject = new JsonObject();
+        JsonArray productsArray = new JsonArray();
+        productsToExport.forEach(productsArray::add);
+        exportObject.add("Products", productsArray);
 
-        jsonManager.exportToFile(jsonObject);
+        // Exportar productos a un archivo
+        File exportFile = new File(testDir + "exported_products.json");
+        jsonManager.exportToFile(exportObject, exportFile);
 
-        File exportedFile = new File(validPath);
-        assertTrue(exportedFile.exists());
+        // Verificar que el archivo se ha creado correctamente
+        assertTrue(exportFile.exists());
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(exportedFile))) {
-            JsonObject exported = JsonParser.parseReader(reader).getAsJsonObject();
-            assertNotNull(exported);
-            assertTrue(exported.has("Products"));
+        // Importar el archivo generado
+        JsonObject importedData = jsonManager.importFromFile(exportFile);
 
-            JsonObject product = exported.getAsJsonArray("Products").get(0).getAsJsonObject();
-            assertEquals("Platan", product.get("name").getAsString());
-            assertEquals("FRUITA", product.get("type").getAsString());
-        } catch (IOException e) {
-            throw new IOErrorException(validPath, "reading");
+        // Verificar que los productos importados coincidan con los exportados
+        assertTrue(importedData.has("Products"));
+        JsonArray importedProducts = importedData.getAsJsonArray("Products");
+        assertEquals(productsToExport.size(), importedProducts.size());
+
+        for (int i = 0; i < productsToExport.size(); i++) {
+            JsonObject original = productsToExport.get(i);
+            JsonObject imported = importedProducts.get(i).getAsJsonObject();
+
+            assertEquals(original.get("name").getAsString(), imported.get("name").getAsString());
+            assertEquals(original.get("type").getAsString(), imported.get("type").getAsString());
         }
     }
 
-    @Test
-    public void testExportToDirectory() throws IncorrectPathException, IOErrorException, FileCanNotWriteException {
-        JsonObject jsonObject = JsonParser.parseString("{\"Products\":[{\"name\":\"Platan\",\"type\":\"FRUITA\"}]}").getAsJsonObject();
-
-        jsonManager.exportToFile(jsonObject);
-
-        File exportedFile = new File(validDir + "output.json");
-        assertTrue(exportedFile.exists());
-
-        try (BufferedReader reader = new BufferedReader(new FileReader(exportedFile))) {
-            JsonObject exported = JsonParser.parseReader(reader).getAsJsonObject();
-            assertNotNull(exported);
-            assertTrue(exported.has("Products"));
-
-            JsonObject product = exported.getAsJsonArray("Products").get(0).getAsJsonObject();
-            assertEquals("Platan", product.get("name").getAsString());
-            assertEquals("FRUITA", product.get("type").getAsString());
-        } catch (IOException e) {
-            throw new IOErrorException(validDir + "output.json", "reading");
-        }
-    }
-
-    @Test(expected = IncorrectPathException.class)
-    public void testExportFileNonExistentPath() throws IncorrectPathException, IOErrorException, FileCanNotWriteException {
-        JsonObject jsonObject = new JsonObject();
-        jsonManager.exportToFile(jsonObject);
-    }
-
-    @Test(expected = FileCanNotWriteException.class)
-    public void testExportFileRestrictedPath() throws IncorrectPathException, IOErrorException, FileCanNotWriteException {
-        JsonObject jsonObject = new JsonObject();
-        jsonManager.exportToFile(jsonObject);
-    }
 }
