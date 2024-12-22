@@ -9,6 +9,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+/**
+ * Panel de lista de productos que se usa para crear tablas de similitudes. Este panel se reutiliza para poder tener
+ * una lista de productos a la izquierda (productos disponibles) y una a la derecha de la pantalla (productos seleccionados).
+ */
 public class ProductsListSTLeft extends JPanel {
     private ViewPrimary viewPrimary;
     private AddSimilarityTablePanel1 parentPanel;
@@ -21,6 +25,16 @@ public class ProductsListSTLeft extends JPanel {
     private JScrollPane scrollPane;
     private String emptyMessage;
 
+    /**
+     * Constructor de la clase
+     * @param viewPrimary vista principal
+     * @param parentPanel panel padre
+     * @param glRow numero de filas
+     * @param glColumn numero de columnas
+     * @param columnsTitles titulos de las columnas
+     * @param data lista de productos
+     * @param emptyMessage mensaje en caso de que no haya productos
+     */
     public ProductsListSTLeft(ViewPrimary viewPrimary, AddSimilarityTablePanel1 parentPanel, int glRow, int glColumn, String[] columnsTitles, JComponent[][] data, String emptyMessage) {
         this.viewPrimary = viewPrimary;
         this.parentPanel = parentPanel;
@@ -32,6 +46,9 @@ public class ProductsListSTLeft extends JPanel {
         initialize();
     }
 
+    /**
+     * Inicializa los componentes del panel
+     */
     private void initialize() {
         containerPanel = new JPanel();
         containerPanel.setLayout(new BoxLayout(containerPanel, BoxLayout.Y_AXIS));
@@ -54,6 +71,11 @@ public class ProductsListSTLeft extends JPanel {
         add(scrollPane, BorderLayout.CENTER);
     }
 
+    /**
+     * Agrega una fila con un producto al contenedor
+     * @param row fila
+     * @param sizes dimensiones
+     */
     private void addRowToContainer(int row, Dimension sizes) {
         JPanel rowPanel = new JPanel();
         rowPanel.setLayout(new BoxLayout(rowPanel, BoxLayout.X_AXIS));
@@ -93,6 +115,9 @@ public class ProductsListSTLeft extends JPanel {
         containerPanel.add(rowPanel);
     }
 
+    /**
+     * Muestra un mensaje en caso de que no haya productos
+     */
     private void showEmptyMessage() {
         containerPanel.removeAll();
         JLabel emptyLabel = new JLabel(emptyMessage, SwingConstants.CENTER);
@@ -100,6 +125,10 @@ public class ProductsListSTLeft extends JPanel {
         containerPanel.add(emptyLabel);
     }
 
+    /**
+     * Agrega un producto al contenedor
+     * @param productData datos del producto
+     */
     public void addProduct(String[] productData) {
         if (productData.length != columns) {
             throw new IllegalArgumentException("El número de datos no coincide con las columnas.");
@@ -128,6 +157,9 @@ public class ProductsListSTLeft extends JPanel {
         containerPanel.repaint();
     }
 
+    /**
+     * Refresca los listeners de las filas para que se pueda hacer click en ellas y no haya bugs
+     */
     private void refreshRowListeners() {
         Component[] rows = containerPanel.getComponents();
         for (int i = 0; i < rows.length; i++) {
@@ -160,7 +192,11 @@ public class ProductsListSTLeft extends JPanel {
         }
     }
 
-
+    /**
+     * Borra un producto del contenedor
+     * @param index indice del producto
+     * @return datos del producto
+     */
     public String[] removeProduct(int index) {
         if (index < 0 || index >= rows) {
             throw new IllegalArgumentException("Índice fuera de rango.");
@@ -194,10 +230,14 @@ public class ProductsListSTLeft extends JPanel {
         return removedProduct;
     }
 
+    /**
+     * Obtiene todos los productos. Se usa para pasar a la siguiente fase de creacion de tabla de similitudes
+     * @return productos
+     */
     public String[] getAllProducts() {
         String[] allProducts = new String[rows];
         for (int i = 0; i < rows; i++) {
-            allProducts[i] = ((JLabel) data[i][0]).getText(); // Obtiene solo el nombre del producto (columna 0)
+            allProducts[i] = ((JLabel) data[i][0]).getText();
         }
         return allProducts;
     }

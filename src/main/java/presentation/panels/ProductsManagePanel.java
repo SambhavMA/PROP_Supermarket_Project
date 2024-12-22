@@ -8,6 +8,9 @@ import utils.Pair;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Panel de gestion de productos
+ */
 public class ProductsManagePanel extends JPanel {
     private ItemListProducts itemListProducts;
     private JButton addProductButton = new JButton("<html><div style='text-align: center; color: grey;'>Añadir producto</div></html>");
@@ -17,11 +20,18 @@ public class ProductsManagePanel extends JPanel {
 
     private ViewPrimary viewPrimary;
 
+    /**
+     * Constructor de la clase
+     * @param viewPrimary vista principal
+     */
     public ProductsManagePanel(ViewPrimary viewPrimary) {
         this.viewPrimary = viewPrimary;
         compose();
     }
 
+    /**
+     * Inicializa los componentes del panel
+     */
     private void compose() {
         setLayout(new BorderLayout());
 
@@ -75,6 +85,10 @@ public class ProductsManagePanel extends JPanel {
         this.add(contentPanel, BorderLayout.CENTER);
     }
 
+    /**
+     * Inicializa la lista de productos
+     * @param dataP datos de los productos
+     */
     private void initializeList(Pair<String, String>[] dataP) {
         JComponent[][] data = new JComponent[dataP.length][2];
 
@@ -87,12 +101,18 @@ public class ProductsManagePanel extends JPanel {
         itemListProducts = new ItemListProducts(viewPrimary, this, dataP.length, cols.length, cols, data);
     }
 
+    /**
+     * Actualiza la lista de productos
+     */
     public void updateList() {
         refreshContent();
         contentPanel.revalidate();
         contentPanel.repaint();
     }
 
+    /**
+     * Refresca el contenido del panel
+     */
     private void refreshContent() {
         contentPanel.removeAll();
 

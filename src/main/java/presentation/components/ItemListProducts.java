@@ -9,6 +9,9 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+/**
+ * Panel de lista de productos
+ */
 public class ItemListProducts extends JPanel {
     private ViewPrimary viewPrimary;
     private ProductsManagePanel parentPanel;
@@ -17,6 +20,15 @@ public class ItemListProducts extends JPanel {
     String[] columnsTitles;
     JComponent[][] data;
 
+    /**
+     * Constructor de la clase
+     * @param viewPrimary vista principal
+     * @param parentPanel panel padre
+     * @param glRow numero de filas
+     * @param glColumn numero de columnas
+     * @param columnsTitles titulos de las columnas
+     * @param data lista de productos
+     */
     public ItemListProducts(ViewPrimary viewPrimary, ProductsManagePanel parentPanel, int glRow, int glColumn, String[] columnsTitles, JComponent[][] data) {
         this.viewPrimary = viewPrimary;
         this.parentPanel = parentPanel;
@@ -27,6 +39,9 @@ public class ItemListProducts extends JPanel {
         initialize();
     }
 
+    /**
+     * Inicializa los componentes del panel
+     */
     private void initialize() {
         JPanel containerPanel = new JPanel();
         containerPanel.setLayout(new BoxLayout(containerPanel, BoxLayout.Y_AXIS));

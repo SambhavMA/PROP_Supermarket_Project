@@ -9,6 +9,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Panel que muestra una distribución y permite modificar su orden
+ */
 public class DistributionPanel extends JPanel {
     private ViewPrimary viewPrimary;
     private int id;
@@ -18,6 +21,11 @@ public class DistributionPanel extends JPanel {
 
     private final List<String> lastTwoSelections = new ArrayList<>();
 
+    /**
+     * Constructor de la clase
+     * @param viewPrimary vista principal
+     * @param id identificador de la distribución que se muestra
+     */
     public DistributionPanel(ViewPrimary viewPrimary, int id) {
         this.viewPrimary = viewPrimary;
         this.id = id;
@@ -27,6 +35,9 @@ public class DistributionPanel extends JPanel {
         initializeComponents();
     }
 
+    /**
+     * Inicializa los componentes del panel
+     */
     protected void initializeComponents() {
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -95,6 +106,9 @@ public class DistributionPanel extends JPanel {
         add(processButton, gbc);
     }
 
+    /**
+     * Actualiza la cola con los dos ultimos productos seleccionados
+     */
     private void updateLastTwoSelections(String selectedValue) {
         if (lastTwoSelections.size() == 2) {
             lastTwoSelections.remove(0);
@@ -102,6 +116,11 @@ public class DistributionPanel extends JPanel {
         lastTwoSelections.add(selectedValue);
     }
 
+    /**
+     * Procesa los productos seleccionados para cambiar su posicion
+     * @param product1 producto 1
+     * @param product2 producto 2
+     */
     private void processSelectedProducts(String product1, String product2) {
         try {
             CtrlPresentation.getInstance().swapProducts(this.id, product1, product2);
@@ -113,6 +132,9 @@ public class DistributionPanel extends JPanel {
         }
     }
 
+    /**
+     * Actualiza la lista de productos
+     */
     private void updateOrderList() {
         distribution = CtrlPresentation.getInstance().getDistribution(id);
         String[] updatedOrder = distribution[4];
@@ -124,6 +146,9 @@ public class DistributionPanel extends JPanel {
         lastTwoSelections.clear();
     }
 
+    /**
+     * Clase que se encarga de renderizar las filas de la lista de forma alterna, para pintarlas de distinto color
+     */
     private static class AlternatingRowRenderer extends DefaultListCellRenderer {
         private final List<String> lastTwoSelections;
 

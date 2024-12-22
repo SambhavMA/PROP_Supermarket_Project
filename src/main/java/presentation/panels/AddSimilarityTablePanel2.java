@@ -10,17 +10,28 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * Panel que permite añadir una tabla de similitud (fase 2, establecer relaciones)
+ */
 public class AddSimilarityTablePanel2 extends JPanel {
     private ViewPrimary viewPrimary;
     private JTable similarityTable;
     private String[] selectedProducts;
 
+    /**
+     * Constructora de la clase
+     * @param viewPrimary vista principal
+     * @param selectedProducts productos seleccionados
+     */
     public AddSimilarityTablePanel2(ViewPrimary viewPrimary, String[] selectedProducts) {
         this.viewPrimary = viewPrimary;
         this.selectedProducts = selectedProducts;
         initializeComponents();
     }
 
+    /**
+     * Inicializa los componentes del panel
+     */
     protected void initializeComponents() {
         setLayout(new BorderLayout(10, 10));
 
@@ -49,6 +60,9 @@ public class AddSimilarityTablePanel2 extends JPanel {
         add(buttonPanel, BorderLayout.SOUTH);
     }
 
+    /**
+     * Maneja el guardado de las relaciones de la tablas de simlitud
+     */
     private void handleSaveRelations() {
         SimilarityTableModel model = (SimilarityTableModel) similarityTable.getModel();
         float[][] relations = model.getRelations();
@@ -72,6 +86,9 @@ public class AddSimilarityTablePanel2 extends JPanel {
         viewPrimary.transitionContentPanel(viewPrimary.getSimilarityTablesManagePanel());
     }
 
+    /**
+     * Modelo de la tabla de similitud
+     */
     private static class SimilarityTableModel extends AbstractTableModel {
         private String[] products;
         private float[][] relations;
@@ -141,6 +158,9 @@ public class AddSimilarityTablePanel2 extends JPanel {
         }
     }
 
+    /**
+     * Renderizador de celdas de similitud
+     */
     private static class SimilarityCellRenderer extends JLabel implements TableCellRenderer {
         public SimilarityCellRenderer() {
             setOpaque(true);
@@ -161,6 +181,9 @@ public class AddSimilarityTablePanel2 extends JPanel {
         }
     }
 
+    /**
+     * Renderizador de cabeceras de filas
+     */
     private static class RowHeaderRenderer extends JLabel implements ListCellRenderer<String> {
         public RowHeaderRenderer(JTable table) {
             setOpaque(true);

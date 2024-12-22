@@ -9,6 +9,9 @@ import utils.Pair;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Panel de gestion de tablas de similitud
+ */
 public class SimilarityTablesManagePanel extends JPanel {
     private ItemListSimilarityTables itemListSimilarityTables;
     private JButton addSimilarityTableButton = new JButton("<html><div style='text-align: center; color: grey;'>Añadir tabla de similitud</div></html>");
@@ -18,11 +21,18 @@ public class SimilarityTablesManagePanel extends JPanel {
 
     private ViewPrimary viewPrimary;
 
+    /**
+     * Constructor de la clase
+     * @param viewPrimary vista principal
+     */
     public SimilarityTablesManagePanel(ViewPrimary viewPrimary) {
         this.viewPrimary = viewPrimary;
         compose();
     }
 
+    /**
+     * Inicializa los componentes del panel
+     */
     private void compose() {
         setLayout(new BorderLayout());
 
@@ -76,6 +86,10 @@ public class SimilarityTablesManagePanel extends JPanel {
         this.add(contentPanel, BorderLayout.CENTER);
     }
 
+    /**
+     * Inicializa la lista de tablas de similitud
+     * @param ids lista de ids de las tablas de similitud
+     */
     private void initializeList(String[] ids) {
         JComponent[] data = new JComponent[ids.length];
 
@@ -87,12 +101,18 @@ public class SimilarityTablesManagePanel extends JPanel {
         itemListSimilarityTables = new ItemListSimilarityTables(viewPrimary, this, ids.length, cols.length, cols, data);
     }
 
+    /**
+     * Actualiza la lista de tablas de similitud
+     */
     public void updateList() {
         refreshContent();
         contentPanel.revalidate();
         contentPanel.repaint();
     }
 
+    /**
+     * Refresca el contenido del panel
+     */
     private void refreshContent() {
         contentPanel.removeAll();
 

@@ -2,7 +2,6 @@ package controller.presentation;
 
 
 import controller.ControllerDomini;
-import model.exceptions.AlgorithmException;
 import model.exceptions.MSTTriangleInequalityException;
 import presentation.views.ViewPrimary;
 import utils.Pair;

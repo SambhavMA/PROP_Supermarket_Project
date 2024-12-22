@@ -6,6 +6,9 @@ import presentation.views.ViewPrimary;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Panel para añadir un producto
+ */
 public class AddProductPanel extends JPanel {
     private JLabel title = new JLabel("Añadir Producto", SwingConstants.CENTER);
     private JLabel nameLabel = new JLabel("Nombre:");
@@ -16,11 +19,18 @@ public class AddProductPanel extends JPanel {
 
     private ViewPrimary viewPrimary;
 
+    /**
+     * Constructor de la clase
+     * @param viewPrimary vista principal
+     */
     public AddProductPanel(ViewPrimary viewPrimary) {
         this.viewPrimary = viewPrimary;
         initializeComponents();
     }
 
+    /**
+     * Inicializa los componentes del panel
+     */
     protected void initializeComponents() {
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -57,6 +67,9 @@ public class AddProductPanel extends JPanel {
         submitButton.addActionListener(e -> handleSubmit());
     }
 
+    /**
+     * Maneja el evento de hacer clic en el botón de añadir producto
+     */
     private void handleSubmit() {
         String name = nameInput.getText().trim();
         String type = typeInput.getText().trim();

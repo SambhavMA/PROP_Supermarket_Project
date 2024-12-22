@@ -13,6 +13,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Vector;
 
+/**
+ * Panel que muestra una tabla de similitud y permite modificarla
+ */
 public class SimilarityTablePanel extends JPanel {
     private JLabel title = new JLabel("Modificar Tabla de Similitud", SwingConstants.CENTER);
     private JTable similarityTable;
@@ -24,6 +27,11 @@ public class SimilarityTablePanel extends JPanel {
     private JButton saveButton = new JButton("Guardar Tabla");
     private ViewPrimary viewPrimary;
 
+    /**
+     * Constructor de la clase
+     * @param viewPrimary vista principal
+     * @param id identificador de la tabla de similitud que se muestra
+     */
     public SimilarityTablePanel(ViewPrimary viewPrimary, int id) {
         this.viewPrimary = viewPrimary;
         this.st = CtrlPresentation.getInstance().getSimilarityTable(id);
@@ -35,6 +43,9 @@ public class SimilarityTablePanel extends JPanel {
         initializeComponents();
     }
 
+    /**
+     * Inicializa los componentes del panel
+     */
     protected void initializeComponents() {
         setLayout(new BorderLayout(10, 10));
 
@@ -63,6 +74,9 @@ public class SimilarityTablePanel extends JPanel {
         add(buttonPanel, BorderLayout.SOUTH);
     }
 
+    /**
+     * Maneja el guardado de las relaciones de la tabla de similitud
+     */
     private void handleSaveRelations() {
         SimilarityTableModel model = (SimilarityTableModel) similarityTable.getModel();
         float[][] relations = model.getRelations();
@@ -87,6 +101,9 @@ public class SimilarityTablePanel extends JPanel {
     }
 
 
+    /**
+     * Modelo de la tabla de similitud
+     */
     private static class SimilarityTableModel extends AbstractTableModel {
         private String[] products;
         private float[][] relations;
@@ -158,6 +175,9 @@ public class SimilarityTablePanel extends JPanel {
     }
 
 
+    /**
+     * Renderizador de celdas de similitud
+     */
     private static class SimilarityCellRenderer extends JLabel implements TableCellRenderer {
         public SimilarityCellRenderer() {
             setOpaque(true);
@@ -178,6 +198,9 @@ public class SimilarityTablePanel extends JPanel {
         }
     }
 
+    /**
+     * Renderizador de cabeceras de filas
+     */
     private static class RowHeaderRenderer extends JLabel implements ListCellRenderer<String> {
         public RowHeaderRenderer(JTable table) {
             setOpaque(true);

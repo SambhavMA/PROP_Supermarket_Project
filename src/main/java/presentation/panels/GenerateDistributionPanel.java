@@ -11,6 +11,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Arrays;
 
+/**
+ * Panel de generacion de distribucion
+ */
 public class GenerateDistributionPanel extends JPanel {
     private STListDistributionLeft itemListSTLeft;
     private JPanel selectOptionsPanel;
@@ -26,12 +29,19 @@ public class GenerateDistributionPanel extends JPanel {
     private Integer selectedSTId = null;
     private int distributionId;
 
+    /**
+     * Constructor de la clase
+     * @param viewPrimary vista principal
+     */
     public GenerateDistributionPanel(ViewPrimary viewPrimary) {
         this.viewPrimary = viewPrimary;
         this.distributionId = CtrlPresentation.getInstance().getDistributionNextId();
         initializeComponents();
     }
 
+    /**
+     * Inicializa los componentes del panel
+     */
     protected void initializeComponents() {
         setLayout(new BorderLayout(10, 10));
         setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -91,7 +101,9 @@ public class GenerateDistributionPanel extends JPanel {
         submitButton.addActionListener(e -> handleSubmit());
     }
 
-
+    /**
+     * Maneja la generacion de la distribucion una vez se le da al boton de generar
+     */
     private void handleSubmit() {
         if (selectedSTId == null) {
             JOptionPane.showMessageDialog(
@@ -123,6 +135,10 @@ public class GenerateDistributionPanel extends JPanel {
 
     }
 
+    /**
+     * Inicializa la lista de tablas de similitudes
+     * @param ids lista de ids de las tablas de similitudes
+     */
     private void initializeListLeft(String[] ids) {
         JComponent[] data = new JComponent[ids.length];
 
@@ -134,25 +150,10 @@ public class GenerateDistributionPanel extends JPanel {
         itemListSTLeft = new STListDistributionLeft(viewPrimary, this, ids.length, cols.length, cols, data, "No hay tablas de similitudes disponibles");
     }
 
-    public void updateList() {
-        this.distributionId = CtrlPresentation.getInstance().getDistributionNextId();
-
-        stPanel = new JPanel(new BorderLayout(5, 5));
-        stPanel.setBorder(BorderFactory.createTitledBorder("Tablas de similitudes disponibles"));
-
-        String[] dataPresentation = CtrlPresentation.getInstance().getSimilarityTables();
-
-        if (dataPresentation.length > 0) {
-            initializeListLeft(dataPresentation);
-        } else {
-            initializeListLeft(new String[0]);
-        }
-        stPanel.add(itemListSTLeft, BorderLayout.CENTER);
-
-        stPanel.revalidate();
-        stPanel.repaint();
-    }
-
+    /**
+     * Devuelve el id de la tabla de similitud seleccionada
+     * @return id de la tabla de similitud seleccionada
+     */
     public void setSelectedSTId(Integer selectedSTId) {
         this.selectedSTId = selectedSTId;
     }
