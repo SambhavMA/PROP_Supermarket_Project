@@ -63,6 +63,8 @@ public class AlgorithmController {
      * <p>El algoritmo Nearest Neighbor se ejecuta a partir de un nodo inicial alaeatorio.
      * El algoritmo de Hill Climbing se ejecuta a partir de 3 soluciones iniciales generadas por Nearest Neighbor
      * con nodo inicial aleatorio</p>
+     *
+     * NOTA: Backtracking solo encuentra la solucion optima para tablas de tamano menor a 15
      * 
      * @param alg String con el tipo algoritmo seleccionado, {@link NearestNeighbor} o {@link HillClimbing}
      * @return Un AlgorithmControllerSolution con cuatro elementos:

@@ -32,11 +32,11 @@ public class Backtracking extends Algorithm {
         this.minPath = new ArrayList<>();
     }
 
-    public static ArrayList<Parameter> getParameters() {
-        ArrayList<Parameter> parameters = new ArrayList<>();
-        return parameters;
-    }
+    //NO NECESITA PARAMETERS, NOS QUEDAMOS CON LA IMPLEMENTACION DE GET PARAMETERS POR DEFECTO
 
+
+    //La funcion recursiva que hace el backtracking para encontrar entre el numero exponencial
+    //de posibles ciclos el mejor (usando tambien una poda)
     private void backtracking(ArrayList<Integer> actPath, double actCost) {
         if (actPath.size() == super.costs.length) {
             double newTotalCost = actCost + super.costs[actPath.get(actPath.size()-1)][actPath.get(0)];
