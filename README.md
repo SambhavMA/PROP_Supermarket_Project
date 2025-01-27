@@ -1,7 +1,15 @@
+# PROYECTO PROP Q1 2024-2025 FIB UPC
+
+Proyecto desarrollado en java para la asignatura de Proyectos de Programacion (PROP).
+- [Integrantes del equipo](DOCS/equip.md)
+- [Normativa de la asignatura](DOCS/normativa-1q2425.pdf)
+- [Enunciado del proyecto](DOCS/enunciatt2425.pdf)
+- [Ejecutable del proyecto](EXE/supermarket.main.jar)
+
 # COMO EJECUTAR EL PROYECTO
 
 ## REQUISITOS:
-- Hay que estar en linux o mac
+- Hay que estar en mac o linux (Window Subsystem for Linux/WSL tambien es valido)
 - Hay que tener instalado java 22
 
 ## FUNCIONALIDADES:

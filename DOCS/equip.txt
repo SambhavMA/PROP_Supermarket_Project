@@ -1,0 +1,11 @@
+EQUIP:
+
+Calvo Espases, David 
+Gomez Catala, Joan
+Mayani Harlani,Sambhav
+Polo, Sergio 
+
+david.calvo.espases@estudiantat.upc.edu
+joan.gomez.catala@estudiantat.upc.edu
+sambhav.mayani@estudiantat.upc.edu
+sergio.polo@estudiantat.upc.edu

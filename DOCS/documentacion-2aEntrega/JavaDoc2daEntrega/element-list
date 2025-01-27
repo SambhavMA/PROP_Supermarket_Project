@@ -1,0 +1,16 @@
+unnamed package
+controller
+controller.presentation
+model.algorithm
+model.algorithm.datastructures
+model.distribution
+model.exceptions
+model.generic
+model.product
+model.similarity
+persistence
+persistence.JSON
+presentation.components
+presentation.panels
+presentation.views
+utils
