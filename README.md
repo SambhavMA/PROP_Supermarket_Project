@@ -1,7 +1,7 @@
 # PROYECTO PROP Q1 2024-2025 FIB UPC
 
 Proyecto desarrollado en java para la asignatura de Proyectos de Programacion (PROP).
-- [Integrantes del equipo](DOCS/equip.md)
+- [Integrantes del equipo](DOCS/equip.txt)
 - [Normativa de la asignatura](DOCS/normativa-1q2425.pdf)
 - [Enunciado del proyecto](DOCS/enunciatt2425.pdf)
 - [Ejecutable del proyecto](EXE/supermarket.main.jar)
